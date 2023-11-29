@@ -140,7 +140,10 @@ select patid,
        ip_cnt_cum,
        encounterid,
        enc_type,
-       drg,
+       case when length(trim(drg)) > 3 then LTRIM(drg,'0') 
+            when length(trim(drg)) < 3 then LPAD(drg,3,'0')
+            else trim(drg) 
+       end as drg,
        admit_date,
        admitting_source,
        discharge_date,
@@ -164,7 +167,10 @@ limit 50;
 
 select count(distinct patid) from WT_MU_CMS_READMIT;
 -- 74,123
-
+select drg, count(distinct patid) as pat_cnt
+from WT_MU_CMS_READMIT
+group by drg 
+order by pat_cnt desc;
 create or replace table WT_MU_CMS_ELIG_TBL1 as
 select a.* 
 from WT_MU_CMS_TBL1 a 

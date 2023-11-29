@@ -6,7 +6,6 @@
 select * from WT_MU_CMS_READMIT limit 5;
 select * from WT_MU_CMS_CCI limit 5;
 select * from WT_MU_CMS_TBL1 limit 5;
-select distinct code_grp,code_grp_lbl from WT_MU_CMS_CCI;
 
 create or replace table WT_CMS_MU_ENC_BASE as 
 with cte_cci as (
@@ -41,6 +40,7 @@ select distinct
         a.readmit30d_ind,
         a.drg,
         a.ip_cnt_cum,
+        a.los,
         a.discharge_status,
         a.discharge_disposition, 
         a.admitting_source,
@@ -86,20 +86,34 @@ join WT_MU_CMS_TBL1 b on a.patid = b.patid
 left join GROUSE_DB.CMS_PCORNET_CDM.LDS_DEMOGRAPHIC d on a.patid = d.patid
 left join cte_cci_pvt c on a.patid = c.patid and a.encounterid = c.encounterid
 ;
-select * from WT_CMS_MU_ENC_BASE limit 5;
 
-
-create or replace table WT_CMS_MU_ENC_BASE_SDOH_S as
-select base.*, 
-from WT_CMS_MU_ENC_BASE base
-left join  
+select count(distinct patid) from WT_CMS_MU_ENC_BASE
 ;
+select drg, count(distinct patid) as pat_cnt
+from WT_CMS_MU_ENC_BASE
+group by drg 
+order by pat_cnt desc;
 
-
-create or replace table WT_CMS_MU_ENC_BASE_SDOH_I as 
+create or replace table WT_CMS_MU_ENC_DD(
+    VAR varchar(50), 
+    VAR_LABEL varchar(5000), 
+    VAR_DOMAIN varchar(20)
+);
+-- cci
+insert into WT_CMS_MU_ENC_DD
+select distinct upper(code_grp),full,'CCI'
+from Z_REF_CCI
 ;
-
-
-
-create or replace table WT_CMS_MU_ENC_DD as
+-- sdoh-s
+insert into WT_CMS_MU_ENC_DD
+select distinct code,description,'ACS'
+from SDOH_DB.ACS.Z_REF
+;
+insert into WT_CMS_MU_ENC_DD
+select distinct field,description,'FARA'
+from SDOH_DB.FARA.Z_REF_2019
+;
+insert into WT_CMS_MU_ENC_DD
+select field_name,description,'SLM'
+from SDOH_DB.SLM.Z_REF_2021
 ;

@@ -156,8 +156,14 @@ call get_sdoh_s(
        ),
        FALSE, NULL
 );
-select count(distinct patid) from WT_MU_CMS_ELIG_SDOH_S
+select count(distinct patid), count(*) from WT_MU_CMS_ELIG_SDOH_S
 ;
+-- 50,820
+
+select sdoh_var, count(distinct patid) as pat_cnt
+from WT_MU_CMS_ELIG_SDOH_S 
+group by sdoh_var
+order by pat_cnt desc;
 
 -- get i-sdoh variables
 create or replace table WT_MU_CMS_ELIG_SDOH_I as 
@@ -167,4 +173,18 @@ where exists (
     select 1 from WT_MU_CMS_ELIG_TBL1 b 
     where b.patid_acxiom = a.patid
 ) 
+;
+select count(distinct patid),count(*) from WT_MU_CMS_ELIG_SDOH_I;
+-- 74,121
+
+with cte_dup as (
+    select patid, count(*)
+    from WT_MU_CMS_ELIG_SDOH_I
+    group by patid 
+    having count(*) > 1
+)
+select a.* 
+from WT_MU_CMS_ELIG_SDOH_I a 
+join cte_dup on a.patid = cte_dup.patid 
+order by patid
 ;
