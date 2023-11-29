@@ -81,12 +81,12 @@ while (tables.next()){
     var cols_alias = cols.map(value => {return 'b.'+ value});
 
     var sqlstmt = `
-        insert into WT_MU_CMS_ELIG_SDOH_S(PATID,GEOCODEID,GEO_ACCURACY,SDOH_VAL,SDOH_VAR,SDOH_SRC)
+        insert into WT_MU_CMS_ELIG_SDOH_S(PATID,GEOCODEID,GEO_ACCURACY,SDOH_VAR,SDOH_VAL,SDOH_SRC)
         select PATID,
                GEOCODEID,
                GEO_ACCURACY,
-               SDOH_VAL,
                SDOH_VAR,
+               SDOH_VAL,
                '`+ schema +`' as SDOH_SRC
         from (
             select a.patid, 
@@ -137,8 +137,8 @@ create or replace table WT_MU_CMS_ELIG_SDOH_S (
         PATID varchar(50) NOT NULL
        ,GEOCODEID varchar(15)
        ,GEO_ACCURACY varchar(3)
-       ,SDOH_VAL double
        ,SDOH_VAR varchar(50)
+       ,SDOH_VAL double
        ,SDOH_SRC varchar(10)
 );
 
@@ -159,6 +159,7 @@ call get_sdoh_s(
 select count(distinct patid), count(*) from WT_MU_CMS_ELIG_SDOH_S
 ;
 -- 50,820
+select * from WT_MU_CMS_ELIG_SDOH_S limit 5;
 
 select sdoh_var, count(distinct patid) as pat_cnt
 from WT_MU_CMS_ELIG_SDOH_S 
@@ -166,25 +167,124 @@ group by sdoh_var
 order by pat_cnt desc;
 
 -- get i-sdoh variables
-create or replace table WT_MU_CMS_ELIG_SDOH_I as 
-select a.*
-from SDOH_DB.ACXIOM.DEID_ACXIOM_DATA a 
-where exists (
-    select 1 from WT_MU_CMS_ELIG_TBL1 b 
-    where b.patid_acxiom = a.patid
-) 
-;
-select count(distinct patid),count(*) from WT_MU_CMS_ELIG_SDOH_I;
--- 74,121
-
-with cte_dup as (
-    select patid, count(*)
-    from WT_MU_CMS_ELIG_SDOH_I
-    group by patid 
-    having count(*) > 1
+create or replace procedure get_sdoh_i(
+    REF_COHORT string,
+    REF_PKEY string,
+    SDOH_TBLS array,
+    DRY_RUN boolean,
+    DRY_RUN_AT string
 )
-select a.* 
-from WT_MU_CMS_ELIG_SDOH_I a 
-join cte_dup on a.patid = cte_dup.patid 
-order by patid
+returns variant
+language javascript
+as
+$$
+/**
+ * @param {string} REF_COHORT: name of reference patient table (absolute path/full name), should at least include (patid)
+ * @param {string} REF_PKEY: primary key column in REF_COHORT table for matchin with SDOH tables
+ * @param {array} SDOH_TBLS: an array of tables in SDOH_DB
+ * @param {boolean} DRY_RUN: dry run indicator. If true, only sql script will be created and stored in dev.sp_out table
+ * @param {boolean} DRY_RUN_AT: A temporary location to store the generated sql query for debugging purpose. 
+                                When DRY_RUN = True, provide absolute path (full name) to the table; when DRY_RUN = False, provide NULL 
+**/
+if (DRY_RUN) {
+    var log_stmt = snowflake.createStatement({
+        sqlText: `CREATE OR REPLACE TEMPORARY TABLE `+ DRY_RUN_AT +`(QRY VARCHAR);`});
+    log_stmt.execute(); 
+}
+
+// collect all sdoh tables and their columns
+var sdoh_tbl_quote = SDOH_TBLS.map(item => `'${item}'`)
+var get_tbl_cols_qry = `
+      SELECT table_schema, table_name, listagg(column_name,',') AS enc_col
+      FROM SDOH_DB.information_schema.columns 
+      WHERE table_name in (`+ sdoh_tbl_quote +`) 
+      GROUP BY table_schema, table_name;`
+var get_tbl_cols = snowflake.createStatement({sqlText: get_tbl_cols_qry});
+var tables = get_tbl_cols.execute();
+
+// loop over listed tables
+while (tables.next()){
+    var schema = tables.getColumnValue(1);
+    var table = tables.getColumnValue(2);
+    var cols = tables.getColumnValue(3).split(",");
+    cols = cols.filter(value=>{return !value.includes('PATID')});
+    var cols_alias = cols.map(value => {return 'b.'+ value});
+
+    var sqlstmt = `
+        insert into WT_MU_CMS_ELIG_SDOH_I(PATID,SDOH_VAR,SDOH_VAL)
+        with cte_stk as (
+            select PATID,
+               SDOH_VAR,
+               SDOH_VAL, 
+               count(distinct SDOH_VAL) over (partition by SDOH_VAR) val_per_var
+            from (
+                select a.patid, 
+                    `+ cols_alias +`
+                from `+ REF_COHORT +` a 
+                join SDOH_DB.`+ schema +`.`+ table +` b 
+                on a.`+ REF_PKEY +` = b.patid
+            )
+            unpivot 
+            (
+                SDOH_VAL for SDOH_VAR in (`+ cols +`)
+            )
+            where SDOH_VAL is not null
+        )
+        select PATID, 
+               SDOH_VAR, 
+               try_to_number(ltrim(SDOH_VAl,'0')) as SDOH_VAl
+        from cte_stk     
+        where not regexp_like(SDOH_VAl,'.*[a-zA-Z]+.*') and val_per_var >100 and 
+              try_to_number(ltrim(SDOH_VAl,'0')) is not null
+        union 
+        select PATID, 
+               SDOH_VAR || '_' || SDOH_VAL as SDOH_VAR, 
+               1 as SDOH_VAL
+        from cte_stk     
+        where regexp_like(SDOH_VAl,'.*[a-zA-Z]+.*') or val_per_var >100
+    `
+    var run_sqlstmt = snowflake.createStatement({sqlText: sqlstmt});
+
+    if (DRY_RUN) {
+        // preview of the generated dynamic SQL scripts - comment it out when perform actual execution
+        var log_stmt = snowflake.createStatement({
+                    sqlText: `INSERT INTO `+ DRY_RUN_AT +` (qry) values (:1);`,
+                    binds: [sqlstmt]});
+        log_stmt.execute(); 
+    } else {
+        // run dynamic dml query
+        var commit_txn = snowflake.createStatement({sqlText: `commit;`}); 
+        try{run_sqlstmt.execute();} catch(error) {};
+        commit_txn.execute();
+    }
+}
+$$
 ;
+create or replace table WT_MU_CMS_ELIG_SDOH_I (
+        PATID varchar(50) NOT NULL
+       ,SDOH_VAR varchar(50)
+       ,SDOH_VAL double
+);
+
+/*test*/
+-- call get_sdoh_I(
+--     'WT_MU_CMS_ELIG_TBL1',
+--     'PATID_ACXIOM',
+--     array_construct(
+--         'DEID_ACXIOM_DATA'
+--     ),
+--     True, 'TMP_SP_OUTPUT'
+-- );
+-- select * from TMP_SP_OUTPUT;
+
+call get_sdoh_I(
+       'WT_MU_CMS_ELIG_TBL1',
+       'PATID_ACXIOM',
+       array_construct(
+            'DEID_ACXIOM_DATA'
+       ),
+       FALSE, NULL
+);
+
+select count(distinct patid),count(*) from WT_MU_CMS_ELIG_SDOH_I;
+-- 74111
