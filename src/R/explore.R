@@ -1,5 +1,5 @@
 rm(list=ls()); gc()
-setwd("C:/repo/gpc-sdoh")
+setwd("C:/repos/gpc-sdoh")
 pacman::p_load(
   tidyverse,
   magrittr,
