@@ -1,5 +1,5 @@
 rm(list=ls()); gc()
-setwd("C:/repo/gpc-sdoh")
+setwd("C:/repos/gpc-sdoh")
 
 # install.packages("pacman") 
 pacman::p_load(

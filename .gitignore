@@ -39,5 +39,5 @@ vignettes/*.pdf
 .Renviron
 
 # Private folders
-*data/*
+!*data/*REAME.md
 *private/*
