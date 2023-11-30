@@ -36,7 +36,7 @@ with cte_cci as (
 )
 select  distinct 
         dense_rank() over (order by a.patid, a.encounterid) as rowid,
-        a.patid, a.encounterid,
+        a.patid, b.patid_acxiom, a.encounterid,
         a.readmit30d_ind,
         a.ip_cnt_cum,
         a.los,
@@ -143,14 +143,18 @@ with cte_sdoh_rep as (
            b.sdoh_var as var, b.sdoh_val as val 
     from WT_CMS_MU_ENC_BASE a 
     join WT_MU_CMS_ELIG_SDOH_S b 
-    on a.patid = b.patid
+    on a.patid_acxiom = b.patid
 )
 select rowid, patid, encounterid, readmit30d_ind, var, val from WT_CMS_MU_ENC_BASE_LONG 
 union 
 select rowid, patid, encounterid, readmit30d_ind, var, val from cte_sdoh_rep
 ;
 
-select count(distinct patid) from WT_CMS_MU_ENC_BASE_SDOH_S_LONG;
+select count(distinct patid), count(*) from WT_CMS_MU_ENC_BASE_SDOH_S_LONG;
+-- 74,121
+select * from WT_CMS_MU_ENC_BASE_SDOH_S_LONG
+where var like 'RUCA%'
+limit 5;
 
 select * from WT_MU_CMS_ELIG_SDOH_I 
 -- where sdoh_val is null
@@ -168,8 +172,12 @@ select rowid, patid, encounterid, readmit30d_ind, var, val from WT_CMS_MU_ENC_BA
 union 
 select rowid, patid, encounterid, readmit30d_ind, var, val from cte_sdoh_rep
 ;
-select count(distinct patid) from WT_CMS_MU_ENC_BASE_SDOH_I_LONG;
--- 74121
+select count(distinct patid),count(*) from WT_CMS_MU_ENC_BASE_SDOH_I_LONG;
+-- 74,121
+select * from WT_CMS_MU_ENC_BASE_SDOH_I_LONG
+where VAR like 'H_ASSESSED_VALUE%'
+limit 5
+;
 
 create or replace table WT_CMS_MU_ENC_DD(
     VAR varchar(50), 

@@ -241,7 +241,7 @@ while (tables.next()){
                SDOH_VAR || '_' || SDOH_VAL as SDOH_VAR, 
                1 as SDOH_VAL
         from cte_stk     
-        where regexp_like(SDOH_VAl,'.*[a-zA-Z]+.*') or val_per_var >100
+        where regexp_like(SDOH_VAl,'.*[a-zA-Z]+.*') or val_per_var <=100
     `
     var run_sqlstmt = snowflake.createStatement({sqlText: sqlstmt});
 
@@ -288,3 +288,13 @@ call get_sdoh_I(
 
 select count(distinct patid),count(*) from WT_MU_CMS_ELIG_SDOH_I;
 -- 74111
+
+select * from WT_MU_CMS_ELIG_SDOH_I
+where sdoh_var like 'H_ASSESSED_VALUE%'
+limit 5
+;
+
+select distinct sdoh_var
+from WT_MU_CMS_ELIG_SDOH_I
+where sdoh_val = 1
+;
