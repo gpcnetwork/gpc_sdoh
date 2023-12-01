@@ -132,6 +132,9 @@ union
 select rowid, patid, encounterid, readmit30d_ind, var, val from cte_num
 ;
 
+select * from WT_CMS_MU_ENC_BASE_LONG
+where var like 'AUTOOWN%';
+
 select * from WT_CMS_MU_ENC_BASE_LONG 
 -- where val = 0
 limit 5;
@@ -179,6 +182,31 @@ where VAR like 'H_ASSESSED_VALUE%'
 limit 5
 ;
 
+
+create or replace table WT_CMS_MU_ENC_BASE_SDOH_SI_LONG as 
+with cte_sdoh_i as (
+    select distinct 
+           a.rowid, a.patid, a.encounterid, a.readmit30d_ind, 
+           b.sdoh_var as var, b.sdoh_val as val 
+    from WT_CMS_MU_ENC_BASE a 
+    join WT_MU_CMS_ELIG_SDOH_I b 
+    on a.patid = b.patid
+), cte_sdoh_s as (
+    select distinct 
+           a.rowid, a.patid, a.encounterid, a.readmit30d_ind, 
+           b.sdoh_var as var, b.sdoh_val as val 
+    from WT_CMS_MU_ENC_BASE a 
+    join WT_MU_CMS_ELIG_SDOH_S b 
+    on a.patid_acxiom = b.patid
+)
+select rowid, patid, encounterid, readmit30d_ind, var, val from WT_CMS_MU_ENC_BASE_LONG 
+union 
+select rowid, patid, encounterid, readmit30d_ind, var, val from cte_sdoh_i 
+union
+select rowid, patid, encounterid, readmit30d_ind, var, val from cte_sdoh_s 
+;
+
+
 create or replace table WT_CMS_MU_ENC_DD(
     VAR varchar(50), 
     VAR_LABEL varchar(5000), 
@@ -196,14 +224,18 @@ from Z_REF_DRG
 ;
 -- sdoh-s
 insert into WT_CMS_MU_ENC_DD
-select distinct code,description,'ACS'
+select distinct upper(code),description,'ACS'
 from SDOH_DB.ACS.Z_REF
 ;
 insert into WT_CMS_MU_ENC_DD
-select distinct field,description,'FARA'
+select distinct upper(field),description,'FARA'
 from SDOH_DB.FARA.Z_REF_2019
 ;
 insert into WT_CMS_MU_ENC_DD
-select field_name,description,'SLM'
+select upper(field_name),description,'SLM'
 from SDOH_DB.SLM.Z_REF_2021
 ;
+
+select var_domain, count(distinct var)
+from WT_CMS_MU_ENC_DD
+group by var_domain;
