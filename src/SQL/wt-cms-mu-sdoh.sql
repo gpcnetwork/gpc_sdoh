@@ -17,6 +17,43 @@ select * from SDOH_DB.RUCA.RUCA_2010 limit 5;
 select * from SDOH_DB.SLM.SLD_2021 limit 5;
 select * from SDOH_DB.SVI.SVI_CT_2020 limit 5;
 
+create or replace table S_SDH_DD as 
+with all_var as (
+    select table_schema, table_name, column_name
+    from SDOH_DB.information_schema.columns 
+    where table_schema in (
+        'ACS',
+        'FARA',
+        'SLM',
+        'RUCA',
+        'SVI',
+        'ADI',
+        'MUA'
+    ) and 
+    table_name not like 'Z_REF%'
+), var_ref as (
+    select distinct upper(code) as var, description as var_label,'ACS' as var_domain
+    from SDOH_DB.ACS.Z_REF
+    union
+    select distinct upper(field),description,'FARA'
+    from SDOH_DB.FARA.Z_REF_2019
+    union
+    select upper(field_name),description,'SLM'
+    from SDOH_DB.SLM.Z_REF_2021
+    union
+    select upper(_VARIABLE_NAME),(_DESCRIPTION),'SVI'
+    from SDOH_DB.SVI.Z_REF_2020
+)
+select a.table_schema as VAR_DOMAIN, 
+       a.table_name as VAR_SUBDOMAIN,
+       a.column_name as VAR,
+       coalesce(b.var_label,a.column_name) as VAR_LABEL
+from all_var a 
+left join var_ref b 
+on a.table_schema = b.var_domain and a.column_name = b.var
+;
+-- manual screening and upload S_SDH_SEL
+select * from S_SDH_SEL;
 
 -- get s-sdoh variables
 create or replace procedure get_sdoh_s(
@@ -48,28 +85,15 @@ if (DRY_RUN) {
 var sdoh_tbl_quote = SDOH_TBLS.map(item => `'${item}'`)
 var get_tbl_cols_qry = `
       SELECT table_schema, table_name, listagg(column_name,',') AS enc_col
-      FROM SDOH_DB.information_schema.columns 
-      WHERE table_name in (`+ sdoh_tbl_quote +`) 
-        and
-            column_name not in (
-                'PATID',
-                'GEOCODEID',
-                'GEO_ACCURACY',
-                'STATE',
-                'STATEFP',
-                'CNTY',
-                'CNTYFP',
-                'TRACTCE',
-                'BLKGRPCE',
-                'CSA',
-                'CSA_NAME',
-                'CBSA',
-                'CBSA_NAME',
-                'POP_CT',
-                'AREA_CT',
-                'POPDENS_CT'
-            )
-      GROUP BY table_schema, table_name;`
+      FROM SDOH_DB.information_schema.columns a
+      WHERE a.table_name in (`+ sdoh_tbl_quote +`) and 
+        EXISTS (
+            select 1 from S_SDH_SEL b
+            where a.table_schema = b.var_domain and 
+                    a.table_name = b.var_subdomain and 
+                    a.column_name = b.var
+      )
+      GROUP BY a.table_schema, a.table_name;`
 var get_tbl_cols = snowflake.createStatement({sqlText: get_tbl_cols_qry});
 var tables = get_tbl_cols.execute();
 
@@ -82,27 +106,49 @@ while (tables.next()){
 
     var sqlstmt = `
         insert into WT_MU_CMS_ELIG_SDOH_S(PATID,GEOCODEID,GEO_ACCURACY,SDOH_VAR,SDOH_VAL,SDOH_SRC)
-        select PATID,
+        with cte_stk as (
+            select PATID,
                GEOCODEID,
                GEO_ACCURACY,
                SDOH_VAR,
                SDOH_VAL,
+               count(distinct SDOH_VAL) over (partition by SDOH_VAR) val_per_var,
                '`+ schema +`' as SDOH_SRC
-        from (
-            select a.patid, 
-                   b.geocodeid,
-                   b.geo_accuracy,
-                   `+ cols_alias +`
-            from `+ REF_COHORT +` a 
-            join SDOH_DB.`+ schema +`.`+ table +` b 
-            on startswith(a.`+ REF_PKEY +`,b.geocodeid)
-            -- on substr(a.CENSUS_BLOCK_GROUP_2020,1,length(b.geocodeid)) = b.geocodeid
-            where length(b.geocodeid) > 9 -- excluding zip, fips-st, fips-cty
+            from (
+                select a.patid, 
+                    b.geocodeid,
+                    b.geo_accuracy,
+                    `+ cols_alias +`
+                from `+ REF_COHORT +` a 
+                join SDOH_DB.`+ schema +`.`+ table +` b 
+                on startswith(a.`+ REF_PKEY +`,b.geocodeid)
+                -- on substr(a.CENSUS_BLOCK_GROUP_2020,1,length(b.geocodeid)) = b.geocodeid
+                where length(b.geocodeid) > 9 -- excluding zip, fips-st, fips-cty
+            )
+            unpivot 
+            (
+                SDOH_VAL for SDOH_VAR in (`+ cols +`)
+            )
+            where SDOH_VAL is not null
         )
-        unpivot 
-        (
-            SDOH_VAL for SDOH_VAR in (`+ cols +`)
-        )
+        select PATID, 
+               GEOCODEID,
+               GEO_ACCURACY,
+               SDOH_VAR, 
+               try_to_number(ltrim(SDOH_VAl,'0')) as SDOH_VAL,
+               SDOH_SRC
+        from cte_stk     
+        where not regexp_like(SDOH_VAl,'.*[a-zA-Z]+.*') and val_per_var >100 and 
+              try_to_number(ltrim(SDOH_VAl,'0')) is not null
+        union 
+        select PATID,
+               GEOCODEID,
+               GEO_ACCURACY, 
+               SDOH_VAR || '_' || SDOH_VAL as SDOH_VAR, 
+               1 as SDOH_VAL,
+               SDOH_SRC
+        from cte_stk     
+        where regexp_like(SDOH_VAl,'.*[a-zA-Z]+.*') or val_per_var <=100
     `
     var run_sqlstmt = snowflake.createStatement({sqlText: sqlstmt});
 
@@ -121,13 +167,14 @@ while (tables.next()){
 }
 $$
 ;
--- /* test */
+/* test */
 -- call get_sdoh_s(
 --        'SDOH_DB.ACXIOM.MU_GEOID_DEID',
 --        'CENSUS_BLOCK_GROUP_2020',
 --        array_construct(
---               'ACS_2019'
---              ,'ADI_2020'
+--               'RUCA_2010'
+--              ,'MUA_MO'
+--              ,'SVI_CT_2020'
 --        ),
 --        True, 'TMP_SP_OUTPUT'
 -- );
@@ -137,8 +184,8 @@ create or replace table WT_MU_CMS_ELIG_SDOH_S (
         PATID varchar(50) NOT NULL
        ,GEOCODEID varchar(15)
        ,GEO_ACCURACY varchar(3)
-       ,SDOH_VAR varchar(50)
-       ,SDOH_VAL double
+       ,SDOH_VAR varchar(100)
+       ,SDOH_VAL varchar(5000)
        ,SDOH_SRC varchar(10)
 );
 
@@ -159,7 +206,6 @@ call get_sdoh_s(
 select count(distinct patid), count(*) from WT_MU_CMS_ELIG_SDOH_S
 ;
 -- 50,820
-select * from WT_MU_CMS_ELIG_SDOH_S limit 5;
 
 select sdoh_var, count(distinct patid) as pat_cnt
 from WT_MU_CMS_ELIG_SDOH_S 
