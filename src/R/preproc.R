@@ -1,5 +1,5 @@
 rm(list=ls()); gc()
-setwd("C:/repo/gpc-sdoh")
+setwd("C:/repos/gpc-sdoh")
 
 # install.packages("pacman")
 pacman::p_load(
@@ -56,6 +56,23 @@ if(!file.exists(file.path(dir_data,"part_idx_leakprone.rda"))){
 }
 rm(base_df); gc()
 
+#== encode variable
+var_encoder<-data.frame(
+  VAR = c(
+    unique(readRDS("./data/mu_readmit_sdoh_s_long.rds")) %>%
+      select(VAR) %>% unique %>% pull(),
+    unique(readRDS("./data/mu_readmit_sdoh_i_long.rds")) %>%
+      select(VAR) %>% unique %>% pull()
+  ),
+  stringsAsFactors = F
+) %>%
+  mutate(VAR2 = gsub("^(DRG_REGRP_DRG_)+","",VAR)) %>% unique %>%
+  left_join(readRDS("./data/sdoh_dd.rds"),by=c("VAR2"="VAR")) %>%
+  mutate(VAR_LBL = coalesce(VAR_LABEL,VAR)) %>%
+  rowid_to_column('VAR3') %>%
+  mutate(VAR3 = paste0('V',VAR3))
+
+saveRDS(var_encoder, file=file.path(dir_data,"var_encoder.rda"))
 
 # # remove invariant metrics
 # sdoh_nzv<- nearZeroVar(sdoh_cov, saveMetrics = TRUE)
