@@ -213,6 +213,7 @@ group by sdoh_var
 order by pat_cnt desc;
 
 -- get i-sdoh variables
+select * from I_SDH_SEL;
 create or replace procedure get_sdoh_i(
     REF_COHORT string,
     REF_PKEY string,
@@ -241,10 +242,26 @@ if (DRY_RUN) {
 // collect all sdoh tables and their columns
 var sdoh_tbl_quote = SDOH_TBLS.map(item => `'${item}'`)
 var get_tbl_cols_qry = `
-      SELECT table_schema, table_name, listagg(column_name,',') AS enc_col
-      FROM SDOH_DB.information_schema.columns 
-      WHERE table_name in (`+ sdoh_tbl_quote +`) 
-      GROUP BY table_schema, table_name;`
+      SELECT a.table_schema, a.table_name, listagg(a.column_name,',') AS enc_col, 'C' as var_type
+      FROM SDOH_DB.information_schema.columns a
+      WHERE a.table_name in (`+ sdoh_tbl_quote +`) and 
+        EXISTS (
+            select 1 from I_SDH_SEL b
+            where a.column_name = b.var and 
+                  b.var not like '%_PREC' and 
+                  b.var_type = 'C'
+        )
+      GROUP BY a.table_schema, a.table_name
+      UNION
+      SELECT a.table_schema, a.table_name, listagg(a.column_name,',') AS enc_col, 'N' as var_type
+      FROM SDOH_DB.information_schema.columns a
+      WHERE a.table_name in (`+ sdoh_tbl_quote +`) and 
+        EXISTS (
+            select 1 from I_SDH_SEL b
+            where a.column_name = b.var and 
+                  b.var not like '%_PREC' and 
+                  b.var_type = 'N'
+        );`;
 var get_tbl_cols = snowflake.createStatement({sqlText: get_tbl_cols_qry});
 var tables = get_tbl_cols.execute();
 
@@ -253,16 +270,33 @@ while (tables.next()){
     var schema = tables.getColumnValue(1);
     var table = tables.getColumnValue(2);
     var cols = tables.getColumnValue(3).split(",");
+    var type = tables.getColumnValue(4);
     cols = cols.filter(value=>{return !value.includes('PATID')});
     var cols_alias = cols.map(value => {return 'b.'+ value});
 
+    var sqlstmt_sel = ''
+    if(type=='C'){
+        sqlstmt_sel+=`
+            select PATID, 
+               SDOH_VAR || '_' || SDOH_VAL as SDOH_VAR, 
+               1 as SDOH_VAL
+            from cte_stk
+        `
+    } else {
+        sqlstmt_sel+=`
+            select PATID, 
+               SDOH_VAR, 
+               try_to_number(ltrim(SDOH_VAl,'0')) as SDOH_VAl
+            from cte_stk     
+            where try_to_number(ltrim(SDOH_VAl,'0')) is not null
+        `
+    }
     var sqlstmt = `
         insert into WT_MU_CMS_ELIG_SDOH_I(PATID,SDOH_VAR,SDOH_VAL)
         with cte_stk as (
             select PATID,
                SDOH_VAR,
-               SDOH_VAL, 
-               count(distinct SDOH_VAL) over (partition by SDOH_VAR) val_per_var
+               SDOH_VAL
             from (
                 select a.patid, 
                     `+ cols_alias +`
@@ -276,18 +310,7 @@ while (tables.next()){
             )
             where SDOH_VAL is not null
         )
-        select PATID, 
-               SDOH_VAR, 
-               try_to_number(ltrim(SDOH_VAl,'0')) as SDOH_VAl
-        from cte_stk     
-        where not regexp_like(SDOH_VAl,'.*[a-zA-Z]+.*') and val_per_var >100 and 
-              try_to_number(ltrim(SDOH_VAl,'0')) is not null
-        union 
-        select PATID, 
-               SDOH_VAR || '_' || SDOH_VAL as SDOH_VAR, 
-               1 as SDOH_VAL
-        from cte_stk     
-        where regexp_like(SDOH_VAl,'.*[a-zA-Z]+.*') or val_per_var <=100
+        `+ sqlstmt_sel +`
     `
     var run_sqlstmt = snowflake.createStatement({sqlText: sqlstmt});
 

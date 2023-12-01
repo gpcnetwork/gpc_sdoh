@@ -156,7 +156,7 @@ select patid,
        days_disch_to_censor,
        days_disch_to_death,
        row_number() over (partition by patid order by admit_date) as ip_idx,
-       case when days_disch_to_lead <= 30 then 1 else 0 end as readmit30d_ind
+       case when days_disch_to_lead <= 30 or days_disch_to_death is not null then 1 else 0 end as readmit30d_death_ind
 from cte_readmit
 where least(coalesce(days_disch_to_death,days_disch_to_censor),days_disch_to_censor) > 30
 ;
@@ -166,11 +166,13 @@ order by patid, admit_date
 limit 50;
 
 select count(distinct patid) from WT_MU_CMS_READMIT;
--- 74,123
+-- 74,122
+
 select drg, count(distinct patid) as pat_cnt
 from WT_MU_CMS_READMIT
 group by drg 
 order by pat_cnt desc;
+
 create or replace table WT_MU_CMS_ELIG_TBL1 as
 select a.* 
 from WT_MU_CMS_TBL1 a 
@@ -180,15 +182,15 @@ where exists (
 )
 ;
 select count(distinct patid) from WT_MU_CMS_ELIG_TBL1;
--- 74,121
+-- 74,122
 
 create or replace table WT_MU_CMS_ELIG_GEOID as
 select a.*
 from SDOH_DB.ACXIOM.MU_GEOID_DEID a
 where exists (
-        select 1 from WT_MU_CMS_ELIG_TBL1 b 
-        where b.patid_acxiom = a.patid
-    ) 
+    select 1 from WT_MU_CMS_ELIG_TBL1 b 
+    where b.patid_acxiom = a.patid
+) 
 ;
 select count(distinct patid) from WT_MU_CMS_ELIG_GEOID;
--- 74,809
+-- 74,122
