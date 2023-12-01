@@ -37,10 +37,14 @@ tr_plan<-data.frame(
   bind_rows(data.frame(
     model = 'sdoh_i',
     path_to_data = "./data/mu_readmit_sdoh_i_long.rds"
+  )) %>%
+  bind_rows(data.frame(
+    model = 'sdoh_si',
+    path_to_data = "./data/mu_readmit_sdoh_si_long.rds"
   ))
 
-for(i in 2:nrow(tr_plan)){
-  # i<-1 # uncomment for unit test
+for(i in 1:nrow(tr_plan)){
+  i<-4 # uncomment for unit test
   
   # training
   tr<-readRDS(tr_plan$path_to_data[i]) %>% 
@@ -136,22 +140,23 @@ for(i in 2:nrow(tr_plan)){
   print(paste0(tr_plan$model[i],":model training completed."))
   
   # shap explainer
-  explainer<-explain_model(
-    X = trX,
-    y = try$READMIT30D_IND,
-    xgb_rslt = xgb_rslt,
-    top_k = 50,
-    boots = 20,
-    nns = 30,
-    verb = FALSE
-  )
+  # explainer<-explain_model(
+  #   X = trX,
+  #   y = try$READMIT30D_IND,
+  #   xgb_rslt = xgb_rslt,
+  #   top_k = 50,
+  #   boots = 10,
+  #   nns = 30,
+  #   verb = FALSE
+  # )
   #-------------------------------------------
   print(paste0(tr_plan$model[i],":model explainer developed."))
   
   # result set
   rslt_set<-list(
     fit_model = xgb_rslt,
-    explain_model = explainer
+    explain_model = list()
+    # explain_model = explainer
   )
   saveRDS(
     rslt_set,
