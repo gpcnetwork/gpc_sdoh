@@ -231,7 +231,7 @@ where obsclin_result_num is not null
 ;
 
 select count(distinct patid) from WT_MU_CMS_EHR_HX;
--- 73,884
+-- 73,885
 
 select obs_name,count(distinct patid) from WT_MU_CMS_EHR_HX
 group by obs_name

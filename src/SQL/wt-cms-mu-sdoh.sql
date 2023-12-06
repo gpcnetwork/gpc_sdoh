@@ -84,16 +84,14 @@ if (DRY_RUN) {
 // collect all sdoh tables and their columns
 var sdoh_tbl_quote = SDOH_TBLS.map(item => `'${item}'`)
 var get_tbl_cols_qry = `
-      SELECT table_schema, table_name, listagg(column_name,',') AS enc_col
-      FROM SDOH_DB.information_schema.columns a
-      WHERE a.table_name in (`+ sdoh_tbl_quote +`) and 
-        EXISTS (
-            select 1 from S_SDH_SEL b
-            where a.table_schema = b.var_domain and 
-                    a.table_name = b.var_subdomain and 
-                    a.column_name = b.var
-      )
-      GROUP BY a.table_schema, a.table_name;`
+    SELECT a.table_schema, a.table_name, listagg(a.column_name,',') AS enc_col, b.var_type
+    FROM SDOH_DB.information_schema.columns a
+    JOIN S_SDH_SEL b
+    ON a.table_schema = b.var_domain and 
+       a.table_name = b.var_subdomain and 
+       a.column_name = b.var
+    WHERE a.table_name in (`+ sdoh_tbl_quote +`) 
+    GROUP BY a.table_schema, a.table_name, b.var_type;`
 var get_tbl_cols = snowflake.createStatement({sqlText: get_tbl_cols_qry});
 var tables = get_tbl_cols.execute();
 
@@ -103,22 +101,46 @@ while (tables.next()){
     var table = tables.getColumnValue(2);
     var cols = tables.getColumnValue(3).split(",");
     var cols_alias = cols.map(value => {return 'b.'+ value});
+    var type = tables.getColumnValue(4);
+
+    var sqlstmt_sel = ''
+    if(type=='C'){
+        sqlstmt_sel+=`
+            select  PATID,
+                    GEOCODEID,
+                    GEO_ACCURACY,
+                    SDOH_VAR || '_' || SDOH_VAL as SDOH_VAR, 
+                    1 as SDOH_VAL,
+                    SDOH_SRC
+            from cte_stk
+        `
+    } else {
+        sqlstmt_sel+=`
+            select  PATID, 
+                    GEOCODEID,
+                    GEO_ACCURACY,
+                    SDOH_VAR, 
+                    try_to_number(ltrim(SDOH_VAl,'0')) as SDOH_VAl,
+                    SDOH_SRC
+            from cte_stk     
+            where try_to_number(ltrim(SDOH_VAl,'0')) is not null
+        `
+    }
 
     var sqlstmt = `
         insert into WT_MU_CMS_ELIG_SDOH_S(PATID,GEOCODEID,GEO_ACCURACY,SDOH_VAR,SDOH_VAL,SDOH_SRC)
         with cte_stk as (
-            select PATID,
-               GEOCODEID,
-               GEO_ACCURACY,
-               SDOH_VAR,
-               SDOH_VAL,
-               count(distinct SDOH_VAL) over (partition by SDOH_VAR) val_per_var,
-               '`+ schema +`' as SDOH_SRC
+            select  PATID,
+                    GEOCODEID,
+                    GEO_ACCURACY,
+                    SDOH_VAR,
+                    SDOH_VAL,
+                    '`+ schema +`' as SDOH_SRC
             from (
-                select a.patid, 
-                    b.geocodeid,
-                    b.geo_accuracy,
-                    `+ cols_alias +`
+                select  a.patid, 
+                        b.geocodeid,
+                        b.geo_accuracy,
+                        `+ cols_alias +`
                 from `+ REF_COHORT +` a 
                 join SDOH_DB.`+ schema +`.`+ table +` b 
                 on startswith(a.`+ REF_PKEY +`,b.geocodeid)
@@ -131,24 +153,7 @@ while (tables.next()){
             )
             where SDOH_VAL is not null
         )
-        select PATID, 
-               GEOCODEID,
-               GEO_ACCURACY,
-               SDOH_VAR, 
-               try_to_number(ltrim(SDOH_VAl,'0')) as SDOH_VAL,
-               SDOH_SRC
-        from cte_stk     
-        where not regexp_like(SDOH_VAl,'.*[a-zA-Z]+.*') and val_per_var >100 and 
-              try_to_number(ltrim(SDOH_VAl,'0')) is not null
-        union 
-        select PATID,
-               GEOCODEID,
-               GEO_ACCURACY, 
-               SDOH_VAR || '_' || SDOH_VAL as SDOH_VAR, 
-               1 as SDOH_VAL,
-               SDOH_SRC
-        from cte_stk     
-        where regexp_like(SDOH_VAl,'.*[a-zA-Z]+.*') or val_per_var <=100
+        `+ sqlstmt_sel +`
     `
     var run_sqlstmt = snowflake.createStatement({sqlText: sqlstmt});
 
@@ -185,7 +190,7 @@ create or replace table WT_MU_CMS_ELIG_SDOH_S (
        ,GEOCODEID varchar(15)
        ,GEO_ACCURACY varchar(3)
        ,SDOH_VAR varchar(100)
-       ,SDOH_VAL varchar(5000)
+       ,SDOH_VAL double
        ,SDOH_SRC varchar(10)
 );
 
@@ -205,7 +210,7 @@ call get_sdoh_s(
 );
 select count(distinct patid), count(*) from WT_MU_CMS_ELIG_SDOH_S
 ;
--- 50,820
+-- 74,064
 
 select sdoh_var, count(distinct patid) as pat_cnt
 from WT_MU_CMS_ELIG_SDOH_S 
@@ -242,26 +247,12 @@ if (DRY_RUN) {
 // collect all sdoh tables and their columns
 var sdoh_tbl_quote = SDOH_TBLS.map(item => `'${item}'`)
 var get_tbl_cols_qry = `
-      SELECT a.table_schema, a.table_name, listagg(a.column_name,',') AS enc_col, 'C' as var_type
-      FROM SDOH_DB.information_schema.columns a
-      WHERE a.table_name in (`+ sdoh_tbl_quote +`) and 
-        EXISTS (
-            select 1 from I_SDH_SEL b
-            where a.column_name = b.var and 
-                  b.var not like '%_PREC' and 
-                  b.var_type = 'C'
-        )
-      GROUP BY a.table_schema, a.table_name
-      UNION
-      SELECT a.table_schema, a.table_name, listagg(a.column_name,',') AS enc_col, 'N' as var_type
-      FROM SDOH_DB.information_schema.columns a
-      WHERE a.table_name in (`+ sdoh_tbl_quote +`) and 
-        EXISTS (
-            select 1 from I_SDH_SEL b
-            where a.column_name = b.var and 
-                  b.var not like '%_PREC' and 
-                  b.var_type = 'N'
-        );`;
+    SELECT a.table_schema, a.table_name, listagg(a.column_name,',') AS enc_col, b.var_type
+    FROM SDOH_DB.information_schema.columns a
+    JOIN  I_SDH_SEL b
+    ON a.column_name = b.var 
+    WHERE a.table_name in (`+ sdoh_tbl_quote +`) and b.var not like '%_PREC'
+    GROUP by a.table_schema, a.table_name, b.var_type;`;
 var get_tbl_cols = snowflake.createStatement({sqlText: get_tbl_cols_qry});
 var tables = get_tbl_cols.execute();
 
@@ -277,29 +268,32 @@ while (tables.next()){
     var sqlstmt_sel = ''
     if(type=='C'){
         sqlstmt_sel+=`
-            select PATID, 
-               SDOH_VAR || '_' || SDOH_VAL as SDOH_VAR, 
-               1 as SDOH_VAL
+            select  PATID, 
+                    SDOH_VAR || '_' || SDOH_VAL as SDOH_VAR, 
+                    1 as SDOH_VAL,
+                    SDOH_SRC
             from cte_stk
         `
     } else {
         sqlstmt_sel+=`
-            select PATID, 
-               SDOH_VAR, 
-               try_to_number(ltrim(SDOH_VAl,'0')) as SDOH_VAl
+            select  PATID, 
+                    SDOH_VAR, 
+                    try_to_number(ltrim(SDOH_VAl,'0')) as SDOH_VAl,
+                    SDOH_SRC
             from cte_stk     
             where try_to_number(ltrim(SDOH_VAl,'0')) is not null
         `
     }
     var sqlstmt = `
-        insert into WT_MU_CMS_ELIG_SDOH_I(PATID,SDOH_VAR,SDOH_VAL)
+        insert into WT_MU_CMS_ELIG_SDOH_I(PATID,SDOH_VAR,SDOH_VAL,SDOH_SRC)
         with cte_stk as (
-            select PATID,
-               SDOH_VAR,
-               SDOH_VAL
+            select  PATID,
+                    SDOH_VAR,
+                    SDOH_VAL,
+                    'ACXIOM' as SDOH_SRC
             from (
-                select a.patid, 
-                    `+ cols_alias +`
+                select  a.patid, 
+                        `+ cols_alias +`
                 from `+ REF_COHORT +` a 
                 join SDOH_DB.`+ schema +`.`+ table +` b 
                 on a.`+ REF_PKEY +` = b.patid
@@ -333,6 +327,7 @@ create or replace table WT_MU_CMS_ELIG_SDOH_I (
         PATID varchar(50) NOT NULL
        ,SDOH_VAR varchar(50)
        ,SDOH_VAL double
+       ,SDOH_SRC varchar(10)
 );
 
 /*test*/
@@ -355,8 +350,51 @@ call get_sdoh_I(
        FALSE, NULL
 );
 
+
+-- add medicaid and LIS eligibility indicator from CMS data
+insert into WT_MU_CMS_ELIG_SDOH_I 
+select distinct 
+        a.patid,
+        'DUAL_ELIG' as SDOH_VAR,
+        1 as SDOH_VAL,
+        'CMS' as SDOH_SRC
+from WT_MU_CMS_ELIG_TBL1 a  
+where exists (
+    select 1 from GROUSE_DB.CMS_PCORNET_CDM.LDS_ENROLLMENT b 
+    where a.patid = b.patid and b.raw_basis = 'DUAL'
+)
+;
+
+insert into WT_MU_CMS_ELIG_SDOH_I 
+select distinct 
+        a.patid,
+        'LIS_ELIG' as SDOH_VAR,
+        1 as SDOH_VAL,
+        'CMS' as SDOH_SRC
+from WT_MU_CMS_ELIG_TBL1 a  
+where exists (
+    select 1 from GROUSE_DB.CMS_PCORNET_CDM.LDS_ENROLLMENT b 
+    where a.patid = b.patid and b.raw_basis = 'LIS'
+)
+;
+
+insert into WT_MU_CMS_ELIG_SDOH_I 
+select distinct 
+        a.patid,
+        'DUAL_LIS_ELIG' as SDOH_VAR,
+        1 as SDOH_VAL,
+        'CMS' as SDOH_SRC
+from WT_MU_CMS_ELIG_TBL1 a  
+where exists (
+    select 1 from GROUSE_DB.CMS_PCORNET_CDM.LDS_ENROLLMENT b 
+    where a.patid = b.patid and 
+         (b.raw_basis like 'DUAL%' OR b.raw_basis in ('DUAL','LIS'))
+)
+;
+
+
 select count(distinct patid),count(*) from WT_MU_CMS_ELIG_SDOH_I;
--- 74111
+-- 74117
 
 select * from WT_MU_CMS_ELIG_SDOH_I
 where sdoh_var like 'H_ASSESSED_VALUE%'
