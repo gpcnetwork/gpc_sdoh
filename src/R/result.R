@@ -6,7 +6,9 @@ pacman::p_load(
   devtools,
   ROCR,
   PRROC,
-  pROC
+  pROC,
+  ResourceSelection,
+  ggpubr
 )
 
 source_url("https://raw.githubusercontent.com/sxinger/utils/master/analysis_util.R")
@@ -41,120 +43,179 @@ tr_plan<-data.frame(
 var_encoder<-readRDS("./data/var_encoder.rda")
 
 # integrate results
-pred<-c()
-perf_summ<-c()
-perf_at<-c()
-calibr<-c()
-varimp<-c()
-shap<-c()
-roc<-list()
-for (i in 1:nrow(tr_plan)){
-  # i<-1 # for testing only
-  # retrieve results
-  rslt<-readRDS(tr_plan$path_to_data[i])
-  
-  # # train performance
-  # pred_tr<-rslt$fit_model$pred_tr
-  # #-- summary
-  # perf<-get_perf_summ(
-  #   pred = pred_tr$pred,
-  #   real = pred_tr$actual,
-  #   keep_all_cutoffs = T
-  # )
-  # perf_summ %<>%
-  #   bind_rows(
-  #     perf$perf_summ %>%
-  #       mutate(type='tr',model=tr_plan$model[i])
-  #   )
-  #-- roc
-  # roc[[paste0(tr_plan$model[i],"_tr")]]<-pROC::roc(
-  #   response = pred_tr$actual, 
-  #   predictor = pred_tr$pred
-  # )
-  #-- calibration
-  # calib<-get_calibr(
-  #   pred = pred_tr$pred,
-  #   real = pred_tr$actual,
-  #   n_bin=20
-  # )
-  # calibr %<>%
-  #   bind_rows(
-  #     calib %>%
-  #       mutate(type='tr',model=tr_plan$model[i])
-  #   )
-  
-  # test performance
-  pred_ts<-rslt$fit_model$pred_ts
-  #-- summary
-  perf<-get_perf_summ(
-    pred = pred_ts$pred,
-    real = pred_ts$actual,
-    keep_all_cutoffs = T
+path_to_file<-file.path(dir_data,"model_results.rda")
+if(!file.exists(path_to_file)){
+  pred<-c()
+  perf_summ<-c()
+  perf_at<-c()
+  calibr<-c()
+  varimp<-c()
+  shap<-c()
+  roc<-list()
+  for (i in 1:nrow(tr_plan)){
+    # i<-1 # for testing only
+    # retrieve results
+    rslt<-readRDS(tr_plan$path_to_data[i])
+    
+    # # train performance
+    # pred_tr<-rslt$fit_model$pred_tr
+    # #-- summary
+    # perf<-get_perf_summ(
+    #   pred = pred_tr$pred,
+    #   real = pred_tr$actual,
+    #   keep_all_cutoffs = T
+    # )
+    # perf_summ %<>%
+    #   bind_rows(
+    #     perf$perf_summ %>%
+    #       mutate(type='tr',model=tr_plan$model[i])
+    #   )
+    #-- roc
+    # roc[[paste0(tr_plan$model[i],"_tr")]]<-pROC::roc(
+    #   response = pred_tr$actual, 
+    #   predictor = pred_tr$pred
+    # )
+    #-- calibration
+    # calib<-get_calibr(
+    #   pred = pred_tr$pred,
+    #   real = pred_tr$actual,
+    #   n_bin=20
+    # )
+    # calibr %<>%
+    #   bind_rows(
+    #     calib %>%
+    #       mutate(type='tr',model=tr_plan$model[i])
+    #   )
+    
+    # test performance
+    pred_ts<-rslt$fit_model$pred_ts
+    #-- summary
+    perf<-get_perf_summ(
+      pred = pred_ts$pred,
+      real = pred_ts$actual,
+      keep_all_cutoffs = T
+    )
+    perf_summ %<>%
+      bind_rows(
+        perf$perf_summ %>%
+          mutate(
+            type='ts',
+            model=tr_plan$model[i]
+          )
+      )
+    perf_at %<>%
+      bind_rows(
+        perf$perf_at %>%
+          mutate(
+            type='ts',
+            model=tr_plan$model[i]
+          )
+      )
+    #-- roc
+    roc[[paste0(tr_plan$model[i])]]<-pROC::roc(
+      response = pred_ts$actual,
+      predictor = pred_ts$pred
+    )
+    #-- calibration
+    calib<-get_calibr(
+      pred = pred_ts$pred,
+      real = pred_ts$actual,
+      n_bin = 20,
+      test = FALSE
+    )
+    calibr %<>%
+      bind_rows(
+        calib$calib %>%
+          mutate(
+            type='ts',
+            model=tr_plan$model[i]
+          )
+      )
+    
+    # predictions
+    pred %<>%
+      # bind_rows(
+      #   pred_tr %>%
+      #     mutate(type='tr',model=tr_plan$model[i])
+      # ) %>%
+      bind_rows(
+        pred_ts %>%
+          mutate(
+            type='ts',
+            model=tr_plan$model[i]
+          )
+      )
+    
+    # feature importance
+    varimp %<>%
+      bind_rows(
+        rslt$fit_model$feat_imp %>%
+          arrange(-Gain) %>%
+          mutate(
+            rank=rank(-Gain),  
+            model=tr_plan$model[i],
+            Gain_rescale=round(Gain/Gain[1]*100)
+          )
+      )
+    
+    # shap
+    shap %<>%
+      bind_rows(
+        rslt$explain_model %>%
+          mutate(model=tr_plan$model[i])
+      )
+  }
+  out<-list(
+    pred = pred,
+    roc = roc,
+    perf_at = perf_at,
+    perf_summ = perf_summ,
+    calibr = calibr,
+    varimp = varimp,
+    shap = shap
   )
-  perf_summ %<>%
-    bind_rows(
-      perf$perf_summ %>%
-        mutate(type='ts',model=tr_plan$model[i])
-    )
-  #-- roc
-  roc[[paste0(tr_plan$model[i])]]<-pROC::roc(
-    response = pred_ts$actual,
-    predictor = pred_ts$pred
-  )
-  #-- calibration
-  calib<-get_calibr(
-    pred = pred_ts$pred,
-    real = pred_ts$actual,
-    n_bin=20
-  )
-  calibr %<>%
-    bind_rows(
-      calib %>%
-        mutate(type='ts',model=tr_plan$model[i])
-    )
-  
-  # predictions
-  pred %<>%
-    # bind_rows(
-    #   pred_tr %>%
-    #     mutate(type='tr',model=tr_plan$model[i])
-    # ) %>%
-    bind_rows(
-      pred_ts %>%
-        mutate(type='ts',model=tr_plan$model[i])
-    )
-  
-  # feature importance
-  varimp %<>%
-    bind_rows(
-      rslt$fit_model$feat_imp %>%
-        arrange(-Gain) %>%
-        mutate(
-          rank=rank(-Gain),  
-          model=tr_plan$model[i],
-          Gain_rescale=round(Gain/Gain[1]*100)
-        )
-    )
-  
-  # shap
-  # shap %<>%
-  #   bind_rows(
-  #     rslt$explain_model %>%
-  #       mutate(model=tr_plan$model[i])
-  #   )
+  saveRDS(out,file=path_to_file)
+}else{
+  out<-readRDS(path_to_file)
 }
+
 
 # performance plot
 label<-c()
-for(i in names(roc)){
-  roc_i<-round(ci.auc(roc[[i]]),3)
+ci<-c()
+for(i in names(out$roc)){
+  roc_i<-round(ci.auc(out$roc[[i]]),3)
   label<-c(
     label,
     paste0(i,":",paste0(roc_i[2],"(",roc_i[1],"-",roc_i[3],")"))
   )
+  ci %<>% 
+    bind_rows(
+      as.data.frame(
+        ci.se(
+          out$roc[[i]],
+          boot.stratified=TRUE,
+          boot.n=500,
+          specificities = seq(0, 1, l = 25),
+          progress="none"
+        )
+      ) %>%
+        rownames_to_column("x") %>%
+        mutate(x=as.numeric(x),model=i)
+    )
 }
-pROC::ggroc(roc)+
+colnames(ci)<-c("x","auc_lb","auc","auc_ub","model")
+
+p1<-pROC::ggroc(out$roc)+
   geom_abline(intercept=1,linetype=2)+
+  geom_ribbon(
+    data=ci,
+    aes(x=x,ymin=auc_lb,ymax=auc_ub,fill=model),
+    inherit.aes = F,
+    show.legend = FALSE
+  )+
+  geom_hline(aes(yintercept=1),linetype=2)+
+  geom_vline(aes(xintercept=1),linetype=2)+
   annotate(
     "text",x=0.25,y=0.25,
     label=paste(label,collapse ="\n"),
@@ -163,17 +224,51 @@ pROC::ggroc(roc)+
   labs(color = "model") +
   theme(text=element_text(face="bold"))
 
+prc<-perf_at %>%
+  filter(meas == "prec") %>%
+  inner_join(
+    perf_at %>%
+      filter(meas == "rec_sens") %>%
+      select(cutoff,meas_val_m,model) %>%
+      rename(recall = meas_val_m),
+    by=c("cutoff","model")
+  )
+prc_lbl<-perf_summ %>%
+  filter(overall_meas == "prauc1") %>%
+  mutate(lab = paste0(
+    model,":",
+    round(meas_val_m,3),
+    "(",round(meas_val_lb,3),
+    ",",round(meas_val_ub,3),")"
+  )) %>% select(lab) %>% pull
+
+p2<-ggplot(prc,aes(x=recall,y=meas_val_m,color=model))+
+  geom_line()+
+  geom_ribbon(aes(ymin=meas_val_lb,ymax=meas_val_ub,fill=model))+
+  annotate(
+    "text",x=0.25,y=0.25,
+    label=paste(prc_lbl,collapse ="\n"),
+    fontface = 2 
+  )+
+  geom_hline(aes(yintercept=1),linetype=2)+
+  geom_vline(aes(xintercept=1),linetype=2)+
+  ylim(0,1)+xlim(0,1)+
+  labs(y="precision",color = "model") +
+  theme(text=element_text(face="bold"))
+
+ggarrange(p1,p2,ncol=2,common.legend = TRUE)
+
 ggsave(
-  "./res/auroc.tiff",
+  "./res/auc.tiff",
   dpi=100,
-  width=6,
+  width=15,
   height=6,
   units="in",
   device = 'tiff'
 )
 
 # calibration plot
-ggplot(calibr,aes(x=y_p,y=pred_p))+
+ggplot(out$calibr,aes(x=y_p,y=pred_p))+
   geom_point()+geom_abline(intercept=0,slope=1)+
   geom_errorbar(aes(ymin=binCI_lower,ymax=binCI_upper))+
   labs(x="Actual Probability",y="Predicted Probability",
@@ -191,7 +286,7 @@ ggsave(
 )
 
 # importance plot 
-varimp %<>% 
+varimp<-out$varimp %>% 
   inner_join(var_encoder,by=c("Feature"="VAR3")) %>%
   mutate(
     rank_lpad= str_pad(rank,3,"left",'0'),
@@ -220,4 +315,41 @@ ggsave(
 )
 
 # shap
+# for(i in 1:nrow(tr_plan)){
+#   shap_sel<-shap %>%
+#     filter(model == tr_plan$model[i]) %>%
+#     inner_join(
+#       varimp %>% 
+#         filter(model==tr_plan$model[i]) %>%
+#         filter(rank <= 10) %>%
+#         mutate(feat_rank=factor(feat_rank,levels=rev(levels(feat_rank)))),
+#       by = c('var' = "Feature")
+#     ) %>%
+#     group_by(var,val,feat_rank) %>%
+#     summarise(
+#       eff_m = exp(median(effect,na.rm=T)),
+#       eff_lb = exp(quantile(effect,0.025,na.rm=T)),
+#       eff_ub = exp(quantile(effect,0.975,na.rm=T)),
+#       .groups = "drop"
+#     )
+#   
+#   ggplot(shap_sel,aes(x=val,y=eff_m))+
+#     geom_point()+
+#     geom_smooth(method="loess",formula=y~x)+
+#     geom_errorbar(aes(ymin=eff_lb,ymax=eff_ub))+
+#     geom_hline(aes(yintercept=1),linetype=2)+
+#     theme(text = element_text(face="bold"))+
+#     facet_wrap(~feat_rank,scales = "free",ncol=2)
+#   
+#   ggsave(
+#     paste0('./res/shap_',tr_plan$model[i],".tiff"),
+#     dpi=150,
+#     width=12,
+#     height=18,
+#     units="in",
+#     device = 'tiff'
+#   )
+# }
+
+  
 
