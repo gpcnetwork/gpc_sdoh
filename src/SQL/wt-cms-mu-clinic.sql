@@ -143,6 +143,10 @@ on a.patid = rx.patid
 select count(distinct patid) from WT_MU_CMS_RX;
 -- 61,615
 
+-- encounters observed in EHR
+create or replace table WT_MU_CMS_EHR_ENC as
+;
+
 -- clinical observables from EHR
 create or replace table WT_MU_CMS_EHR_HX as
 with cte_unpvt_num as (
@@ -227,7 +231,7 @@ where obsclin_result_num is not null
 ;
 
 select count(distinct patid) from WT_MU_CMS_EHR_HX;
--- 73,884
+-- 73,885
 
 select obs_name,count(distinct patid) from WT_MU_CMS_EHR_HX
 group by obs_name

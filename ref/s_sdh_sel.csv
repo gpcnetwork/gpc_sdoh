@@ -1,374 +1,297 @@
-VAR_DOMAIN,VAR_SUBDOMAIN,VAR,VAR_LABEL
-FARA,FARA_2019,LAAIAN1,American Indian or Alaska Native population count beyond 1 mile from supermarket
-FARA,FARA_2019,LAAIANHALF,American Indian or Alaska Native population count beyond 1/2 mile from supermarket
-FARA,FARA_2019,LAAIAN10,American Indian or Alaska Native population count beyond 10 miles from supermarket
-SLM,SLD_2021,E_LOWWAGEWK,# of workers earning $1250/month or less (work location)
-FARA,FARA_2019,LAAIAN20,American Indian or Alaska Native population count beyond 20 miles from supermarket
-FARA,FARA_2019,LAASIAN1,Asian population count beyond 1 mile from supermarket
-FARA,FARA_2019,LAASIANHALF,Asian population count beyond 1/2 mile from supermarket
-SLM,SLD_2021,E_HIWAGEWK,# of workers earning $3333/month or more (work location)
-FARA,FARA_2019,LAASIAN10,Asian population count beyond 10 miles from supermarket
-SLM,SLD_2021,E_MEDWAGEWK,# of workers earning more than $1250/month but less than $3333/month (work location)
-SLM,SLD_2021,E_PCTLOWWAGE,% LowWageWk of total #workers in a CBG (work location)
-SLM,SLD_2021,D2B_E5MIX,5-tier employment entropy (denominator set to observed employment types in the CBG)
-RUCA,RUCA_2010,RUCA_PRIMARY,RUCA_PRIMARY
-FARA,FARA_2019,LAASIAN20,Asian population count beyond 20 miles from supermarket
-FARA,FARA_2019,LABLACK1,Black or African American population count beyond 1 mile from supermarket
-SLM,SLD_2021,D2B_E5MIXA,5-tier employment entropy (denominator set to the static 5 employment types in the CBG)
-SLM,SLD_2021,D2B_E8MIX,8-tier employment entropy (denominator set to observed employment types in the CBG)
-FARA,FARA_2019,LABLACKHALF,Black or African American population count beyond 1/2 mile from supermarket
-SLM,SLD_2021,D2B_E8MIXA,8-tier employment entropy (denominator set to the static 8 employment types in the CBG)
-ACS,ACS_2019,CRANE_48,[Number Fraction] of residents 25 years and older who completed and associates or higher college degree in community where patient resides from DoC ACS data?
-SLM,SLD_2021,D4E,Aggregate frequency of transit service [D4c] per capita
-SLM,SLD_2021,D4D,Aggregate frequency of transit service [D4c] per square mile
-FARA,FARA_2019,LABLACK10,Black or African American population count beyond 10 miles from supermarket
-SLM,SLD_2021,D4C,Aggregate frequency of transit service within 0.25 miles of CBG boundary per hour during evening peak period
-FARA,FARA_2019,LABLACK20,Black or African American population count beyond 20 miles from supermarket
-SLM,SLD_2021,R_LOWWAGEWK,Count of workers earning $1250/month or less (home location)
-SLM,SLD_2021,R_HIWAGEWK,Count of workers earning $3333/month or more (home location)
-FARA,FARA_2019,LA1AND10,Flag for low access tract at 1 mile for urban areas or 10 miles for rural areas
-FARA,FARA_2019,LA1AND20,Flag for low access tract at 1 mile for urban areas or 20 miles for rural areas
-SLM,SLD_2021,R_MEDWAGEWK,Count of workers earning more than $1250/month but less than $3333/month (home location)
-ACS,ACS_2019,CRANE_41,[Number Fraction] of residents who are 25 to 64 years of age in community where patient resides from DoC ACS data?
-FARA,FARA_2019,LAHALFAND10,Flag for low access tract at 1/2 mile for urban areas or 10 miles for rural areas
-ACS,ACS_2019,CRANE_54,[Number fraction] of households without kitchen facilities in community where patient resides from DoC ACS data?
-FARA,FARA_2019,LATRACTS1,Flag for low access tract when considering 1 mile distance
-FARA,FARA_2019,LATRACTS_HALF,Flag for low access tract when considering 1/2 mile distance
-SLM,SLD_2021,WORKERS,Count of workers in CBG (home location)
-ACS,ACS_2019,CRANE_45,[Number Fraction] of residents 25 years and older who completed 5th grade but did not complete high school or GED in community where patient resides from DoC ACS data?
-SLM,SLD_2021,D4A,Distance from the population-weighted centroid to nearest transit stop (meters)
-SLM,SLD_2021,E8_ED,Education jobs within an 8-tier employment classification scheme (LEHD: CNS15)
-FARA,FARA_2019,LATRACTS10,Flag for low access tract when considering 10 mile distance
-FARA,FARA_2019,LATRACTS20,Flag for low access tract when considering 20 mile distance
-SLM,SLD_2021,D2A_EPHHM,Employment and household entropy
-SVI,SVI_CT_2020,EP_AFAM,"Adjunct variable - Percentage of Black/African American, not Hispanic or Latino persons estimate, 2016-2020 ACS"
-SVI,SVI_CT_2020,EP_AGE17,"Percentage of persons aged 17 and younger estimate, 2016-2020 ACS"
-ACS,ACS_2019,CRANE_31,[Number Fraction] of residents who report having two or more racial origins in community where patient resides from DoC ACS data?
-ACS,ACS_2019,CRANE_6,[Number fraction] of renter-occupied housing units in community where patient resides with gross rent >= 30% of household income in past 12 months from DoC ACS data?
-SVI,SVI_CT_2020,EP_AGE65,"Percentage of persons aged 65 and older estimate, 2016-2020 ACS"
-SVI,SVI_CT_2020,EP_AIAN,"Adjunct variable - Percentage of American Indian or Alaska Native, not Hispanic or Latino persons estimate, 2016-2020 ACS"
-SVI,SVI_CT_2020,EP_ASIAN,"Adjunct variable - Percentage of Asian, not Hispanic or Latino persons estimate, 2016-2020 ACS"
-SVI,SVI_CT_2020,EP_CROWD,Percentage of occupied housing units with more people than rooms estimate
-SLM,SLD_2021,D2C_TRPMX1,Employment and Household entropy (based on vehicle trip production and trip attractions including all 5 employment categories)
-FARA,FARA_2019,LOWINCOMETRACTS,Flag for low income tract
-SLM,SLD_2021,D2C_TRPMX2,Employment and Household Entropy calculations
-FARA,FARA_2019,LILATRACTS_1AND10,Flag for low-income and low access when considering low accessibilty at 1 and 10 miles
-FARA,FARA_2019,LILATRACTS_1AND20,Flag for low-income and low access when considering low accessibilty at 1 and 20 miles
-ACS,ACS_2019,CRANE_46,[Number Fraction] of residents 25 years and older who completed high school or GED in community where patient resides from DoC ACS data?
-SLM,SLD_2021,E5_ENT,Entertainment jobs within a 5-tier employment classification scheme (LEHD: CNS17 + CNS18)
-SVI,SVI_CT_2020,EP_DISABL,"Percentage of civilian noninstitutionalized population with a disability estimate, 2016-2020 ACS"
-SVI,SVI_CT_2020,EP_GROUPQ,"Percentage of persons in group quarters estimate, 2016-2020 ACS"
-SLM,SLD_2021,E8_ENT,Entertainment jobs within an 8-tier employment classification scheme (LEHD: CNS17 + CNS18)
-SVI,SVI_CT_2020,EP_HBURD,"Percentage of housing cost-burdened occupied housing units with annual income less than $75,000 (30%+ of income spent on housing costs) estimate, 2016-2020 ACS estimate, 2016-2020 ACS"
-SVI,SVI_CT_2020,EP_HISP,"Adjunct variable - Percentage of Hispanic or Latino persons estimate, 2016-2020 ACS"
-SVI,SVI_CT_2020,EP_LIMENG,"Percentage of persons (age 5+) who speak English ""less than well"" estimate, 2016-2020 ACS"
-SVI,SVI_CT_2020,EP_MINRTY,"Percentage minority (Hispanic or Latino (of any race); Black and African American, Not Hispanic or Latino; American Indian and Alaska Native, Not Hispanic or Latino; Asian, Not Hispanic or Latino; Native Hawaiian and Other Pacific Islander, Not Hispanic or Latino; Two or More Races, Not Hispanic or Latino; Other Races, Not Hispanic or Latino) estimate, 2016-2020 ACS"
-SLM,SLD_2021,D1_FLAG,Flag indicating that density metrics are based on total CBG land acreage rather than unprotected acreage
-SVI,SVI_CT_2020,EP_MOBILE,Percentage of mobile homes estimate
-FARA,FARA_2019,LILATRACTS_HALFAND10,Flag for low-income and low access when considering low accessibilty at 1/2 and 10 miles
-SVI,SVI_CT_2020,EP_MUNIT,Percentage of housing in structures with 10 or more units estimate
-FARA,FARA_2019,LILATRACTS_VEHICLE,Flag for low-income and low access when considering vehicle access or at 20 miles
-SVI,SVI_CT_2020,EP_NHPI,"Adjunct variable - Percentage of Native Hawaiian or Other Pacific Islander, not Hispanic or Latino persons estimate, 2016-2020 ACS"
-SVI,SVI_CT_2020,EP_NOHSDP,Percentage of persons with no high school diploma (age 25+) estimate
-SVI,SVI_CT_2020,EP_NOINT,"Adjunct variable - Percentage of households without a computer with a broadband Internet subscription estimate, 2016-2020 ACS"
-ACS,ACS_2019,CRANE_24,"[Number Fraction] of workers over 16 years who work in arts, entertainment, recreation, accomodation or food servicesin community where patient resides from DoC ACS data?"
-FARA,FARA_2019,HUNVFLAG,"Flag for tract where >= 100 of households do not have a vehicle, and beyond 1/2 mile from supermarket"
-SVI,SVI_CT_2020,EP_NOVEH,Percentage of households with no vehicle available estimate
-SVI,SVI_CT_2020,EP_OTHERRACE,"Adjunct variable - Percentage of some other race, not Hispanic or Latino persons estimate, 2016-2020 ACS"
-SVI,SVI_CT_2020,EP_POV150,Percentage of persons below 150% poverty estimate
-SVI,SVI_CT_2020,EP_SNGPNT,"Percentage of single-parent households with children under 18 estimate, 2016-2020 ACS"
-SLM,SLD_2021,D1D,Gross activity density (employment + HUs) on unprotected land
-SLM,SLD_2021,D1C8_ED,Gross education(8-tier) employment density (jobs/acre) on unprotected land
-SLM,SLD_2021,D1C,Gross employment density (jobs/acre) on unprotected land
-SVI,SVI_CT_2020,EP_TWOMORE,"Adjunct variable - Percentage of two or more races, not Hispanic or Latino persons estimate, 2016-2020 ACS"
-SVI,SVI_CT_2020,EP_UNEMP,Unemployment Rate estimate
-FARA,FARA_2019,LATRACTSVEHICLE_20,"Flag for tract where >= 100 of households do not have a vehicle, and beyond 1/2 mile from supermarket; or >= 500 individuals are beyond 20 miles from supermarket ; or >= 33% of individuals are beyond 20 miles from supermarket"
-FARA,FARA_2019,GROUPQUARTERSFLAG,Flag for tract where >=67%
-SLM,SLD_2021,D1C5_ENT,Gross entertainment (5-tier) employment density (jobs/acre) on unprotected land
-ACS,ACS_2019,CRANE_33,[Number Fraction] of residents who report being Hispanic or Latino in community where patient resides from DoC ACS data?
-FARA,FARA_2019,URBAN,Flag for urban tract
-SVI,SVI_CT_2020,EP_UNINSUR,"Percentage uninsured in the total civilian noninstitutionalized population estimate, 2016-2020 ACS"
-SVI,SVI_CT_2020,EPL_AGE17,Percentile percentage of persons aged 17 and younger estimate
-SVI,SVI_CT_2020,EPL_AGE65,Percentile percentage of persons aged 65 and older estimate
-ACS,ACS_2019,CRANE_10,[Number Fraction] of workers over 16 years whose means of transportation is public transportation excluding taxicab in community where patient resides from DoC ACS data?
-SLM,SLD_2021,D1C8_ENT,Gross entertainment (8-tier) employment density (jobs/acre) on unprotected land
-ACS,ACS_2019,CRANE_16,[Number Fraction] of workers over 16 years who work in manufacturing in community where patient resides from DoC ACS data?
-SVI,SVI_CT_2020,EPL_CROWD,Percentile percentage households with more people than rooms estimate
-ACS,ACS_2019,CRANE_17,[Number Fraction] of workers over 16 years who work in wholesale trade in community where patient resides from DoC ACS data?
-SLM,SLD_2021,D1C8_HLTH,Gross health care (8-tier) employment density (jobs/acre) on unprotected land
-SVI,SVI_CT_2020,EPL_DISABL,Percentile percentage of civilian noninstitutionalized population with a disability estimate
-SVI,SVI_CT_2020,EPL_GROUPQ,Percentile percentage of persons in group quarters estimate
-SVI,SVI_CT_2020,EPL_HBURD,Percentile percentage of housing cost-burdened occupied housing units estimate
-SVI,SVI_CT_2020,EPL_LIMENG,"Percentile percentage of persons (age 5+) who speak English ""less than well"" estimate"
-ACS,ACS_2019,BIRD_INDEX,Bird Index [Scale Score] for Community Stress in community where patient resides from DoC ACS data?
-SLM,SLD_2021,D1C5_IND,Gross industrial (5-tier) employment density (jobs/acre) on unprotected land
-SLM,SLD_2021,D1C8_IND,Gross industrial (8-tier) employment density (jobs/acre) on unprotected land
-SVI,SVI_CT_2020,EPL_MINRTY,"Percentile percentage minority (Hispanic or Latino (of any race); Black and African American, Not Hispanic or Latino; American Indian and Alaska Native, Not Hispanic or Latino; Asian, Not Hispanic or Latino; Native Hawaiian and Other Pacific Islander, Not Hispanic or Latino; Two or More Races, Not Hispanic or Latino; Other Races, Not Hispanic or Latino) estimate"
-SLM,SLD_2021,D1C5_OFF,Gross office (5-tier) employment density (jobs/acre) on unprotected land
-SVI,SVI_CT_2020,EPL_MOBILE,Percentile percentage mobile homes estimate
-FARA,FARA_2019,LAHISP1,Hispanic or Latino ethnicity population count beyond 1 mile from supermarket
-SLM,SLD_2021,D1C8_OFF,Gross office (8-tier) employment density (jobs/acre) on unprotected land
-FARA,FARA_2019,LAHISPHALF,Hispanic or Latino ethnicity population count beyond 1/2 mile from supermarket
-SLM,SLD_2021,D1B,Gross population density (people/acre) on unprotected land
-FARA,FARA_2019,LAHISP10,Hispanic or Latino ethnicity population count beyond 10 miles from supermarket
-SVI,SVI_CT_2020,EPL_MUNIT,Percentile percentage housing in structures with 10 or more units estimate
-SVI,SVI_CT_2020,EPL_NOHSDP,Percentile percentage of persons with no high school diploma (age 25+) estimate
-SLM,SLD_2021,D1A,Gross residential density (HU/acre) on unprotected land
-ACS,ACS_2019,CRANE_29,[Number Fraction] of residents who are male in community where patient resides from DoC ACS data?
-SVI,SVI_CT_2020,EPL_NOVEH,Percentile percentage households with no vehicle available estimate
-ACS,ACS_2019,CRANE_53,[Number fraction] of households with housing units built prior to 1970 in community where patient resides from DoC ACS data?
-SLM,SLD_2021,D1C5_RET,Gross retail (5-tier) employment density (jobs/acre) on unprotected land
-SVI,SVI_CT_2020,EPL_POV150,Percentile percentage of persons below 150% poverty estimate
-SVI,SVI_CT_2020,EPL_SNGPNT,Percentile percentage of single-parent households with children under 18 estimate
-FARA,FARA_2019,LAHISP20,Hispanic or Latino ethnicity population count beyond 20 miles from supermarket
-SVI,SVI_CT_2020,EPL_UNEMP,Percentile percentage of civilian (age 16+) unemployed estimate
-SVI,SVI_CT_2020,EPL_UNINSUR,Percentile percentage of uninsured estimate
-SVI,SVI_CT_2020,F_AGE17,"Flag - the percentage of persons aged 17 and younger is in the 90th percentile (1 = yes, 0 = no)"
-ACS,ACS_2019,CRANE_4,[Number fraction] of workers 16 years and older in community where patient resides whose income is greater than or equal to 150% of poverty level from DoC ACS data?
-FARA,FARA_2019,LASNAP1,Housing units receiving SNAP benefits count beyond 1 mile from supermarket
-FARA,FARA_2019,LASNAPHALF,Housing units receiving SNAP benefits count beyond 1/2 mile from supermarket
-SLM,SLD_2021,D1C8_RET,Gross retail (8-tier) employment density (jobs/acre) on unprotected land
-SVI,SVI_CT_2020,F_AGE65,"Flag - the percentage of persons aged 65 and older is in the 90th percentile (1 = yes, 0 = no)"
-SVI,SVI_CT_2020,F_CROWD,"Flag - the percentage of crowded households is in the 90th percentile (1 = yes, 0 = no)"
-SVI,SVI_CT_2020,F_DISABL,"Flag - the percentage of persons with a disability is in the 90th percentile (1 = yes, 0 = no)"
-FARA,FARA_2019,LASNAP10,Housing units receiving SNAP benefits count beyond 10 miles from supermarket
-ACS,ACS_2019,CRANE_43,[Number Fraction] of residents who are 80 years of age or older in community where patient resides from DoC ACS data?
-SVI,SVI_CT_2020,F_GROUPQ,"Flag - the percentage of persons in group quarters is in the 90th percentile (1 = yes, 0 = no)"
-SLM,SLD_2021,D1C8_PUB,Gross retail (8-tier) employment density (jobs/acre) on unprotected land
-SVI,SVI_CT_2020,F_HBURD,"Flag - the percentage of housing cost-burdened occupied housing units is in the 90th percentile (1 = yes, 0 = no)"
-SVI,SVI_CT_2020,F_LIMENG,"Flag - the percentage those with limited English is in the 90th percentile (1 = yes, 0 = no)"
-SLM,SLD_2021,D1C5_SVC,Gross service (5-tier) employment density (jobs/acre) on unprotected land
-SVI,SVI_CT_2020,F_MINRTY,"Flag - the percentage of minority is in the 90th percentile (1 = yes, 0 = no)"
-FARA,FARA_2019,LASNAP20,Housing units receiving SNAP benefits count beyond 20 miles from supermarket
-FARA,FARA_2019,LAHUNV1,Housing units without vehicle count beyond 1 mile from supermarket
-SLM,SLD_2021,D1C8_SVC,Gross service (8-tier) employment density (jobs/acre) on unprotected land
-SLM,SLD_2021,E8_HLTH,Health care jobs within an 8-tier employment classification scheme (LEHD: CNS16)
-SLM,SLD_2021,D2R_WRKEMP,Household Workers per Job
-FARA,FARA_2019,LAHUNVHALF,Housing units without vehicle count beyond 1/2 mile from supermarket
-ACS,ACS_2019,CRANE_37,[Number Fraction] of residents who report being native Hawaiian or Pacific Islander alone in community where patient resides from DoC ACS data?
-SVI,SVI_CT_2020,F_MOBILE,"Flag - the percentage of mobile homes is in the 90th percentile (1 = yes, 0 = no)"
-FARA,FARA_2019,LAHUNV10,Housing units without vehicle count beyond 10 miles from supermarket
-SVI,SVI_CT_2020,F_MUNIT,"Flag - the percentage of households in multi-unit housing is in the 90th percentile (1 = yes, 0 = no)"
-FARA,FARA_2019,LAHUNV20,Housing units without vehicle count beyond 20 miles from supermarket
-SLM,SLD_2021,D2A_WRKEMP,Household Workers per Job
-FARA,FARA_2019,LAKIDS1,Kids population count beyond 1 mile from supermarket
-FARA,FARA_2019,LAKIDSHALF,Kids population count beyond 1/2 mile from supermarket
-SLM,SLD_2021,HH,Households (occupied housing units)
-SLM,SLD_2021,COUNTHU,Housing units
-FARA,FARA_2019,LAKIDS10,Kids population count beyond 10 miles from supermarket
-SVI,SVI_CT_2020,F_NOHSDP,"Flag - the percentage of persons with no high school diploma is in the 90th percentile (1 = yes, 0 = no)"
-SLM,SLD_2021,E5_IND,Industrial jobs within a 5-tier employment classification scheme (LEHD: CNS01 + CNS02 + CNS03 + CNS04 + CNS05 + CNS06 + CNS08) 
-FARA,FARA_2019,LAKIDS20,Kids population count beyond 20 miles from supermarket
-SLM,SLD_2021,E8_IND,Industrial jobs within an 8-tier employment classification scheme (LEHD: CNS01 + CNS02 + CNS03 + CNS04 + CNS05 + CNS06 + CNS08) 
-SVI,SVI_CT_2020,F_NOVEH,"Flag - the percentage of households with no vehicles is in the 90th percentile (1 = yes, 0 = no)"
-FARA,FARA_2019,LALOWI1_10,Low income population count beyond 1 mile for urban areas or 10 miles for rural areas from supermarket
-ADI,ADI_2020,ADI_NATRANK,ADI_NATRANK
-FARA,FARA_2019,LALOWI1_20,Low income population count beyond 1 mile for urban areas or 20 miles for rural areas from supermarket
-FARA,FARA_2019,LALOWI1,Low income population count beyond 1 mile from supermarket
-FARA,FARA_2019,LALOWI05_10,Low income population count beyond 1/2 mile for urban areas or 10 miles for rural areas from supermarket
-FARA,FARA_2019,LALOWIHALF,Low income population count beyond 1/2 mile from supermarket
-ACS,ACS_2019,CRANE_20,[Number Fraction] of workers over 16 years who work in information in community where patient resides from DoC ACS data?
-SLM,SLD_2021,D3BAO,Intersection density in terms of auto-oriented intersections per square mile
-FARA,FARA_2019,LALOWI10,Low income population count beyond 10 miles from supermarket
-SLM,SLD_2021,D3BMM4,Intersection density in terms of multi-modal intersections having four or more legs per square mile
-FARA,FARA_2019,LALOWI20,Low income population count beyond 20 miles from supermarket
-SVI,SVI_CT_2020,F_POV150,"Flag - the percentage of persons below 150% poverty is in the 90th percentile (1 = yes, 0 = no)"
-FARA,FARA_2019,LANHOPI1,Native Hawaiian or Other Pacific Islander population count beyond 1 mile from supermarket
-ACS,ACS_2019,CRANE_32,[Number Fraction] of residents who report being white alone and not Hispanic or Latino in community where patient resides from DoC ACS data?
-SLM,SLD_2021,D3BMM3,Intersection density in terms of multi-modal intersections having three legs per square mile
-SVI,SVI_CT_2020,F_SNGPNT,"Flag - the percentage of single-parent households is in the 90th percentile (1 = yes, 0 = no)"
-SLM,SLD_2021,D3BPO4,Intersection density in terms of pedestrian-oriented intersections having four or more legs per square mile
-SVI,SVI_CT_2020,F_THEME1,Sum of flags for Socioeconomic Status theme
-FARA,FARA_2019,LANHOPIHALF,Native Hawaiian or Other Pacific Islander population count beyond 1/2 mile from supermarket
-ACS,ACS_2019,CRANE_13,[Number Fraction] of workers over 16 years whose means of transportation is walking in community where patient resides from DoC ACS data?
-ACS,ACS_2019,CRANE_49,[Number fraction] of households with one or more types of computing devices in community where patient resides from DoC ACS data?
-FARA,FARA_2019,LANHOPI10,Native Hawaiian or Other Pacific Islander population count beyond 10 miles from supermarket
-SVI,SVI_CT_2020,F_THEME2,Sum of flags for Household Characteristics theme
-ACS,ACS_2019,CRANE_50,[Number fraction] of households with no computer in community where patient resides from DoC ACS data?
-FARA,FARA_2019,LANHOPI20,Native Hawaiian or Other Pacific Islander population count beyond 20 miles from supermarket
-FARA,FARA_2019,OHU2010,Occupied housing unit count from 2010 census
-FARA,FARA_2019,LAOMULTIR1,Other/Multiple race population count beyond 1 mile from supermarket
-SLM,SLD_2021,D3BPO3,Intersection density in terms of pedestrian-oriented intersections having three legs per square mile
-SLM,SLD_2021,D2A_JPHH,Jobs per household
-ACS,ACS_2019,CRANE_34,[Number Fraction] of residents who report being black or african american alone in community where patient resides from DoC ACS data?
-SVI,SVI_CT_2020,F_THEME3,Sum of flags for Racial and Ethnic Minority Status theme
-FARA,FARA_2019,LAOMULTIRHALF,Other/Multiple race population count beyond 1/2 mile from supermarket
-ACS,ACS_2019,CRANE_2,[Number fraction] of workers 16 years and older in community where patient resides whose income is below 100 % of poverty level from DoC ACS data?
-SVI,SVI_CT_2020,F_THEME4,Sum of flags for Housing Type/ Transportation theme
-SVI,SVI_CT_2020,F_TOTAL,Sum of flags for the four themes
-FARA,FARA_2019,LAOMULTIR10,Other/Multiple race population count beyond 10 miles from supermarket
-FARA,FARA_2019,LAOMULTIR20,Other/Multiple race population count beyond 20 miles from supermarket
-ACS,ACS_2019,CRANE_1,[Number fraction] of households in community where patient resides receiving public  assistance income or FOOD STAMPS/SNAP in past 12 months from DoC ACS data?
-SLM,SLD_2021,D5AR,Jobs within 45 minutes auto travel time
-SLM,SLD_2021,D5BR,Jobs within 45-minute transit commute
-SVI,SVI_CT_2020,F_UNEMP,"Flag - the percentage of civilian unemployed is in the 90th percentile (1 = yes, 0 = no)"
-SLM,SLD_2021,CBSA_NAME,Name of CBSA in which CBG resides
-SLM,SLD_2021,CSA_NAME,Name of CSA in which CBG resides
-SVI,SVI_CT_2020,F_UNINSUR,"Flag - the percentage of uninsured is in the 90th percentile (1 = yes, 0 = no)"
-MUA,MUA_MO,INDEX_OF_MEDICAL_UNDERSERVICE_SCORE,INDEX_OF_MEDICAL_UNDERSERVICE_SCORE
-FARA,FARA_2019,LAPOP1_10,Population count beyond 1 mile for urban areas or 10 miles for rural areas from supermarket
-FARA,FARA_2019,LAPOP1_20,Population count beyond 1 mile for urban areas or 20 miles for rural areas from supermarket
-FARA,FARA_2019,LAPOP1,Population count beyond 1 mile from supermarket
-FARA,FARA_2019,LAPOP05_10,Population count beyond 1/2 mile for urban areas or 10 miles for rural areas from supermarket
-FARA,FARA_2019,LAPOPHALF,Population count beyond 1/2 mile from supermarket
-FARA,FARA_2019,LAPOP10,Population count beyond 10 miles from supermarket
-SLM,SLD_2021,D3AAO,Network density in terms of facility miles of auto-oriented links per square mile
-SLM,SLD_2021,D3AMM,Network density in terms of facility miles of multi-modal links per square mile
-FARA,FARA_2019,LAPOP20,Population count beyond 20 miles from supermarket
-FARA,FARA_2019,POP2010,Population count from 2010 census
-FARA,FARA_2019,LASENIORS1,Seniors population count beyond 1 mile from supermarket
-SLM,SLD_2021,D3APO,Network density in terms of facility miles of pedestrian-oriented links per square mile
-FARA,FARA_2019,LASENIORSHALF,Seniors population count beyond 1/2 mile from supermarket
-SLM,SLD_2021,AUTOOWN1,Number of households in CBG that own one automobile
-FARA,FARA_2019,LASENIORS10,Seniors population count beyond 10 miles from supermarket
-RUCA,RUCA_2010,RUCA_SECONDARY,RUCA_SECONDARY
-FARA,FARA_2019,LASENIORS20,Seniors population count beyond 20 miles from supermarket
-ACS,ACS_2019,CRANE_5,[Number fraction] of workers 16 years and older in community where patient resides who are in labor force from DoC ACS data?
-ACS,ACS_2019,CRANE_36,[Number Fraction] of residents who report being asian alone in community where patient resides from DoC ACS data?
-FARA,FARA_2019,POVERTYRATE,Share of the tract population living with income at or below the Federal poverty thresholds for family size
-FARA,FARA_2019,LASNAP1SHARE,Share of tract housing units receiving SNAP benefits count beyond 1 mile from supermarket
-FARA,FARA_2019,LASNAPHALFSHARE,Share of tract housing units receiving SNAP benefits count beyond 1/2 mile from supermarket
-SLM,SLD_2021,AUTOOWN2P,Number of households in CBG that own two or more automobiles
-SLM,SLD_2021,AUTOOWN0,Number of households in CBG that own zero automobiles
-SLM,SLD_2021,E5_OFF,Office jobs within a 5-tier employment classification scheme (LEHD: CNS09 + CNS10 + CNS11 + CNS13 + CNS20) 
-ACS,ACS_2019,CRANE_30,[Number Fraction] of residents who are female in community where patient resides from DoC ACS data?
-FARA,FARA_2019,LASNAP10SHARE,Share of tract housing units receiving SNAP benefits count beyond 10 miles from supermarket
-SLM,SLD_2021,E8_OFF,Office jobs within an 8-tier employment classification scheme (LEHD: CNS09 + CNS10 + CNS11 + CNS13) 
-FARA,FARA_2019,LASNAP20SHARE,Share of tract housing units receiving SNAP benefits count beyond 20 miles from supermarket
-ACS,ACS_2019,CRANE_44,[Number Fraction] of residents 25 years and older who completed 5th grade or less schooling in community where patient resides from DoC ACS data?
-FARA,FARA_2019,LAHUNV1SHARE,Share of tract housing units that are without vehicle and beyond 1 mile from supermarket
-ACS,ACS_2019,CRANE_23,"[Number Fraction] of workers over 16 years who work in educational services, health care or social assistance in community where patient resides from DoC ACS data?"
-SLM,SLD_2021,R_PCTLOWWAGE,Percent of low wage workers in a CBG (home location)
-FARA,FARA_2019,LAHUNVHALFSHARE,Share of tract housing units that are without vehicle and beyond 1/2 mile from supermarket
-SLM,SLD_2021,PCT_AO1,Percent of one-car households in CBG
-SLM,SLD_2021,P_WRKAGE,Percent of population that is working aged 18 to 64 years
-ACS,ACS_2019,CRANE_51,[Number fraction] of households with broadband internet in community where patient resides from DoC ACS data?
-FARA,FARA_2019,LAHUNV10SHARE,Share of tract housing units that are without vehicle and beyond 10 miles from supermarket
-ACS,ACS_2019,CRANE_8,Travel [Time] to work of workers over 16 years who do not work at home in the community where patient resides from DoC ACS data?
-FARA,FARA_2019,LAHUNV20SHARE,Share of tract housing units that are without vehicle and beyond 20 miles from supermarket
-FARA,FARA_2019,LAAIAN1SHARE,Share of tract population that are American Indian or Alaska Native beyond 1 mile from supermarket
-FARA,FARA_2019,LAAIANHALFSHARE,Share of tract population that are American Indian or Alaska Native beyond 1/2 mile from supermarket
-SLM,SLD_2021,PCT_AO2P,Percent of two-plus-car households in CBG
-SLM,SLD_2021,PCT_AO0,Percent of zero-car households in CBG
-ACS,ACS_2019,CRANE_35,[Number Fraction] of residents who report being american indian or alaska native alone in community where patient resides from DoC ACS data?
-ACS,ACS_2019,CRANE_47,[Number Fraction] of residents 25 years and older who completed some college but did not get a degree in community where patient resides from DoC ACS data?
-FARA,FARA_2019,LAAIAN10SHARE,Share of tract population that are American Indian or Alaska Native beyond 10 miles from supermarket
-ACS,ACS_2019,CRANE_21,"[Number Fraction] of workers over 16 years who work in real estate, rental or leasing in community where patient resides from DoC ACS data?"
-ACS,ACS_2019,CRANE_28,[Number Fraction] of workers 18 to 64 years who are employed in the labor force in community where patient resides from DoC ACS data?
-FARA,FARA_2019,LAAIAN20SHARE,Share of tract population that are American Indian or Alaska Native beyond 20 miles from supermarket
-SLM,SLD_2021,D4B025,Proportion of CBG employment within ¼ mile of fixed-guideway transit stop
-FARA,FARA_2019,LAASIAN1SHARE,Share of tract population that are Asian beyond 1 mile from supermarket
-ACS,ACS_2019,CRANE_42,[Number Fraction] of residents who are 65 to 79 years of age in community where patient resides from DoC ACS data?
-ACS,ACS_2019,CRANE_19,"[Number Fraction] of workers over 16 years who work in transportation, warehousing or utilities in community where patient resides from DoC ACS data?"
-FARA,FARA_2019,LAASIANHALFSHARE,Share of tract population that are Asian beyond 1/2 mile from supermarket
-SLM,SLD_2021,D4B050,Proportion of CBG employment within ½ mile of fixed-guideway transit stop
-SLM,SLD_2021,D5DR,Proportional Accessibility of Regional Destinations - Transit: Employment accessibility expressed as a ratio of total MSA accessibility
-FARA,FARA_2019,LAASIAN10SHARE,Share of tract population that are Asian beyond 10 miles from supermarket
-SLM,SLD_2021,D5DE,Proportional Accessibility of Regional Destinations - Transit: Working age population accessibility expressed as a ratio of total MSA accessibility
-FARA,FARA_2019,LAASIAN20SHARE,Share of tract population that are Asian beyond 20 miles from supermarket
-FARA,FARA_2019,LAPOP1SHARE,Share of tract population that are beyond 1 mile from supermarket
-FARA,FARA_2019,LAPOPHALFSHARE,Share of tract population that are beyond 1/2 mile from supermarket
-SLM,SLD_2021,D5CR,Proportional Accessibility to Regional Destinations - Auto: Employment accessibility expressed as a ratio of total CBSA accessibility
-FARA,FARA_2019,LAPOP10SHARE,Share of tract population that are beyond 10 miles from supermarket
-SLM,SLD_2021,D5CE,Proportional Accessibility to Regional Destinations - Auto: Working age population accessibility expressed as a ratio of total CBSA accessibility
-FARA,FARA_2019,LAPOP20SHARE,Share of tract population that are beyond 20 miles from supermarket
-SLM,SLD_2021,E8_PUB,Public administration jobs within an 8-tier employment classification scheme (LEHD: CNS20)
-FARA,FARA_2019,LABLACK1SHARE,Share of tract population that are Black or African American beyond 1 mile from supermarket
-FARA,FARA_2019,LABLACKHALFSHARE,Share of tract population that are Black or African American beyond 1/2 mile from supermarket
-FARA,FARA_2019,LABLACK10SHARE,Share of tract population that are Black or African American beyond 10 miles from supermarket
-FARA,FARA_2019,LABLACK20SHARE,Share of tract population that are Black or African American beyond 20 miles from supermarket
-FARA,FARA_2019,LAKIDS1SHARE,Share of tract population that are kids beyond 1 mile from supermarket
-FARA,FARA_2019,LAKIDSHALFSHARE,Share of tract population that are kids beyond 1/2 mile from supermarket
-ACS,ACS_2019,CRANE_14,"[Number Fraction] of workers over 16 years who work in agriculture, forestry,fishing, hunting or mining in community where patient resides from DoC ACS data?"
-SLM,SLD_2021,D4A_RANKED,Quantile ranked order (1
-ACS,ACS_2019,CRANE_15,[Number Fraction] of workers over 16 years who work in construction in community where patient resides from DoC ACS data?
-ACS,ACS_2019,CRANE_38,[Number Fraction] of residents who report being solely some other race in community where patient resides from DoC ACS data?
-SLM,SLD_2021,D2A_RANKED,Quantile ranked order (1-20) of [D2a_EpHHm] from lowest to highest
-FARA,FARA_2019,LAKIDS10SHARE,Share of tract population that are kids beyond 10 miles from supermarket
-FARA,FARA_2019,LAKIDS20SHARE,Share of tract population that are kids beyond 20 miles from supermarket
-SLM,SLD_2021,D2B_RANKED,Quantile ranked order (1-20) of [D2b_E8MixA] from lowest to highest
-SLM,SLD_2021,D3B_RANKED,Quantile ranked order (1-20) of [D3b] from lowest to highest
-FARA,FARA_2019,LALOWI1SHARE,Share of tract population that are low income individuals beyond 1 mile from supermarket
-SLM,SLD_2021,D5CEI,Regional Centrality Index – Auto: CBG [D5ce] score relative to max CBSA [D5ce] score
-ACS,ACS_2019,CRANE_3,[Number fraction] of workers 16 years and older in community where patient resides whose income is between 100 % and 150% of poverty level from DoC ACS data?
-ACS,ACS_2019,CRANE_55,[Number fraction] of households without complete plumbing facilities in community where patient resides from DoC ACS data?
-SLM,SLD_2021,D5CRI,Regional Centrality Index – Auto: CBG [D5cr] score relative to max CBSA [D5cr] score
-ACS,ACS_2019,CRANE_11,[Number Fraction] of workers over 16 years whose means of transportation is motorcycle in community where patient resides from DoC ACS data?
-ACS,ACS_2019,CRANE_25,[Number Fraction] of workers over 16 years who work in other services excluding public administration in community where patient resides from DoC ACS data?
-FARA,FARA_2019,LALOWIHALFSHARE,Share of tract population that are low income individuals beyond 1/2 mile from supermarket
-FARA,FARA_2019,LALOWI10SHARE,Share of tract population that are low income individuals beyond 10 miles from supermarket
-ACS,ACS_2019,CRANE_39,[Number Fraction] of residents who are under 18 years of age in community where patient resides from DoC ACS data?
-FARA,FARA_2019,LALOWI20SHARE,Share of tract population that are low income individuals beyond 20 miles from supermarket
-SLM,SLD_2021,D5DEI,Regional Centrality Index – Transit: CBG [D5de] score relative to max CBSA [D5de] score
-SLM,SLD_2021,D5DRI,Regional Centrality Index – Transit: CBG [D5dr] score relative to max CBSA [D5dr] score
-FARA,FARA_2019,LANHOPI1SHARE,Share of tract population that are Native Hawaiian or Other Pacific Islander beyond 1 mile from supermarket
-FARA,FARA_2019,LANHOPIHALFSHARE,Share of tract population that are Native Hawaiian or Other Pacific Islander beyond 1/2 mile from supermarket
-SLM,SLD_2021,D2R_JOBPOP,Regional Diversity. Standard calculation based on population and total employment: Deviation of CBG ratio of jobs/pop from the regional average ratio of jobs/pop
-FARA,FARA_2019,LANHOPI10SHARE,Share of tract population that are Native Hawaiian or Other Pacific Islander beyond 10 miles from supermarket
-FARA,FARA_2019,LANHOPI20SHARE,Share of tract population that are Native Hawaiian or Other Pacific Islander beyond 20 miles from supermarket
-ACS,ACS_2019,CRANE_12,[Number Fraction] of workers over 16 years whose means of transportation is bicycle in community where patient resides from DoC ACS data?
-FARA,FARA_2019,LAHISP1SHARE,Share of tract population that are of Hispanic or Latino ethnicity beyond 1 mile from supermarket
-FARA,FARA_2019,LAHISPHALFSHARE,Share of tract population that are of Hispanic or Latino ethnicity beyond 1/2 mile from supermarket
-ACS,ACS_2019,CRANE_9,"[Number Fraction] of workers over 16 years whose means of transportation is car, truck or van in community where patient resides from DoC ACS data?"
-FARA,FARA_2019,LAHISP10SHARE,Share of tract population that are of Hispanic or Latino ethnicity beyond 10 miles from supermarket
-ACS,ACS_2019,CRANE_27,[Number Fraction] of workers over 16 years who work in armed forces in community where patient resides from DoC ACS data?
-ACS,ACS_2019,CRANE_7,Average Number [Number concentration] of persons occupying a single household in community where patient resides from DoC ACS data?
-FARA,FARA_2019,LAHISP20SHARE,Share of tract population that are of Hispanic or Latino ethnicity beyond 20 miles from supermarket
-FARA,FARA_2019,LAOMULTIR1SHARE,Share of tract population that are Other/Multiple race beyond 1 mile from supermarket
-FARA,FARA_2019,LAOMULTIRHALFSHARE,Share of tract population that are Other/Multiple race beyond 1/2 mile from supermarket
-SVI,SVI_CT_2020,RPL_THEME1,Percentile ranking for Socioeconomic Status theme summary
-SLM,SLD_2021,E5_RET,Retail jobs within a 5-tier employment classification scheme (LEHD: CNS07)
-SVI,SVI_CT_2020,RPL_THEME2,Percentile ranking for Household Characteristics theme summary
-SVI,SVI_CT_2020,RPL_THEME3,Percentile ranking for Racial and Ethnic Minority Status theme
-SVI,SVI_CT_2020,RPL_THEME4,Percentile ranking for Housing Type/ Transportation theme
-FARA,FARA_2019,LAOMULTIR10SHARE,Share of tract population that are Other/Multiple race beyond 10 miles from supermarket
-FARA,FARA_2019,LAOMULTIR20SHARE,Share of tract population that are Other/Multiple race beyond 20 miles from supermarket
-FARA,FARA_2019,LASENIORS1SHARE,Share of tract population that are seniors beyond 1 mile from supermarket
-FARA,FARA_2019,LASENIORSHALFSHARE,Share of tract population that are seniors beyond 1/2 mile from supermarket
-SLM,SLD_2021,E8_RET,Retail jobs within an 8-tier employment classification scheme (LEHD: CNS07)
-FARA,FARA_2019,LASENIORS10SHARE,Share of tract population that are seniors beyond 10 miles from supermarket
-SLM,SLD_2021,E5_SVC,Service jobs within a 5-tier employment classification scheme (LEHD: CNS12 + CNS14 + CNS15 + CNS16 + CNS19) 
-SLM,SLD_2021,E8_SVC,Service jobs within an 8-tier employment classification scheme (LEHD: CNS12 + CNS14 + CNS19) 
-FARA,FARA_2019,LASENIORS20SHARE,Share of tract population that are seniors beyond 20 miles from supermarket
-SVI,SVI_CT_2020,RPL_THEMES,Overall percentile ranking
-FARA,FARA_2019,LAWHITE1SHARE,Share of tract population that are white beyond 1 mile from supermarket
-FARA,FARA_2019,LAWHITEHALFSHARE,Share of tract population that are white beyond 1/2 mile from supermarket
-FARA,FARA_2019,LAWHITE10SHARE,Share of tract population that are white beyond 10 miles from supermarket
-FARA,FARA_2019,LAWHITE20SHARE,Share of tract population that are white beyond 20 miles from supermarket
-FARA,FARA_2019,TRACTAIAN,Total count of American Indian and Alaska Native population in tract 
-FARA,FARA_2019,TRACTASIAN,Total count of Asian population in tract 
-FARA,FARA_2019,TRACTBLACK,Total count of Black or African American population in tract 
-FARA,FARA_2019,TRACTKIDS,Total count of children age 0-17 in tract 
-SLM,SLD_2021,D3B,Street intersection density (weighted
-ACS,ACS_2019,CRANE_18,[Number Fraction] of workers over 16 years who work retail trade in community where patient resides from DoC ACS data?
-SLM,SLD_2021,TOTEMP,Total employment
-SLM,SLD_2021,CBSA_EMP,Total employment in CBSA 2017
-SLM,SLD_2021,AC_TOTAL,Total geometric area (acres) of the CBG 2019
-SLM,SLD_2021,AC_LAND,Total land area (acres)
-ACS,ACS_2019,CRANE_56,Patient resides [Ordinal] more than 1/2 mile from grocery store if urban or more than 10 miles if rural  from DoC ACS data?
-FARA,FARA_2019,TRACTHISPANIC,Total count of Hispanic or Latino population in tract 
-SLM,SLD_2021,AC_UNPR,Total land area (acres) that is not protected from development (i.e.
-SLM,SLD_2021,CBSA_WRK,Total number of workers that live in CBSA 2017
-ADI,ADI_2020,ADI_STATERANK,ADI_STATERANK
-FARA,FARA_2019,TRACTSNAP,Total count of housing units receiving SNAP benefits in tract 
-FARA,FARA_2019,TRACTHUNV,Total count of housing units without a vehicle in tract 
-FARA,FARA_2019,TRACTLOWI,Total count of low-income population in tract 
-FARA,FARA_2019,TRACTNHOPI,Total count of Native Hawaiian and Other Pacific Islander population in tract 
-SLM,SLD_2021,D3A,Total road network density
-FARA,FARA_2019,TRACTOMULTIR,Total count of Other/Multiple race population in tract 
-FARA,FARA_2019,TRACTSENIORS,Total count of seniors age 65+ in tract 
-ACS,ACS_2019,CRANE_52,[Number fraction] of households without allocation of telephone service available in community where patient resides from DoC ACS data?
-ACS,ACS_2019,CRANE_40,[Number Fraction] of residents who are 18 to 24 years of age in community where patient resides from DoC ACS data?
-SLM,SLD_2021,AC_WATER,Total water area (acres)
-ACS,ACS_2019,CRANE_22,"[Number Fraction] of workers over 16 years who work in professional scientific, management, administrative or waste management in community where patient resides from DoC ACS data?"
-SLM,SLD_2021,D2C_TRIPEQ,Trip productions and trip attractions equilibrium index; the closer to one
-FARA,FARA_2019,TRACTWHITE,Total count of White population in tract 
-SLM,SLD_2021,NATWALKIND,Walkability index comprised of a weighted sum of the ranked values of [D2a_EpHHm] (D2A_Ranked)
-FARA,FARA_2019,MEDIANFAMILYINCOME,Tract median family income
-SLM,SLD_2021,D5AE,Working age population within 45 minutes auto travel time
-FARA,FARA_2019,LAWHITE1,White population count beyond 1 mile from supermarket
-FARA,FARA_2019,LAWHITEHALF,White population count beyond 1/2 mile from supermarket
-ACS,ACS_2019,CRANE_26,[Number Fraction] of workers over 16 years who work in public administration in community where patient resides from DoC ACS data?
-FARA,FARA_2019,LAWHITE10,White population count beyond 10 miles from supermarket
-SLM,SLD_2021,D5BE,Working age population within 45-minute transit commute
-FARA,FARA_2019,LAWHITE20,White population count beyond 20 miles from supermarket
+VAR_DOMAIN,VAR_SUBDOMAIN,VAR,VAR_TYPE,VAR_LABEL
+SLM,SLD_2021,AC_LAND,N,Total land area (acres)
+SLM,SLD_2021,AC_TOTAL,N,Total geometric area (acres) of the CBG 2019
+SLM,SLD_2021,AC_UNPR,N,Total land area (acres) that is not protected from development (i.e.
+SLM,SLD_2021,AC_WATER,N,Total water area (acres)
+ADI,ADI_2020,ADI_NATRANK,N,ADI_NATRANK
+ADI,ADI_2020,ADI_STATERANK,N,ADI_STATERANK
+SLM,SLD_2021,AUTOOWN0,N,Number of households in CBG that own zero automobiles
+SLM,SLD_2021,AUTOOWN1,N,Number of households in CBG that own one automobile
+SLM,SLD_2021,AUTOOWN2P,N,Number of households in CBG that own two or more automobiles
+ACS,ACS_2019,BIRD_INDEX,N,Bird Index [Scale Score] for Community Stress in community where patient resides from DoC ACS data?
+SLM,SLD_2021,CBSA_EMP,N,Total employment in CBSA 2017
+SLM,SLD_2021,CBSA_NAME,N,Name of CBSA in which CBG resides
+SLM,SLD_2021,CBSA_WRK,N,Total number of workers that live in CBSA 2017
+SLM,SLD_2021,COUNTHU,N,Housing units
+ACS,ACS_2019,CRANE_1,N,[Number fraction] of households in community where patient resides receiving public  assistance income or FOOD STAMPS/SNAP in past 12 months from DoC ACS data?
+ACS,ACS_2019,CRANE_10,N,[Number Fraction] of workers over 16 years whose means of transportation is public transportation excluding taxicab in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_11,N,[Number Fraction] of workers over 16 years whose means of transportation is motorcycle in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_12,N,[Number Fraction] of workers over 16 years whose means of transportation is bicycle in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_13,N,[Number Fraction] of workers over 16 years whose means of transportation is walking in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_14,N,"[Number Fraction] of workers over 16 years who work in agriculture, forestry,fishing, hunting or mining in community where patient resides from DoC ACS data?"
+ACS,ACS_2019,CRANE_15,N,[Number Fraction] of workers over 16 years who work in construction in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_16,N,[Number Fraction] of workers over 16 years who work in manufacturing in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_17,N,[Number Fraction] of workers over 16 years who work in wholesale trade in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_18,N,[Number Fraction] of workers over 16 years who work retail trade in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_19,N,"[Number Fraction] of workers over 16 years who work in transportation, warehousing or utilities in community where patient resides from DoC ACS data?"
+ACS,ACS_2019,CRANE_2,N,[Number fraction] of workers 16 years and older in community where patient resides whose income is below 100 % of poverty level from DoC ACS data?
+ACS,ACS_2019,CRANE_20,N,[Number Fraction] of workers over 16 years who work in information in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_21,N,"[Number Fraction] of workers over 16 years who work in real estate, rental or leasing in community where patient resides from DoC ACS data?"
+ACS,ACS_2019,CRANE_22,N,"[Number Fraction] of workers over 16 years who work in professional scientific, management, administrative or waste management in community where patient resides from DoC ACS data?"
+ACS,ACS_2019,CRANE_23,N,"[Number Fraction] of workers over 16 years who work in educational services, health care or social assistance in community where patient resides from DoC ACS data?"
+ACS,ACS_2019,CRANE_24,N,"[Number Fraction] of workers over 16 years who work in arts, entertainment, recreation, accomodation or food servicesin community where patient resides from DoC ACS data?"
+ACS,ACS_2019,CRANE_25,N,[Number Fraction] of workers over 16 years who work in other services excluding public administration in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_26,N,[Number Fraction] of workers over 16 years who work in public administration in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_27,N,[Number Fraction] of workers over 16 years who work in armed forces in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_28,N,[Number Fraction] of workers 18 to 64 years who are employed in the labor force in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_29,N,[Number Fraction] of residents who are male in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_3,N,[Number fraction] of workers 16 years and older in community where patient resides whose income is between 100 % and 150% of poverty level from DoC ACS data?
+ACS,ACS_2019,CRANE_30,N,[Number Fraction] of residents who are female in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_31,N,[Number Fraction] of residents who report having two or more racial origins in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_32,N,[Number Fraction] of residents who report being white alone and not Hispanic or Latino in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_33,N,[Number Fraction] of residents who report being Hispanic or Latino in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_34,N,[Number Fraction] of residents who report being black or african american alone in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_35,N,[Number Fraction] of residents who report being american indian or alaska native alone in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_36,N,[Number Fraction] of residents who report being asian alone in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_37,N,[Number Fraction] of residents who report being native Hawaiian or Pacific Islander alone in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_38,N,[Number Fraction] of residents who report being solely some other race in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_39,N,[Number Fraction] of residents who are under 18 years of age in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_4,N,[Number fraction] of workers 16 years and older in community where patient resides whose income is greater than or equal to 150% of poverty level from DoC ACS data?
+ACS,ACS_2019,CRANE_40,N,[Number Fraction] of residents who are 18 to 24 years of age in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_41,N,[Number Fraction] of residents who are 25 to 64 years of age in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_42,N,[Number Fraction] of residents who are 65 to 79 years of age in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_43,N,[Number Fraction] of residents who are 80 years of age or older in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_44,N,[Number Fraction] of residents 25 years and older who completed 5th grade or less schooling in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_45,N,[Number Fraction] of residents 25 years and older who completed 5th grade but did not complete high school or GED in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_46,N,[Number Fraction] of residents 25 years and older who completed high school or GED in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_47,N,[Number Fraction] of residents 25 years and older who completed some college but did not get a degree in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_48,N,[Number Fraction] of residents 25 years and older who completed and associates or higher college degree in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_49,N,[Number fraction] of households with one or more types of computing devices in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_5,N,[Number fraction] of workers 16 years and older in community where patient resides who are in labor force from DoC ACS data?
+ACS,ACS_2019,CRANE_50,N,[Number fraction] of households with no computer in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_51,N,[Number fraction] of households with broadband internet in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_52,N,[Number fraction] of households without allocation of telephone service available in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_53,N,[Number fraction] of households with housing units built prior to 1970 in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_54,N,[Number fraction] of households without kitchen facilities in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_55,N,[Number fraction] of households without complete plumbing facilities in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_56,N,Patient resides [Ordinal] more than 1/2 mile from grocery store if urban or more than 10 miles if rural  from DoC ACS data?
+ACS,ACS_2019,CRANE_6,N,[Number fraction] of renter-occupied housing units in community where patient resides with gross rent >= 30% of household income in past 12 months from DoC ACS data?
+ACS,ACS_2019,CRANE_7,N,Average Number [Number concentration] of persons occupying a single household in community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_8,N,Travel [Time] to work of workers over 16 years who do not work at home in the community where patient resides from DoC ACS data?
+ACS,ACS_2019,CRANE_9,N,"[Number Fraction] of workers over 16 years whose means of transportation is car, truck or van in community where patient resides from DoC ACS data?"
+SLM,SLD_2021,D1_FLAG,C,Flag indicating that density metrics are based on total CBG land acreage rather than unprotected acreage
+SLM,SLD_2021,D1A,N,Gross residential density (HU/acre) on unprotected land
+SLM,SLD_2021,D1B,N,Gross population density (people/acre) on unprotected land
+SLM,SLD_2021,D1C,N,Gross employment density (jobs/acre) on unprotected land
+SLM,SLD_2021,D1C5_ENT,N,Gross entertainment (5-tier) employment density (jobs/acre) on unprotected land
+SLM,SLD_2021,D1C5_IND,N,Gross industrial (5-tier) employment density (jobs/acre) on unprotected land
+SLM,SLD_2021,D1C5_OFF,N,Gross office (5-tier) employment density (jobs/acre) on unprotected land
+SLM,SLD_2021,D1C5_RET,N,Gross retail (5-tier) employment density (jobs/acre) on unprotected land
+SLM,SLD_2021,D1C5_SVC,N,Gross service (5-tier) employment density (jobs/acre) on unprotected land
+SLM,SLD_2021,D1C8_ED,N,Gross education(8-tier) employment density (jobs/acre) on unprotected land
+SLM,SLD_2021,D1C8_ENT,N,Gross entertainment (8-tier) employment density (jobs/acre) on unprotected land
+SLM,SLD_2021,D1C8_HLTH,N,Gross health care (8-tier) employment density (jobs/acre) on unprotected land
+SLM,SLD_2021,D1C8_IND,N,Gross industrial (8-tier) employment density (jobs/acre) on unprotected land
+SLM,SLD_2021,D1C8_OFF,N,Gross office (8-tier) employment density (jobs/acre) on unprotected land
+SLM,SLD_2021,D1C8_PUB,N,Gross retail (8-tier) employment density (jobs/acre) on unprotected land
+SLM,SLD_2021,D1C8_RET,N,Gross retail (8-tier) employment density (jobs/acre) on unprotected land
+SLM,SLD_2021,D1C8_SVC,N,Gross service (8-tier) employment density (jobs/acre) on unprotected land
+SLM,SLD_2021,D1D,N,Gross activity density (employment + HUs) on unprotected land
+SLM,SLD_2021,D2A_EPHHM,N,Employment and household entropy
+SLM,SLD_2021,D2A_JPHH,N,Jobs per household
+SLM,SLD_2021,D2A_RANKED,N,Quantile ranked order (1-20) of [D2a_EpHHm] from lowest to highest
+SLM,SLD_2021,D2A_WRKEMP,N,Household Workers per Job
+SLM,SLD_2021,D2B_E5MIX,N,5-tier employment entropy (denominator set to observed employment types in the CBG)
+SLM,SLD_2021,D2B_E5MIXA,N,5-tier employment entropy (denominator set to the static 5 employment types in the CBG)
+SLM,SLD_2021,D2B_E8MIX,N,8-tier employment entropy (denominator set to observed employment types in the CBG)
+SLM,SLD_2021,D2B_E8MIXA,N,8-tier employment entropy (denominator set to the static 8 employment types in the CBG)
+SLM,SLD_2021,D2B_RANKED,N,Quantile ranked order (1-20) of [D2b_E8MixA] from lowest to highest
+SLM,SLD_2021,D2C_TRIPEQ,N,Trip productions and trip attractions equilibrium index; the closer to one
+SLM,SLD_2021,D2C_TRPMX1,N,Employment and Household entropy (based on vehicle trip production and trip attractions including all 5 employment categories)
+SLM,SLD_2021,D2C_TRPMX2,N,Employment and Household Entropy calculations
+SLM,SLD_2021,D2R_JOBPOP,N,Regional Diversity. Standard calculation based on population and total employment: Deviation of CBG ratio of jobs/pop from the regional average ratio of jobs/pop
+SLM,SLD_2021,D2R_WRKEMP,N,Household Workers per Job
+SLM,SLD_2021,D3A,N,Total road network density
+SLM,SLD_2021,D3AAO,N,Network density in terms of facility miles of auto-oriented links per square mile
+SLM,SLD_2021,D3AMM,N,Network density in terms of facility miles of multi-modal links per square mile
+SLM,SLD_2021,D3APO,N,Network density in terms of facility miles of pedestrian-oriented links per square mile
+SLM,SLD_2021,D3B,N,Street intersection density (weighted
+SLM,SLD_2021,D3B_RANKED,N,Quantile ranked order (1-20) of [D3b] from lowest to highest
+SLM,SLD_2021,D3BAO,N,Intersection density in terms of auto-oriented intersections per square mile
+SLM,SLD_2021,D3BMM3,N,Intersection density in terms of multi-modal intersections having three legs per square mile
+SLM,SLD_2021,D3BMM4,N,Intersection density in terms of multi-modal intersections having four or more legs per square mile
+SLM,SLD_2021,D3BPO3,N,Intersection density in terms of pedestrian-oriented intersections having three legs per square mile
+SLM,SLD_2021,D3BPO4,N,Intersection density in terms of pedestrian-oriented intersections having four or more legs per square mile
+SLM,SLD_2021,D4A,N,Distance from the population-weighted centroid to nearest transit stop (meters)
+SLM,SLD_2021,D4A_RANKED,N,Quantile ranked order (1
+SLM,SLD_2021,D4B025,N,Proportion of CBG employment within ¼ mile of fixed-guideway transit stop
+SLM,SLD_2021,D4B050,N,Proportion of CBG employment within ½ mile of fixed-guideway transit stop
+SLM,SLD_2021,D4C,N,Aggregate frequency of transit service within 0.25 miles of CBG boundary per hour during evening peak period
+SLM,SLD_2021,D4D,N,Aggregate frequency of transit service [D4c] per square mile
+SLM,SLD_2021,D4E,N,Aggregate frequency of transit service [D4c] per capita
+SLM,SLD_2021,D5AE,N,Working age population within 45 minutes auto travel time
+SLM,SLD_2021,D5AR,N,Jobs within 45 minutes auto travel time
+SLM,SLD_2021,D5BE,N,Working age population within 45-minute transit commute
+SLM,SLD_2021,D5BR,N,Jobs within 45-minute transit commute
+SLM,SLD_2021,D5CE,N,Proportional Accessibility to Regional Destinations - Auto: Working age population accessibility expressed as a ratio of total CBSA accessibility
+SLM,SLD_2021,D5CEI,N,Regional Centrality Index – Auto: CBG [D5ce] score relative to max CBSA [D5ce] score
+SLM,SLD_2021,D5CR,N,Proportional Accessibility to Regional Destinations - Auto: Employment accessibility expressed as a ratio of total CBSA accessibility
+SLM,SLD_2021,D5CRI,N,Regional Centrality Index – Auto: CBG [D5cr] score relative to max CBSA [D5cr] score
+SLM,SLD_2021,D5DE,N,Proportional Accessibility of Regional Destinations - Transit: Working age population accessibility expressed as a ratio of total MSA accessibility
+SLM,SLD_2021,D5DEI,N,Regional Centrality Index – Transit: CBG [D5de] score relative to max CBSA [D5de] score
+SLM,SLD_2021,D5DR,N,Proportional Accessibility of Regional Destinations - Transit: Employment accessibility expressed as a ratio of total MSA accessibility
+SLM,SLD_2021,D5DRI,N,Regional Centrality Index – Transit: CBG [D5dr] score relative to max CBSA [D5dr] score
+SLM,SLD_2021,E_HIWAGEWK,N,# of workers earning $3333/month or more (work location)
+SLM,SLD_2021,E_LOWWAGEWK,N,# of workers earning $1250/month or less (work location)
+SLM,SLD_2021,E_MEDWAGEWK,N,# of workers earning more than $1250/month but less than $3333/month (work location)
+SLM,SLD_2021,E_PCTLOWWAGE,N,% LowWageWk of total #workers in a CBG (work location)
+SLM,SLD_2021,E5_ENT,N,Entertainment jobs within a 5-tier employment classification scheme (LEHD: CNS17 + CNS18)
+SLM,SLD_2021,E5_IND,N,Industrial jobs within a 5-tier employment classification scheme (LEHD: CNS01 + CNS02 + CNS03 + CNS04 + CNS05 + CNS06 + CNS08) 
+SLM,SLD_2021,E5_OFF,N,Office jobs within a 5-tier employment classification scheme (LEHD: CNS09 + CNS10 + CNS11 + CNS13 + CNS20) 
+SLM,SLD_2021,E5_RET,N,Retail jobs within a 5-tier employment classification scheme (LEHD: CNS07)
+SLM,SLD_2021,E5_SVC,N,Service jobs within a 5-tier employment classification scheme (LEHD: CNS12 + CNS14 + CNS15 + CNS16 + CNS19) 
+SLM,SLD_2021,E8_ED,N,Education jobs within an 8-tier employment classification scheme (LEHD: CNS15)
+SLM,SLD_2021,E8_ENT,N,Entertainment jobs within an 8-tier employment classification scheme (LEHD: CNS17 + CNS18)
+SLM,SLD_2021,E8_HLTH,N,Health care jobs within an 8-tier employment classification scheme (LEHD: CNS16)
+SLM,SLD_2021,E8_IND,N,Industrial jobs within an 8-tier employment classification scheme (LEHD: CNS01 + CNS02 + CNS03 + CNS04 + CNS05 + CNS06 + CNS08) 
+SLM,SLD_2021,E8_OFF,N,Office jobs within an 8-tier employment classification scheme (LEHD: CNS09 + CNS10 + CNS11 + CNS13) 
+SLM,SLD_2021,E8_PUB,N,Public administration jobs within an 8-tier employment classification scheme (LEHD: CNS20)
+SLM,SLD_2021,E8_RET,N,Retail jobs within an 8-tier employment classification scheme (LEHD: CNS07)
+SLM,SLD_2021,E8_SVC,N,Service jobs within an 8-tier employment classification scheme (LEHD: CNS12 + CNS14 + CNS19) 
+SVI,SVI_CT_2020,EP_AFAM,N,"Adjunct variable - Percentage of Black/African American, not Hispanic or Latino persons estimate, 2016-2020 ACS"
+SVI,SVI_CT_2020,EP_AGE17,N,"Percentage of persons aged 17 and younger estimate, 2016-2020 ACS"
+SVI,SVI_CT_2020,EP_AGE65,N,"Percentage of persons aged 65 and older estimate, 2016-2020 ACS"
+SVI,SVI_CT_2020,EP_AIAN,N,"Adjunct variable - Percentage of American Indian or Alaska Native, not Hispanic or Latino persons estimate, 2016-2020 ACS"
+SVI,SVI_CT_2020,EP_ASIAN,N,"Adjunct variable - Percentage of Asian, not Hispanic or Latino persons estimate, 2016-2020 ACS"
+SVI,SVI_CT_2020,EP_CROWD,N,Percentage of occupied housing units with more people than rooms estimate
+SVI,SVI_CT_2020,EP_DISABL,N,"Percentage of civilian noninstitutionalized population with a disability estimate, 2016-2020 ACS"
+SVI,SVI_CT_2020,EP_GROUPQ,N,"Percentage of persons in group quarters estimate, 2016-2020 ACS"
+SVI,SVI_CT_2020,EP_HBURD,N,"Percentage of housing cost-burdened occupied housing units with annual income less than $75,000 (30%+ of income spent on housing costs) estimate, 2016-2020 ACS estimate, 2016-2020 ACS"
+SVI,SVI_CT_2020,EP_HISP,N,"Adjunct variable - Percentage of Hispanic or Latino persons estimate, 2016-2020 ACS"
+SVI,SVI_CT_2020,EP_LIMENG,N,"Percentage of persons (age 5+) who speak English ""less than well"" estimate, 2016-2020 ACS"
+SVI,SVI_CT_2020,EP_MINRTY,N,"Percentage minority (Hispanic or Latino (of any race); Black and African American, Not Hispanic or Latino; American Indian and Alaska Native, Not Hispanic or Latino; Asian, Not Hispanic or Latino; Native Hawaiian and Other Pacific Islander, Not Hispanic or Latino; Two or More Races, Not Hispanic or Latino; Other Races, Not Hispanic or Latino) estimate, 2016-2020 ACS"
+SVI,SVI_CT_2020,EP_MOBILE,N,Percentage of mobile homes estimate
+SVI,SVI_CT_2020,EP_MUNIT,N,Percentage of housing in structures with 10 or more units estimate
+SVI,SVI_CT_2020,EP_NHPI,N,"Adjunct variable - Percentage of Native Hawaiian or Other Pacific Islander, not Hispanic or Latino persons estimate, 2016-2020 ACS"
+SVI,SVI_CT_2020,EP_NOHSDP,N,Percentage of persons with no high school diploma (age 25+) estimate
+SVI,SVI_CT_2020,EP_NOINT,N,"Adjunct variable - Percentage of households without a computer with a broadband Internet subscription estimate, 2016-2020 ACS"
+SVI,SVI_CT_2020,EP_NOVEH,N,Percentage of households with no vehicle available estimate
+SVI,SVI_CT_2020,EP_OTHERRACE,N,"Adjunct variable - Percentage of some other race, not Hispanic or Latino persons estimate, 2016-2020 ACS"
+SVI,SVI_CT_2020,EP_POV150,N,Percentage of persons below 150% poverty estimate
+SVI,SVI_CT_2020,EP_SNGPNT,N,"Percentage of single-parent households with children under 18 estimate, 2016-2020 ACS"
+SVI,SVI_CT_2020,EP_TWOMORE,N,"Adjunct variable - Percentage of two or more races, not Hispanic or Latino persons estimate, 2016-2020 ACS"
+SVI,SVI_CT_2020,EP_UNEMP,N,Unemployment Rate estimate
+SVI,SVI_CT_2020,EP_UNINSUR,N,"Percentage uninsured in the total civilian noninstitutionalized population estimate, 2016-2020 ACS"
+SVI,SVI_CT_2020,EPL_AGE17,N,Percentile percentage of persons aged 17 and younger estimate
+SVI,SVI_CT_2020,EPL_AGE65,N,Percentile percentage of persons aged 65 and older estimate
+SVI,SVI_CT_2020,EPL_CROWD,N,Percentile percentage households with more people than rooms estimate
+SVI,SVI_CT_2020,EPL_DISABL,N,Percentile percentage of civilian noninstitutionalized population with a disability estimate
+SVI,SVI_CT_2020,EPL_GROUPQ,N,Percentile percentage of persons in group quarters estimate
+SVI,SVI_CT_2020,EPL_HBURD,N,Percentile percentage of housing cost-burdened occupied housing units estimate
+SVI,SVI_CT_2020,EPL_LIMENG,N,"Percentile percentage of persons (age 5+) who speak English ""less than well"" estimate"
+SVI,SVI_CT_2020,EPL_MINRTY,N,"Percentile percentage minority (Hispanic or Latino (of any race); Black and African American, Not Hispanic or Latino; American Indian and Alaska Native, Not Hispanic or Latino; Asian, Not Hispanic or Latino; Native Hawaiian and Other Pacific Islander, Not Hispanic or Latino; Two or More Races, Not Hispanic or Latino; Other Races, Not Hispanic or Latino) estimate"
+SVI,SVI_CT_2020,EPL_MOBILE,N,Percentile percentage mobile homes estimate
+SVI,SVI_CT_2020,EPL_MUNIT,N,Percentile percentage housing in structures with 10 or more units estimate
+SVI,SVI_CT_2020,EPL_NOHSDP,N,Percentile percentage of persons with no high school diploma (age 25+) estimate
+SVI,SVI_CT_2020,EPL_NOVEH,N,Percentile percentage households with no vehicle available estimate
+SVI,SVI_CT_2020,EPL_POV150,N,Percentile percentage of persons below 150% poverty estimate
+SVI,SVI_CT_2020,EPL_SNGPNT,N,Percentile percentage of single-parent households with children under 18 estimate
+SVI,SVI_CT_2020,EPL_UNEMP,N,Percentile percentage of civilian (age 16+) unemployed estimate
+SVI,SVI_CT_2020,EPL_UNINSUR,N,Percentile percentage of uninsured estimate
+SVI,SVI_CT_2020,F_AGE17,C,"Flag - the percentage of persons aged 17 and younger is in the 90th percentile (1 = yes, 0 = no)"
+SVI,SVI_CT_2020,F_AGE65,C,"Flag - the percentage of persons aged 65 and older is in the 90th percentile (1 = yes, 0 = no)"
+SVI,SVI_CT_2020,F_CROWD,C,"Flag - the percentage of crowded households is in the 90th percentile (1 = yes, 0 = no)"
+SVI,SVI_CT_2020,F_DISABL,C,"Flag - the percentage of persons with a disability is in the 90th percentile (1 = yes, 0 = no)"
+SVI,SVI_CT_2020,F_GROUPQ,C,"Flag - the percentage of persons in group quarters is in the 90th percentile (1 = yes, 0 = no)"
+SVI,SVI_CT_2020,F_HBURD,C,"Flag - the percentage of housing cost-burdened occupied housing units is in the 90th percentile (1 = yes, 0 = no)"
+SVI,SVI_CT_2020,F_LIMENG,C,"Flag - the percentage those with limited English is in the 90th percentile (1 = yes, 0 = no)"
+SVI,SVI_CT_2020,F_MINRTY,C,"Flag - the percentage of minority is in the 90th percentile (1 = yes, 0 = no)"
+SVI,SVI_CT_2020,F_MOBILE,C,"Flag - the percentage of mobile homes is in the 90th percentile (1 = yes, 0 = no)"
+SVI,SVI_CT_2020,F_MUNIT,C,"Flag - the percentage of households in multi-unit housing is in the 90th percentile (1 = yes, 0 = no)"
+SVI,SVI_CT_2020,F_NOHSDP,C,"Flag - the percentage of persons with no high school diploma is in the 90th percentile (1 = yes, 0 = no)"
+SVI,SVI_CT_2020,F_NOVEH,C,"Flag - the percentage of households with no vehicles is in the 90th percentile (1 = yes, 0 = no)"
+SVI,SVI_CT_2020,F_POV150,C,"Flag - the percentage of persons below 150% poverty is in the 90th percentile (1 = yes, 0 = no)"
+SVI,SVI_CT_2020,F_SNGPNT,C,"Flag - the percentage of single-parent households is in the 90th percentile (1 = yes, 0 = no)"
+SVI,SVI_CT_2020,F_THEME1,N,Sum of flags for Socioeconomic Status theme
+SVI,SVI_CT_2020,F_THEME2,N,Sum of flags for Household Characteristics theme
+SVI,SVI_CT_2020,F_THEME3,N,Sum of flags for Racial and Ethnic Minority Status theme
+SVI,SVI_CT_2020,F_THEME4,N,Sum of flags for Housing Type/ Transportation theme
+SVI,SVI_CT_2020,F_TOTAL,N,Sum of flags for the four themes
+SVI,SVI_CT_2020,F_UNEMP,C,"Flag - the percentage of civilian unemployed is in the 90th percentile (1 = yes, 0 = no)"
+SVI,SVI_CT_2020,F_UNINSUR,C,"Flag - the percentage of uninsured is in the 90th percentile (1 = yes, 0 = no)"
+FARA,FARA_2019,GROUPQUARTERSFLAG,C,Flag for tract where >=67%
+SLM,SLD_2021,HH,N,Households (occupied housing units)
+FARA,FARA_2019,HUNVFLAG,C,"Flag for tract where >= 100 of households do not have a vehicle, and beyond 1/2 mile from supermarket"
+MUA,MUA_MO,INDEX_OF_MEDICAL_UNDERSERVICE_SCORE,N,INDEX_OF_MEDICAL_UNDERSERVICE_SCORE
+FARA,FARA_2019,LA1AND10,C,Flag for low access tract at 1 mile for urban areas or 10 miles for rural areas
+FARA,FARA_2019,LA1AND20,C,Flag for low access tract at 1 mile for urban areas or 20 miles for rural areas
+FARA,FARA_2019,LAAIAN10SHARE,N,Share of tract population that are American Indian or Alaska Native beyond 10 miles from supermarket
+FARA,FARA_2019,LAAIAN1SHARE,N,Share of tract population that are American Indian or Alaska Native beyond 1 mile from supermarket
+FARA,FARA_2019,LAAIAN20SHARE,N,Share of tract population that are American Indian or Alaska Native beyond 20 miles from supermarket
+FARA,FARA_2019,LAASIAN10SHARE,N,Share of tract population that are Asian beyond 10 miles from supermarket
+FARA,FARA_2019,LAASIAN1SHARE,N,Share of tract population that are Asian beyond 1 mile from supermarket
+FARA,FARA_2019,LAASIAN20SHARE,N,Share of tract population that are Asian beyond 20 miles from supermarket
+FARA,FARA_2019,LAASIANHALFSHARE,N,Share of tract population that are Asian beyond 1/2 mile from supermarket
+FARA,FARA_2019,LABLACK10SHARE,N,Share of tract population that are Black or African American beyond 10 miles from supermarket
+FARA,FARA_2019,LABLACK1SHARE,N,Share of tract population that are Black or African American beyond 1 mile from supermarket
+FARA,FARA_2019,LABLACK20SHARE,N,Share of tract population that are Black or African American beyond 20 miles from supermarket
+FARA,FARA_2019,LABLACKHALFSHARE,N,Share of tract population that are Black or African American beyond 1/2 mile from supermarket
+FARA,FARA_2019,LAHALFAND10,C,Flag for low access tract at 1/2 mile for urban areas or 10 miles for rural areas
+FARA,FARA_2019,LAHISP10SHARE,N,Share of tract population that are of Hispanic or Latino ethnicity beyond 10 miles from supermarket
+FARA,FARA_2019,LAHISP1SHARE,N,Share of tract population that are of Hispanic or Latino ethnicity beyond 1 mile from supermarket
+FARA,FARA_2019,LAHISP20SHARE,N,Share of tract population that are of Hispanic or Latino ethnicity beyond 20 miles from supermarket
+FARA,FARA_2019,LAHISPHALFSHARE,N,Share of tract population that are of Hispanic or Latino ethnicity beyond 1/2 mile from supermarket
+FARA,FARA_2019,LAHUNV10SHARE,N,Share of tract housing units that are without vehicle and beyond 10 miles from supermarket
+FARA,FARA_2019,LAHUNV1SHARE,N,Share of tract housing units that are without vehicle and beyond 1 mile from supermarket
+FARA,FARA_2019,LAHUNV20SHARE,N,Share of tract housing units that are without vehicle and beyond 20 miles from supermarket
+FARA,FARA_2019,LAHUNVHALFSHARE,N,Share of tract housing units that are without vehicle and beyond 1/2 mile from supermarket
+FARA,FARA_2019,LAKIDS10SHARE,N,Share of tract population that are kids beyond 10 miles from supermarket
+FARA,FARA_2019,LAKIDS1SHARE,N,Share of tract population that are kids beyond 1 mile from supermarket
+FARA,FARA_2019,LAKIDS20SHARE,N,Share of tract population that are kids beyond 20 miles from supermarket
+FARA,FARA_2019,LAKIDSHALFSHARE,N,Share of tract population that are kids beyond 1/2 mile from supermarket
+FARA,FARA_2019,LALOWI10SHARE,N,Share of tract population that are low income individuals beyond 10 miles from supermarket
+FARA,FARA_2019,LALOWI1SHARE,N,Share of tract population that are low income individuals beyond 1 mile from supermarket
+FARA,FARA_2019,LALOWI20SHARE,N,Share of tract population that are low income individuals beyond 20 miles from supermarket
+FARA,FARA_2019,LALOWIHALFSHARE,N,Share of tract population that are low income individuals beyond 1/2 mile from supermarket
+FARA,FARA_2019,LANHOPI10SHARE,N,Share of tract population that are Native Hawaiian or Other Pacific Islander beyond 10 miles from supermarket
+FARA,FARA_2019,LANHOPI1SHARE,N,Share of tract population that are Native Hawaiian or Other Pacific Islander beyond 1 mile from supermarket
+FARA,FARA_2019,LANHOPI20SHARE,N,Share of tract population that are Native Hawaiian or Other Pacific Islander beyond 20 miles from supermarket
+FARA,FARA_2019,LANHOPIHALFSHARE,N,Share of tract population that are Native Hawaiian or Other Pacific Islander beyond 1/2 mile from supermarket
+FARA,FARA_2019,LAOMULTIR10SHARE,N,Share of tract population that are Other/Multiple race beyond 10 miles from supermarket
+FARA,FARA_2019,LAOMULTIR1SHARE,N,Share of tract population that are Other/Multiple race beyond 1 mile from supermarket
+FARA,FARA_2019,LAOMULTIR20SHARE,N,Share of tract population that are Other/Multiple race beyond 20 miles from supermarket
+FARA,FARA_2019,LAOMULTIRHALFSHARE,N,Share of tract population that are Other/Multiple race beyond 1/2 mile from supermarket
+FARA,FARA_2019,LAPOP10SHARE,N,Share of tract population that are beyond 10 miles from supermarket
+FARA,FARA_2019,LAPOP1SHARE,N,Share of tract population that are beyond 1 mile from supermarket
+FARA,FARA_2019,LAPOP20SHARE,N,Share of tract population that are beyond 20 miles from supermarket
+FARA,FARA_2019,LAPOPHALFSHARE,N,Share of tract population that are beyond 1/2 mile from supermarket
+FARA,FARA_2019,LASENIORS10SHARE,N,Share of tract population that are seniors beyond 10 miles from supermarket
+FARA,FARA_2019,LASENIORS1SHARE,N,Share of tract population that are seniors beyond 1 mile from supermarket
+FARA,FARA_2019,LASENIORS20SHARE,N,Share of tract population that are seniors beyond 20 miles from supermarket
+FARA,FARA_2019,LASENIORSHALFSHARE,N,Share of tract population that are seniors beyond 1/2 mile from supermarket
+FARA,FARA_2019,LASNAP10SHARE,N,Share of tract housing units receiving SNAP benefits count beyond 10 miles from supermarket
+FARA,FARA_2019,LASNAP1SHARE,N,Share of tract housing units receiving SNAP benefits count beyond 1 mile from supermarket
+FARA,FARA_2019,LASNAP20SHARE,N,Share of tract housing units receiving SNAP benefits count beyond 20 miles from supermarket
+FARA,FARA_2019,LASNAPHALFSHARE,N,Share of tract housing units receiving SNAP benefits count beyond 1/2 mile from supermarket
+FARA,FARA_2019,LATRACTS_HALF,C,Flag for low access tract when considering 1/2 mile distance
+FARA,FARA_2019,LATRACTS1,C,Flag for low access tract when considering 1 mile distance
+FARA,FARA_2019,LATRACTS10,C,Flag for low access tract when considering 10 mile distance
+FARA,FARA_2019,LATRACTS20,C,Flag for low access tract when considering 20 mile distance
+FARA,FARA_2019,LATRACTSVEHICLE_20,C,"Flag for tract where >= 100 of households do not have a vehicle, and beyond 1/2 mile from supermarket; or >= 500 individuals are beyond 20 miles from supermarket ; or >= 33% of individuals are beyond 20 miles from supermarket"
+FARA,FARA_2019,LAWHITE10SHARE,N,Share of tract population that are white beyond 10 miles from supermarket
+FARA,FARA_2019,LAWHITE1SHARE,N,Share of tract population that are white beyond 1 mile from supermarket
+FARA,FARA_2019,LAWHITE20SHARE,N,Share of tract population that are white beyond 20 miles from supermarket
+FARA,FARA_2019,LAWHITEHALFSHARE,N,Share of tract population that are white beyond 1/2 mile from supermarket
+FARA,FARA_2019,LILATRACTS_1AND10,C,Flag for low-income and low access when considering low accessibilty at 1 and 10 miles
+FARA,FARA_2019,LILATRACTS_1AND20,C,Flag for low-income and low access when considering low accessibilty at 1 and 20 miles
+FARA,FARA_2019,LILATRACTS_HALFAND10,C,Flag for low-income and low access when considering low accessibilty at 1/2 and 10 miles
+FARA,FARA_2019,LILATRACTS_VEHICLE,C,Flag for low-income and low access when considering vehicle access or at 20 miles
+FARA,FARA_2019,LOWINCOMETRACTS,C,Flag for low income tract
+FARA,FARA_2019,MEDIANFAMILYINCOME,N,Tract median family income
+SLM,SLD_2021,NATWALKIND,N,Walkability index comprised of a weighted sum of the ranked values of [D2a_EpHHm] (D2A_Ranked)
+FARA,FARA_2019,OHU2010,N,Occupied housing unit count from 2010 census
+SLM,SLD_2021,P_WRKAGE,N,Percent of population that is working aged 18 to 64 years
+SLM,SLD_2021,PCT_AO0,N,Percent of zero-car households in CBG
+SLM,SLD_2021,PCT_AO1,N,Percent of one-car households in CBG
+SLM,SLD_2021,PCT_AO2P,N,Percent of two-plus-car households in CBG
+FARA,FARA_2019,POVERTYRATE,N,Share of the tract population living with income at or below the Federal poverty thresholds for family size
+SLM,SLD_2021,R_PCTLOWWAGE,N,Percent of low wage workers in a CBG (home location)
+SVI,SVI_CT_2020,RPL_THEME1,N,Percentile ranking for Socioeconomic Status theme summary
+SVI,SVI_CT_2020,RPL_THEME2,N,Percentile ranking for Household Characteristics theme summary
+SVI,SVI_CT_2020,RPL_THEME3,N,Percentile ranking for Racial and Ethnic Minority Status theme
+SVI,SVI_CT_2020,RPL_THEME4,N,Percentile ranking for Housing Type/ Transportation theme
+SVI,SVI_CT_2020,RPL_THEMES,N,Overall percentile ranking
+RUCA,RUCA_2010,RUCA_PRIMARY,C,RUCA_PRIMARY
+RUCA,RUCA_2010,RUCA_SECONDARY,C,RUCA_SECONDARY
+FARA,FARA_2019,URBAN,C,Flag for urban tract
+SLM,SLD_2021,WORKERS,N,Count of workers in CBG (home location)

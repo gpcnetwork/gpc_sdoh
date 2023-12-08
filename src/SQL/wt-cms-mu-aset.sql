@@ -37,7 +37,7 @@ with cte_cci as (
 select  distinct 
         dense_rank() over (order by a.patid, a.encounterid) as rowid,
         a.patid, b.patid_acxiom, a.encounterid,
-        a.readmit30d_ind,
+        a.readmit30d_death_ind,
         a.ip_cnt_cum,
         a.los,
         a.discharge_status,
@@ -83,10 +83,10 @@ order by pat_cnt desc;
 select * from WT_CMS_MU_ENC_BASE limit 5;
 create or replace table WT_CMS_MU_ENC_BASE_LONG as 
 with cte_cat as (
-    select rowid, patid, encounterid, readmit30d_ind,
+    select rowid, patid, encounterid, readmit30d_death_ind,
            var || '_' || val as var, 1 as val 
     from (
-        select  rowid,patid,encounterid,readmit30d_ind,
+        select  rowid,patid,encounterid,readmit30d_death_ind,
                 discharge_status,
                 sex,
                 race,
@@ -108,7 +108,7 @@ with cte_cat as (
 ), cte_num as (
     select *
     from (
-    select  rowid,patid,encounterid,readmit30d_ind,
+    select  rowid,patid,encounterid,readmit30d_death_ind,
             cast(ip_cnt_cum as number(18,0)) as ip_cnt_cum,
             cast(los as number(18,0)) as los,
             cast(age_at_enc as number(18,0)) as age_at_enc,
@@ -127,13 +127,10 @@ with cte_cat as (
     ) 
     where val is not null   
 )
-select rowid, patid, encounterid, readmit30d_ind, var, val from cte_cat 
+select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_cat 
 union 
-select rowid, patid, encounterid, readmit30d_ind, var, val from cte_num
+select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_num
 ;
-
-select * from WT_CMS_MU_ENC_BASE_LONG
-where var like 'AUTOOWN%';
 
 select * from WT_CMS_MU_ENC_BASE_LONG 
 -- where val = 0
@@ -142,15 +139,15 @@ limit 5;
 create or replace table WT_CMS_MU_ENC_BASE_SDOH_S_LONG as 
 with cte_sdoh_rep as (
     select distinct 
-           a.rowid, a.patid, a.encounterid, a.readmit30d_ind, 
+           a.rowid, a.patid, a.encounterid, a.readmit30d_death_ind, 
            b.sdoh_var as var, b.sdoh_val as val 
     from WT_CMS_MU_ENC_BASE a 
     join WT_MU_CMS_ELIG_SDOH_S b 
     on a.patid_acxiom = b.patid
 )
-select rowid, patid, encounterid, readmit30d_ind, var, val from WT_CMS_MU_ENC_BASE_LONG 
+select rowid, patid, encounterid, readmit30d_death_ind, var, val from WT_CMS_MU_ENC_BASE_LONG 
 union 
-select rowid, patid, encounterid, readmit30d_ind, var, val from cte_sdoh_rep
+select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_rep
 ;
 
 select count(distinct patid), count(*) from WT_CMS_MU_ENC_BASE_SDOH_S_LONG;
@@ -165,15 +162,15 @@ limit 5;
 create or replace table WT_CMS_MU_ENC_BASE_SDOH_I_LONG as 
 with cte_sdoh_rep as (
     select distinct 
-           a.rowid, a.patid, a.encounterid, a.readmit30d_ind, 
+           a.rowid, a.patid, a.encounterid, a.readmit30d_death_ind, 
            b.sdoh_var as var, b.sdoh_val as val 
     from WT_CMS_MU_ENC_BASE a 
     join WT_MU_CMS_ELIG_SDOH_I b 
     on a.patid = b.patid
 )
-select rowid, patid, encounterid, readmit30d_ind, var, val from WT_CMS_MU_ENC_BASE_LONG 
+select rowid, patid, encounterid, readmit30d_death_ind, var, val from WT_CMS_MU_ENC_BASE_LONG 
 union 
-select rowid, patid, encounterid, readmit30d_ind, var, val from cte_sdoh_rep
+select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_rep
 ;
 select count(distinct patid),count(*) from WT_CMS_MU_ENC_BASE_SDOH_I_LONG;
 -- 74,121
@@ -182,28 +179,32 @@ where VAR like 'H_ASSESSED_VALUE%'
 limit 5
 ;
 
+select * from WT_MU_CMS_ELIG_SDOH_I 
+where SDOH_VAR like 'H_ASSESSED_VALUE%'
+;
+
 
 create or replace table WT_CMS_MU_ENC_BASE_SDOH_SI_LONG as 
 with cte_sdoh_i as (
     select distinct 
-           a.rowid, a.patid, a.encounterid, a.readmit30d_ind, 
+           a.rowid, a.patid, a.encounterid, a.readmit30d_death_ind, 
            b.sdoh_var as var, b.sdoh_val as val 
     from WT_CMS_MU_ENC_BASE a 
     join WT_MU_CMS_ELIG_SDOH_I b 
     on a.patid = b.patid
 ), cte_sdoh_s as (
     select distinct 
-           a.rowid, a.patid, a.encounterid, a.readmit30d_ind, 
+           a.rowid, a.patid, a.encounterid, a.readmit30d_death_ind, 
            b.sdoh_var as var, b.sdoh_val as val 
     from WT_CMS_MU_ENC_BASE a 
     join WT_MU_CMS_ELIG_SDOH_S b 
     on a.patid_acxiom = b.patid
 )
-select rowid, patid, encounterid, readmit30d_ind, var, val from WT_CMS_MU_ENC_BASE_LONG 
+select rowid, patid, encounterid, readmit30d_death_ind, var, val from WT_CMS_MU_ENC_BASE_LONG 
 union 
-select rowid, patid, encounterid, readmit30d_ind, var, val from cte_sdoh_i 
+select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_i 
 union
-select rowid, patid, encounterid, readmit30d_ind, var, val from cte_sdoh_s 
+select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_s 
 ;
 
 
