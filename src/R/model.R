@@ -20,6 +20,11 @@ source_url("https://raw.githubusercontent.com/sxinger/utils/master/model_util.R"
 # useful path to dir
 dir_data<-file.path(getwd(),"data")
 
+# manual exclusion
+exlcd<-c(
+  "P_PROMINENCE"
+)
+
 # training planner
 tr_plan<-data.frame(
   model = as.character(),
@@ -44,8 +49,7 @@ tr_plan<-data.frame(
   ))
 
 for(i in 1:nrow(tr_plan)){
-  i<-4 # uncomment for unit test
-  
+  # i<-4 # uncomment for unit test
   # training
   tr<-readRDS(tr_plan$path_to_data[i]) %>% 
     semi_join(readRDS("./data/part_idx_noleak.rda") %>% 
@@ -55,12 +59,13 @@ for(i in 1:nrow(tr_plan)){
     inner_join(
       readRDS("./data/var_encoder.rda") %>% select(VAR,VAR3),
       by="VAR",relationship = "many-to-many") %>% 
+    filter(!VAR %in% exlcd) %>%
     select(-VAR)
   try<-tr %>% arrange(ROWID) %>%
-    select(ROWID,READMIT30D_IND) %>% 
+    select(ROWID,READMIT30D_DEATH_IND) %>% 
     unique 
   trX<-tr %>% arrange(ROWID) %>% 
-    select(-READMIT30D_IND) %>%
+    select(-READMIT30D_DEATH_IND) %>%
     long_to_sparse_matrix(
       .,
       id = "ROWID",
@@ -77,12 +82,13 @@ for(i in 1:nrow(tr_plan)){
     inner_join(
       readRDS("./data/var_encoder.rda") %>% select(VAR,VAR3),
       by="VAR",relationship = "many-to-many") %>% 
+    filter(!VAR %in% exlcd) %>%
     select(-VAR)
   tsy<-ts %>% arrange(ROWID) %>%
-    select(ROWID,READMIT30D_IND) %>% 
+    select(ROWID,READMIT30D_DEATH_IND) %>% 
     unique 
   tsX<-ts %>% arrange(ROWID) %>% 
-    select(-READMIT30D_IND) %>%
+    select(-READMIT30D_DEATH_IND) %>%
     long_to_sparse_matrix(
       .,
       id = "ROWID",
@@ -109,9 +115,9 @@ for(i in 1:nrow(tr_plan)){
   tsX<-tsX[,shared]
   
   # convert to DMatrix
-  dtrain<-xgb.DMatrix(data = trX,label = try$READMIT30D_IND)
+  dtrain<-xgb.DMatrix(data = trX,label = try$READMIT30D_DEATH_IND)
   attr(dtrain,'id')<-try$ROWID
-  dtest<-xgb.DMatrix(data = tsX,label = tsy$READMIT30D_IND)
+  dtest<-xgb.DMatrix(data = tsX,label = tsy$READMIT30D_DEATH_IND)
   attr(dtest,'id')<-tsy$ROWID
   #-------------------------------------------
   print(paste0(tr_plan$model[i],":training data prepared."))
@@ -140,23 +146,22 @@ for(i in 1:nrow(tr_plan)){
   print(paste0(tr_plan$model[i],":model training completed."))
   
   # shap explainer
-  # explainer<-explain_model(
-  #   X = trX,
-  #   y = try$READMIT30D_IND,
-  #   xgb_rslt = xgb_rslt,
-  #   top_k = 50,
-  #   boots = 10,
-  #   nns = 30,
-  #   verb = FALSE
-  # )
+  explainer<-explain_model(
+    X = trX,
+    y = try$READMIT30D_DEATH_IND,
+    xgb_rslt = xgb_rslt,
+    top_k = 50,
+    boots = 10,
+    nns = 30,
+    verb = FALSE
+  )
   #-------------------------------------------
   print(paste0(tr_plan$model[i],":model explainer developed."))
   
   # result set
   rslt_set<-list(
     fit_model = xgb_rslt,
-    explain_model = list()
-    # explain_model = explainer
+    explain_model = explainer
   )
   saveRDS(
     rslt_set,

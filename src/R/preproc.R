@@ -39,6 +39,7 @@ if(!file.exists(file.path(dir_data,"part_idx_noleak.rda"))){
   saveRDS(tr_ts,file=file.path(dir_data,"part_idx_noleak.rda"))
   rm(tr_ts);gc()
 }
+
 # leakage-prone partition (different encounters of the same could end up in different fold and training-testing parts)
 if(!file.exists(file.path(dir_data,"part_idx_leakprone.rda"))){
   tr_ts<-base_df %>% select(ROWID) %>% unique %>%
@@ -57,15 +58,8 @@ if(!file.exists(file.path(dir_data,"part_idx_leakprone.rda"))){
 rm(base_df); gc()
 
 #== encode variable
-var_encoder<-data.frame(
-  VAR = c(
-    unique(readRDS("./data/mu_readmit_sdoh_s_long.rds")) %>%
-      select(VAR) %>% unique %>% pull(),
-    unique(readRDS("./data/mu_readmit_sdoh_i_long.rds")) %>%
-      select(VAR) %>% unique %>% pull()
-  ),
-  stringsAsFactors = F
-) %>%
+var_encoder<-readRDS("./data/mu_readmit_sdoh_si_long.rds") %>%
+  select(VAR) %>% unique %>%
   mutate(VAR2 = gsub("^(DRG_REGRP_DRG_)+","",VAR)) %>% unique %>%
   left_join(readRDS("./data/sdoh_dd.rds"),by=c("VAR2"="VAR")) %>%
   mutate(VAR_LBL = coalesce(VAR_LABEL,VAR)) %>%
