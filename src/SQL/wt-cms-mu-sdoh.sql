@@ -4,7 +4,7 @@
 # File: wt-cms-mu-sdoh.sql                                            
 */
 -- check availability of dependency tables
-select * from WT_MU_CMS_READMIT limit 5;
+select * from WT_MU_CMS_READMIT_ELIG limit 5;
 select * from WT_MU_CMS_ELIG_GEOID limit 5;
 select * from SDOH_DB.ACXIOM.DEID_ACXIOM_DATA limit 5;
 select * from SDOH_DB.ADI.ADI_2020 limit 5;
@@ -210,7 +210,7 @@ call get_sdoh_s(
 );
 select count(distinct patid), count(*) from WT_MU_CMS_ELIG_SDOH_S
 ;
--- 74,064
+-- 60,441
 
 select sdoh_var, count(distinct patid) as pat_cnt
 from WT_MU_CMS_ELIG_SDOH_S 
@@ -332,7 +332,7 @@ create or replace table WT_MU_CMS_ELIG_SDOH_I (
 
 /*test*/
 -- call get_sdoh_I(
---     'WT_MU_CMS_ELIG_TBL1',
+--     'WT_MU_CMS_ELIG_TBL2',
 --     'PATID_ACXIOM',
 --     array_construct(
 --         'DEID_ACXIOM_DATA'
@@ -342,14 +342,13 @@ create or replace table WT_MU_CMS_ELIG_SDOH_I (
 -- select * from TMP_SP_OUTPUT;
 
 call get_sdoh_I(
-       'WT_MU_CMS_ELIG_TBL1',
+       'WT_MU_CMS_ELIG_TBL2',
        'PATID_ACXIOM',
        array_construct(
             'DEID_ACXIOM_DATA'
        ),
        FALSE, NULL
 );
-
 
 -- add medicaid and LIS eligibility indicator from CMS data
 insert into WT_MU_CMS_ELIG_SDOH_I 
@@ -358,7 +357,7 @@ select distinct
         'DUAL_ELIG' as SDOH_VAR,
         1 as SDOH_VAL,
         'CMS' as SDOH_SRC
-from WT_MU_CMS_ELIG_TBL1 a  
+from WT_MU_CMS_ELIG_TBL2 a  
 where exists (
     select 1 from GROUSE_DB.CMS_PCORNET_CDM.LDS_ENROLLMENT b 
     where a.patid = b.patid and b.raw_basis = 'DUAL'
@@ -371,7 +370,7 @@ select distinct
         'LIS_ELIG' as SDOH_VAR,
         1 as SDOH_VAL,
         'CMS' as SDOH_SRC
-from WT_MU_CMS_ELIG_TBL1 a  
+from WT_MU_CMS_ELIG_TBL2 a  
 where exists (
     select 1 from GROUSE_DB.CMS_PCORNET_CDM.LDS_ENROLLMENT b 
     where a.patid = b.patid and b.raw_basis = 'LIS'
@@ -384,7 +383,7 @@ select distinct
         'DUAL_LIS_ELIG' as SDOH_VAR,
         1 as SDOH_VAL,
         'CMS' as SDOH_SRC
-from WT_MU_CMS_ELIG_TBL1 a  
+from WT_MU_CMS_ELIG_TBL2 a  
 where exists (
     select 1 from GROUSE_DB.CMS_PCORNET_CDM.LDS_ENROLLMENT b 
     where a.patid = b.patid and 
@@ -392,16 +391,10 @@ where exists (
 )
 ;
 
-
 select count(distinct patid),count(*) from WT_MU_CMS_ELIG_SDOH_I;
--- 74117
+-- 60,479
 
-select * from WT_MU_CMS_ELIG_SDOH_I
-where sdoh_var like 'H_ASSESSED_VALUE%'
-limit 5
-;
-
-select distinct sdoh_var
-from WT_MU_CMS_ELIG_SDOH_I
-where sdoh_val = 1
-;
+select sdoh_var, count(distinct patid) as pat_cnt
+from WT_MU_CMS_ELIG_SDOH_I 
+group by sdoh_var
+order by pat_cnt desc;

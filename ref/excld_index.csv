@@ -1,0 +1,47 @@
+EXCLD_TYPE,CCS,DESCRIPTION
+psychiatric,657,Mood disorders
+psychiatric,659,Schizophrenia and other psychotic disorders
+psychiatric,651,Anxiety disorders
+psychiatric,670,Miscellaneous disorders
+psychiatric,654,Developmental disorders
+psychiatric,650,Adjustment disorders
+psychiatric,658,Personality disorders
+psychiatric,652,"Attention-deficit, conduct, and disruptive behavior disorders"
+psychiatric,656,"Impulse control disorders, NEC"
+psychiatric,655,"Disorders usually diagnosed in infancy, childhood, or adolescence"
+psychiatric,662,Suicide and intentional self-inflicted injury
+cancer,11,Cancer of head and neck
+cancer,12,Cancer of esophagus
+cancer,13,Cancer of stomach
+cancer,14,Cancer of colon
+cancer,15,Cancer of rectum and anus
+cancer,16,Cancer of liver and intrahepatic bile duct
+cancer,17,Cancer of pancreas
+cancer,18,Cancer of other GI organs; peritoneum
+cancer,19,Cancer of bronchus; lung
+cancer,20,Cancer; other respiratory and intrathoracic
+cancer,21,Cancer of bone and connective tissue
+cancer,22,Melanomas of skin
+cancer,23,Other non-epithelial cancer of skin
+cancer,24,Cancer of breast
+cancer,25,Cancer of uterus
+cancer,26,Cancer of cervix
+cancer,27,Cancer of ovary
+cancer,28,Cancer of other female genital organs
+cancer,29,Cancer of prostate
+cancer,30,Cancer of testis
+cancer,31,Cancer of other male genital organs
+cancer,32,Cancer of bladder
+cancer,33,Cancer of kidney and renal pelvis
+cancer,34,Cancer of other urinary organs
+cancer,35,Cancer of brain and nervous system
+cancer,36,Cancer of thyroid
+cancer,37,Hodgkin`s disease
+cancer,38,Non-Hodgkin`s lymphoma
+cancer,39,Leukemias
+cancer,40,Multiple myeloma
+cancer,41,Cancer; other and unspecified primary
+cancer,42,Secondary malignancies
+cancer,43,Malignant neoplasm without specification of site
+cancer,44,Neoplasms of unspecified nature or uncertain behavior
+cancer,45,Maintenance chemotherapy; radiotherapy

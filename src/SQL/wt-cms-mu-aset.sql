@@ -3,12 +3,11 @@
 # Author: Xing Song, xsm7f@umsystem.edu                            
 # File: wt-cms-mu-aset.sql                                            
 */
-select * from WT_MU_CMS_READMIT limit 5;
+select * from WT_MU_CMS_READMIT_ELIG limit 5;
 select * from WT_MU_CMS_CCI limit 5;
-select * from WT_MU_CMS_TBL1 limit 5;
-select count(*)*0.01 from WT_MU_CMS_READMIT;
--- 2600
-
+select * from WT_MU_CMS_ELIG_TBL2 limit 5;
+select count(*)*0.01 from WT_MU_CMS_READMIT_ELIG;
+-- 2200
 
 create or replace table WT_CMS_MU_ENC_BASE as 
 with cte_cci as (
@@ -17,22 +16,32 @@ with cte_cci as (
            datediff('day',a.cci_date,b.discharge_date) as days_to_discharge,
            row_number() over (partition by a.patid, b.encounterid, a.code_grp order by a.cci_date) as rn
     from WT_MU_CMS_CCI a
-    join WT_MU_CMS_READMIT b 
+    join WT_MU_CMS_READMIT_ELIG b 
     on a.patid = b.patid
     where a.cci_date <= b.discharge_date
 ), cte_tot as (
     select patid, encounterid, 
-           cci_date, code_grp, days_to_discharge,
-           sum(cci_score) over (partition by patid, encounterid) as cci_tot
+           min(days_to_discharge) as days_to_discharge,
+           sum(cci_score) as cci_tot
     from cte_cci
     where rn = 1
+    group by patid, encounterid
 ), cte_lowfreq as (
     select drg, count(*) as freq,
            case when count(*)>= 2600 then 'DRG_'||drg
                 else 'DRG_OT'
            end as drg_regrp
-    from WT_MU_CMS_READMIT
+    from WT_MU_CMS_READMIT_ELIG
     group by drg
+), cte_obes as (
+    select patid, min(obes_date) as obes_date
+    from (
+        select patid, bmi_obes1_date as obes_date from WT_MU_CMS_TBL1
+        union 
+        select patid, dx_date as obes_date from WT_MU_CMS_DX
+        where dx like '278%' or dx like 'E66%' or dx like 'Z68.3%' or dx like 'Z68.4%'
+    )
+    group by patid
 )
 select  distinct 
         dense_rank() over (order by a.patid, a.encounterid) as rowid,
@@ -56,8 +65,8 @@ select  distinct
         case when coalesce(d.hispanic,b.hispanic) in ('Y','N') then coalesce(d.hispanic,b.hispanic)
             else 'NI'
         end as hispanic,
-        case when b.bmi_obes1_date <= a.admit_date then 1 else NULL end as obes,
-        c.CCI_TOT as CCI,
+        case when o.obes_date <= a.admit_date then 1 else NULL end as obes,
+        NVL(c.CCI_TOT,0) as CCI,
         case when c.CCI_TOT between 1 and 2 then 'CCI1' 
             when c.CCI_TOT between 3 and 4 then 'CCI2'
             when c.CCI_TOT >= 5 then 'CCI3'
@@ -65,20 +74,26 @@ select  distinct
         end as CCI_CLASS,
         -- a.drg,
         coalesce(e.drg_regrp, 'DRG_NI') as drg_regrp
-from WT_MU_CMS_READMIT a 
-join WT_MU_CMS_TBL1 b on a.patid = b.patid
+from WT_MU_CMS_READMIT_ELIG a 
+join WT_MU_CMS_ELIG_TBL2 b on a.patid = b.patid
 left join GROUSE_DB.CMS_PCORNET_CDM.LDS_DEMOGRAPHIC d on a.patid = d.patid
-left join cte_tot c on a.patid = c.patid
+left join cte_obes o on a.patid = o.patid
+left join cte_tot c on a.patid = c.patid and a.encounterid = c.encounterid
 left join cte_lowfreq e on a.drg = e.drg
 ;
 
-select count(distinct patid) from WT_CMS_MU_ENC_BASE
-;-- 74,121
+select count(distinct patid), count(distinct encounterid), count(*) from WT_CMS_MU_ENC_BASE
+;-- 60483	149158	149158
 
 select drg_regrp, count(distinct patid) as pat_cnt
 from WT_CMS_MU_ENC_BASE
 group by drg_regrp 
 order by pat_cnt desc;
+
+select CCI, count(distinct patid) as pat_cnt
+from WT_CMS_MU_ENC_BASE
+group by CCI 
+order by CCI;
 
 select * from WT_CMS_MU_ENC_BASE limit 5;
 create or replace table WT_CMS_MU_ENC_BASE_LONG as 
@@ -150,8 +165,8 @@ union
 select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_rep
 ;
 
-select count(distinct patid), count(*) from WT_CMS_MU_ENC_BASE_SDOH_S_LONG;
--- 74,121
+select count(distinct patid), count(distinct encounterid) from WT_CMS_MU_ENC_BASE_SDOH_S_LONG;
+-- 60483	149158
 select * from WT_CMS_MU_ENC_BASE_SDOH_S_LONG
 where var like 'RUCA%'
 limit 5;
@@ -172,17 +187,8 @@ select rowid, patid, encounterid, readmit30d_death_ind, var, val from WT_CMS_MU_
 union 
 select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_rep
 ;
-select count(distinct patid),count(*) from WT_CMS_MU_ENC_BASE_SDOH_I_LONG;
--- 74,121
-select * from WT_CMS_MU_ENC_BASE_SDOH_I_LONG
-where VAR like 'H_ASSESSED_VALUE%'
-limit 5
-;
-
-select * from WT_MU_CMS_ELIG_SDOH_I 
-where SDOH_VAR like 'H_ASSESSED_VALUE%'
-;
-
+select count(distinct patid),count(distinct encounterid) from WT_CMS_MU_ENC_BASE_SDOH_I_LONG;
+-- 60483	149158
 
 create or replace table WT_CMS_MU_ENC_BASE_SDOH_SI_LONG as 
 with cte_sdoh_i as (
@@ -206,7 +212,8 @@ select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_i
 union
 select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_s 
 ;
-
+select count(distinct patid),count(distinct encounterid) from WT_CMS_MU_ENC_BASE_SDOH_SI_LONG;
+-- 60483	149158
 
 create or replace table WT_CMS_MU_ENC_DD(
     VAR varchar(50), 
@@ -225,16 +232,13 @@ from Z_REF_DRG
 ;
 -- sdoh-s
 insert into WT_CMS_MU_ENC_DD
-select distinct upper(code),description,'ACS'
-from SDOH_DB.ACS.Z_REF
+select VAR, VAR_LABEL, VAR_DOMAIN
+from S_SDH_SEL
 ;
+-- sdoh-i
 insert into WT_CMS_MU_ENC_DD
-select distinct upper(field),description,'FARA'
-from SDOH_DB.FARA.Z_REF_2019
-;
-insert into WT_CMS_MU_ENC_DD
-select upper(field_name),description,'SLM'
-from SDOH_DB.SLM.Z_REF_2021
+select distinct VAR, VAR_LABEL, 'ACXIOM-' || VAR_DOMAIN
+from I_SDH_SEL
 ;
 
 select var_domain, count(distinct var)
