@@ -24,71 +24,55 @@ tr_plan<-data.frame(
 ) %>%
   bind_rows(data.frame(
     model = 'base',
-    path_to_data = "./data/model_base.rda"
-  )) %>%
-  bind_rows(data.frame(
-    model = 'sdoh_s',
-    path_to_data = "./data/model_sdoh_s.rda"
+    path_to_data = "./data/xgb_base.rda"
   )) %>%
   bind_rows(data.frame(
     model = 'sdoh_i',
-    path_to_data = "./data/model_sdoh_i.rda"
+    path_to_data = "./data/xgb_sdoh_i.rda"
+  )) %>%
+  bind_rows(data.frame(
+    model = 'sdoh_s',
+    path_to_data = "./data/xgb_sdoh_s.rda"
   )) %>%
   bind_rows(data.frame(
     model = 'sdoh_si',
-    path_to_data = "./data/model_sdoh_si.rda"
+    path_to_data = "./data/xgb_sdoh_si.rda"
   ))
 
 # load var encoder
 var_encoder<-readRDS("./data/var_encoder.rda")
 
 # integrate results
-path_to_file<-file.path(dir_data,"model_results.rda")
+#==== all ====
+path_to_file<-file.path(dir_data,"xgb_results_all.rda")
 if(!file.exists(path_to_file)){
   pred<-c()
   perf_summ<-c()
   perf_at<-c()
   calibr<-c()
+  calibt<-c()
   varimp<-c()
-  shap<-c()
   roc<-list()
   for (i in 1:nrow(tr_plan)){
     # i<-1 # for testing only
     # retrieve results
     rslt<-readRDS(tr_plan$path_to_data[i])
-    
-    # # train performance
-    # pred_tr<-rslt$fit_model$pred_tr
-    # #-- summary
-    # perf<-get_perf_summ(
-    #   pred = pred_tr$pred,
-    #   real = pred_tr$actual,
-    #   keep_all_cutoffs = T
-    # )
-    # perf_summ %<>%
-    #   bind_rows(
-    #     perf$perf_summ %>%
-    #       mutate(type='tr',model=tr_plan$model[i])
-    #   )
-    #-- roc
-    # roc[[paste0(tr_plan$model[i],"_tr")]]<-pROC::roc(
-    #   response = pred_tr$actual, 
-    #   predictor = pred_tr$pred
-    # )
-    #-- calibration
-    # calib<-get_calibr(
-    #   pred = pred_tr$pred,
-    #   real = pred_tr$actual,
-    #   n_bin=20
-    # )
-    # calibr %<>%
-    #   bind_rows(
-    #     calib %>%
-    #       mutate(type='tr',model=tr_plan$model[i])
-    #   )
-    
+
+    # feature importance
+    varimp %<>%
+      bind_rows(
+        rslt$feat_imp %>%
+          arrange(-Gain) %>%
+          mutate(
+            rank=rank(-Gain),  
+            model=tr_plan$model[i],
+            Gain_rescale=round(Gain/Gain[1]*100)
+          )
+      )
+
     # test performance
-    pred_ts<-rslt$fit_model$pred_ts
+    pred_ts<-rslt$pred_ts
+  
     #-- summary
     perf<-get_perf_summ(
       pred = pred_ts$pred,
@@ -121,7 +105,7 @@ if(!file.exists(path_to_file)){
       pred = pred_ts$pred,
       real = pred_ts$actual,
       n_bin = 20,
-      test = FALSE
+      test = TRUE
     )
     calibr %<>%
       bind_rows(
@@ -131,7 +115,14 @@ if(!file.exists(path_to_file)){
             model=tr_plan$model[i]
           )
       )
-    
+    calibt %<>%
+      bind_rows(
+        calib$test %>%
+          mutate(
+            type='ts',
+            model=tr_plan$model[i]
+          )
+      )
     # predictions
     pred %<>%
       # bind_rows(
@@ -145,25 +136,6 @@ if(!file.exists(path_to_file)){
             model=tr_plan$model[i]
           )
       )
-    
-    # feature importance
-    varimp %<>%
-      bind_rows(
-        rslt$fit_model$feat_imp %>%
-          arrange(-Gain) %>%
-          mutate(
-            rank=rank(-Gain),  
-            model=tr_plan$model[i],
-            Gain_rescale=round(Gain/Gain[1]*100)
-          )
-      )
-    
-    # shap
-    shap %<>%
-      bind_rows(
-        rslt$explain_model %>%
-          mutate(model=tr_plan$model[i])
-      )
   }
   out<-list(
     pred = pred,
@@ -171,14 +143,13 @@ if(!file.exists(path_to_file)){
     perf_at = perf_at,
     perf_summ = perf_summ,
     calibr = calibr,
-    varimp = varimp,
-    shap = shap
+    calibt = calibt,
+    varimp = varimp
   )
   saveRDS(out,file=path_to_file)
 }else{
   out<-readRDS(path_to_file)
 }
-
 
 # performance plot
 label<-c()
@@ -210,7 +181,7 @@ p1<-pROC::ggroc(out$roc)+
   geom_abline(intercept=1,linetype=2)+
   geom_ribbon(
     data=ci,
-    aes(x=x,ymin=auc_lb,ymax=auc_ub,fill=model),
+    aes(x=x,ymin=auc_lb,ymax=auc_ub,fill=model),alpha=0.5,
     inherit.aes = F,
     show.legend = FALSE
   )+
@@ -224,16 +195,16 @@ p1<-pROC::ggroc(out$roc)+
   labs(color = "model") +
   theme(text=element_text(face="bold"))
 
-prc<-perf_at %>%
+prc<-out$perf_at %>%
   filter(meas == "prec") %>%
   inner_join(
-    perf_at %>%
+    out$perf_at %>%
       filter(meas == "rec_sens") %>%
       select(cutoff,meas_val_m,model) %>%
       rename(recall = meas_val_m),
     by=c("cutoff","model")
   )
-prc_lbl<-perf_summ %>%
+prc_lbl<-out$perf_summ %>%
   filter(overall_meas == "prauc1") %>%
   mutate(lab = paste0(
     model,":",
@@ -244,7 +215,7 @@ prc_lbl<-perf_summ %>%
 
 p2<-ggplot(prc,aes(x=recall,y=meas_val_m,color=model))+
   geom_line()+
-  geom_ribbon(aes(ymin=meas_val_lb,ymax=meas_val_ub,fill=model))+
+  geom_ribbon(aes(ymin=meas_val_lb,ymax=meas_val_ub,fill=model),alpha=0.5)+
   annotate(
     "text",x=0.25,y=0.25,
     label=paste(prc_lbl,collapse ="\n"),
@@ -268,9 +239,23 @@ ggsave(
 )
 
 # calibration plot
-ggplot(out$calibr,aes(x=y_p,y=pred_p))+
+calibr_test<-out$calibt %>% 
+  mutate(pval_print=case_when(pval<0.001~'<0.001',TRUE~as.character(round(pval,3)))) %>%
+  mutate(lbl=paste0(substr(test,1,2),":",round(statistics,2),"(",pval_print,")")) %>%
+  group_by(type,model) %>%
+  summarise(lab = paste(lbl,collapse = "\n"),.groups="drop")
+
+calibr_full<-out$calibr %>%
+  left_join(calibr_test,by=c("type","model")) %>%
+  group_by(type,model) %>%
+  mutate(lab=case_when(row_number()>1 ~ '',
+                       TRUE ~ lab)) %>%
+  ungroup
+
+ggplot(calibr_full,aes(x=y_p,y=pred_p))+
   geom_point()+geom_abline(intercept=0,slope=1)+
   geom_errorbar(aes(ymin=binCI_lower,ymax=binCI_upper))+
+  geom_text(aes(x=0.1,y=0.6,label=lab),hjust = 0,fontface="bold")+
   labs(x="Actual Probability",y="Predicted Probability",
        title='Calibration Plot')+
   facet_wrap(~model,scales="free")+

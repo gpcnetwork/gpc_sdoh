@@ -43,6 +43,10 @@ saveRDS(dat,file="./data/mu_readmit_sdoh_si_long.rds")
 dat<-tbl(sf_conn,in_schema("SX_SDOH","WT_CMS_MU_ENC_DD")) %>% collect()
 saveRDS(dat,file="./data/sdoh_dd.rds")
 
+# subgroup selector
+dat<-tbl(sf_conn,in_schema("SX_SDOH","SUBGRP")) %>% collect()
+saveRDS(dat,file="./data/subgrp_sel.rds")
+
 #==================================================================================
 # disconnect
 DBI::dbDisconnect(sf_conn)

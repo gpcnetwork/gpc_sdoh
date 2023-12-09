@@ -123,49 +123,49 @@ for(i in 1:nrow(tr_plan)){
   print(paste0(tr_plan$model[i],":training data prepared."))
   
   # rapid xgb - only tune the number of trees
-  xgb_rslt<-prune_xgb(
-    # dtrain, dtest are required to have attr:'id'
-    dtrain = dtrain,
-    dtest = dtest,
-    folds = folds,
-    params=list(
-      booster = "gbtree",
-      max_depth = 10,
-      min_child_weight = 2,
-      colsample_bytree = 0.8,
-      subsample = 0.7,
-      eta = 0.05,
-      lambda = 1,
-      alpha = 0,
-      gamma = 1,
-      objective = "binary:logistic",
-      eval_metric = "auc"
+  path_to_file<-file.path(dir_data,paste0("xgb_",tr_plan$model[i],".rda"))
+  if(!file.exists(path_to_file)){
+    xgb_rslt<-prune_xgb(
+      # dtrain, dtest are required to have attr:'id'
+      dtrain = dtrain,
+      dtest = dtest,
+      folds = folds,
+      params=list(
+        booster = "gbtree",
+        max_depth = 10,
+        min_child_weight = 2,
+        colsample_bytree = 0.8,
+        subsample = 0.7,
+        eta = 0.05,
+        lambda = 1,
+        alpha = 0,
+        gamma = 1,
+        objective = "binary:logistic",
+        eval_metric = "auc"
+      )
     )
-  )
-  #-------------------------------------------
-  print(paste0(tr_plan$model[i],":model training completed."))
+    saveRDS(xgb_rslt,path_to_file)
+    #-------------------------------------------
+    print(paste0(tr_plan$model[i],":model training completed."))
+  }else{
+    xgb_rslt<-readRDS(path_to_file)
+  }
   
   # shap explainer
-  explainer<-explain_model(
-    X = trX,
-    y = try$READMIT30D_DEATH_IND,
-    xgb_rslt = xgb_rslt,
-    top_k = 50,
-    boots = 10,
-    nns = 30,
-    verb = FALSE
-  )
-  #-------------------------------------------
-  print(paste0(tr_plan$model[i],":model explainer developed."))
-  
-  # result set
-  rslt_set<-list(
-    fit_model = xgb_rslt,
-    explain_model = explainer
-  )
-  saveRDS(
-    rslt_set,
-    file=file.path(dir_data,paste0("model_",tr_plan$model[i],".rda"))
-  )
+  path_to_file<-file.path(dir_data,paste0("shap_",tr_plan$model[i],".rda"))
+  if(!file.exists(path_to_file)){
+    explainer<-explain_model(
+      X = trX,
+      y = try$READMIT30D_DEATH_IND,
+      xgb_rslt = xgb_rslt,
+      top_k = 50,
+      boots = 5,
+      nns = 30,
+      verb = FALSE
+    )
+    saveRDS(explainer,path_to_file)
+    #-------------------------------------------
+    print(paste0(tr_plan$model[i],":model explainer developed."))
+  }
 }
 
