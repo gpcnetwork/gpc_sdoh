@@ -232,8 +232,8 @@ ggarrange(p1,p2,ncol=2,common.legend = TRUE)
 ggsave(
   "./res/auc.tiff",
   dpi=100,
-  width=15,
-  height=6,
+  width=10,
+  height=5,
   units="in",
   device = 'tiff'
 )
@@ -241,7 +241,7 @@ ggsave(
 # calibration plot
 calibr_test<-out$calibt %>% 
   mutate(pval_print=case_when(pval<0.001~'<0.001',TRUE~as.character(round(pval,3)))) %>%
-  mutate(lbl=paste0(substr(test,1,2),":",round(statistics,2),"(",pval_print,")")) %>%
+  mutate(lbl=paste0(test,":",round(statistics,2),"(",pval_print,")")) %>%
   group_by(type,model) %>%
   summarise(lab = paste(lbl,collapse = "\n"),.groups="drop")
 
@@ -264,8 +264,8 @@ ggplot(calibr_full,aes(x=y_p,y=pred_p))+
 ggsave(
   "./res/calibration.tiff",
   dpi=100,
-  width=10,
-  height=8,
+  width=8,
+  height=6,
   units="in",
   device = 'tiff'
 )
@@ -293,48 +293,49 @@ ggplot(varimp %>% filter(rank <= 20),
 ggsave(
   './res/feature_importance.tiff',
   dpi=150,
-  width=18,
-  height=12,
+  width=15,
+  height=10,
   units="in",
   device = 'tiff'
 )
 
 # shap
-# for(i in 1:nrow(tr_plan)){
-#   shap_sel<-shap %>%
-#     filter(model == tr_plan$model[i]) %>%
-#     inner_join(
-#       varimp %>% 
-#         filter(model==tr_plan$model[i]) %>%
-#         filter(rank <= 10) %>%
-#         mutate(feat_rank=factor(feat_rank,levels=rev(levels(feat_rank)))),
-#       by = c('var' = "Feature")
-#     ) %>%
-#     group_by(var,val,feat_rank) %>%
-#     summarise(
-#       eff_m = exp(median(effect,na.rm=T)),
-#       eff_lb = exp(quantile(effect,0.025,na.rm=T)),
-#       eff_ub = exp(quantile(effect,0.975,na.rm=T)),
-#       .groups = "drop"
-#     )
-#   
-#   ggplot(shap_sel,aes(x=val,y=eff_m))+
-#     geom_point()+
-#     geom_smooth(method="loess",formula=y~x)+
-#     geom_errorbar(aes(ymin=eff_lb,ymax=eff_ub))+
-#     geom_hline(aes(yintercept=1),linetype=2)+
-#     theme(text = element_text(face="bold"))+
-#     facet_wrap(~feat_rank,scales = "free",ncol=2)
-#   
-#   ggsave(
-#     paste0('./res/shap_',tr_plan$model[i],".tiff"),
-#     dpi=150,
-#     width=12,
-#     height=18,
-#     units="in",
-#     device = 'tiff'
-#   )
-# }
+for(i in 1:nrow(tr_plan)){
+  shap<-readRDS(paste0("./data/shap_",tr_plan$model[i],".rda"))
+  k_sel<-length(unique(shap$var))
+  shap_sel<-shap %>%
+    inner_join(
+      varimp %>%
+        filter(model==tr_plan$model[i]) %>%
+        filter(rank <= 12) %>%
+        mutate(feat_rank=factor(feat_rank,levels=rev(levels(feat_rank)))),
+      by = c('var' = "Feature")
+    ) %>%
+    group_by(var,val,feat_rank) %>%
+    summarise(
+      eff_m = exp(median(effect,na.rm=T)),
+      eff_lb = exp(quantile(effect,0.025,na.rm=T)),
+      eff_ub = exp(quantile(effect,0.975,na.rm=T)),
+      .groups = "drop"
+    )
+
+  ggplot(shap_sel,aes(x=val,y=eff_m))+
+    geom_point()+
+    geom_smooth(method="loess",formula=y~x)+
+    geom_errorbar(aes(ymin=eff_lb,ymax=eff_ub))+
+    geom_hline(aes(yintercept=1),linetype=2)+
+    theme(text = element_text(face="bold"))+
+    facet_wrap(~feat_rank,scales = "free",ncol=3)
+
+  ggsave(
+    paste0('./res/shap_',tr_plan$model[i],".tiff"),
+    dpi=150,
+    width=12,
+    height=8,
+    units="in",
+    device = 'tiff'
+  )
+}
 
   
 

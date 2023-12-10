@@ -18,12 +18,6 @@ base_df<-readRDS("./data/mu_readmit_base.rds") %>%
                select(ROWID, DUAL_LIS),
              by = "ROWID")
 
-var_lbl<-readRDS("./data/var_encoder.rda") %>%
-  rename(var_lbl = VAR_LBL) %>%
-  mutate(var = case_when(VAR_DOMAIN=="DRG"~paste0("DRG_",VAR2),
-                         TRUE ~ VAR2)) %>%
-  select(var,var_lbl)
-
 var_lst<-colnames(base_df)[
   !colnames(base_df) %in% c(
     "ROWID",
@@ -84,4 +78,6 @@ cohort_base %>%
   save_kable(
     paste0("./res/cohort_readmit.pdf")
   )
+
+
 

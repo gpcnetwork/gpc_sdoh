@@ -64,8 +64,13 @@ for(i in 1:nrow(tr_plan)){
   try<-tr %>% arrange(ROWID) %>%
     select(ROWID,READMIT30D_DEATH_IND) %>% 
     unique 
-  trX<-tr %>% arrange(ROWID) %>% 
+  tr_sh<-try %>% select(ROWID) %>%
+    mutate(VAR3 = "shadow",
+           VAL = sample(c(0,1),nrow(try),replace=T))
+  trX<-tr %>% 
     select(-READMIT30D_DEATH_IND) %>%
+    bind_rows(tr_sh) %>%
+    arrange(ROWID) %>% 
     long_to_sparse_matrix(
       .,
       id = "ROWID",
@@ -87,8 +92,13 @@ for(i in 1:nrow(tr_plan)){
   tsy<-ts %>% arrange(ROWID) %>%
     select(ROWID,READMIT30D_DEATH_IND) %>% 
     unique 
-  tsX<-ts %>% arrange(ROWID) %>% 
+  ts_sh<-tsy %>% select(ROWID) %>%
+    mutate(VAR3 = "shadow",
+           VAL = sample(c(0,1),nrow(tsy),replace=T))
+  tsX<-ts %>%  
     select(-READMIT30D_DEATH_IND) %>%
+    bind_rows(ts_sh) %>%
+    arrange(ROWID) %>%
     long_to_sparse_matrix(
       .,
       id = "ROWID",
@@ -154,18 +164,19 @@ for(i in 1:nrow(tr_plan)){
   # shap explainer
   path_to_file<-file.path(dir_data,paste0("shap_",tr_plan$model[i],".rda"))
   if(!file.exists(path_to_file)){
+    k<-which(xgb_rslt$feat_imp$Feature=="shadow")-1
     explainer<-explain_model(
       X = trX,
       y = try$READMIT30D_DEATH_IND,
       xgb_rslt = xgb_rslt,
-      top_k = 50,
-      boots = 5,
+      top_k = k,
+      boots = 10,
       nns = 30,
-      verb = FALSE
+      verb = TRUE
     )
     saveRDS(explainer,path_to_file)
     #-------------------------------------------
-    print(paste0(tr_plan$model[i],":model explainer developed."))
+    print(paste0(tr_plan$model[i],":model explainer developed for ",k," variables."))
   }
 }
 
