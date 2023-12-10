@@ -12,11 +12,17 @@ pacman::p_load(
 source_url("https://raw.githubusercontent.com/sxinger/utils/master/analysis_util.R")
 
 # load data 
-base_df<-readRDS("./data/mu_readmit_base.rds") %>%
+data_df<-readRDS("./data/mu_readmit_base.rds") %>%
   replace_na(list(OBES = 0)) %>%
   inner_join(readRDS("./data/subgrp_sel.rds") %>%
                select(ROWID, DUAL_LIS),
              by = "ROWID")
+
+var_encoder<-readRDS("./data/var_encoder.rda")
+
+si_df<-readRDS("./data/mu_readmit_base.rds") %>%
+  semi_join(var_encoder %>% filter(),by=c("VAR3"="VAR"))
+
 
 var_lst<-colnames(base_df)[
   !colnames(base_df) %in% c(

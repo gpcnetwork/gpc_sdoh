@@ -24,18 +24,22 @@ tr_plan<-data.frame(
 ) %>%
   bind_rows(data.frame(
     model = 'base',
+    model_lbl = 'base',
     path_to_data = "./data/xgb_base.rda"
   )) %>%
   bind_rows(data.frame(
     model = 'sdoh_i',
+    model_lbl = 'i-sdh-aug',
     path_to_data = "./data/xgb_sdoh_i.rda"
   )) %>%
   bind_rows(data.frame(
     model = 'sdoh_s',
+    model_lbl = 's-sdh-aug',
     path_to_data = "./data/xgb_sdoh_s.rda"
   )) %>%
   bind_rows(data.frame(
     model = 'sdoh_si',
+    model_lbl = 'si-sdh-aug',
     path_to_data = "./data/xgb_sdoh_si.rda"
   ))
 
@@ -84,7 +88,7 @@ if(!file.exists(path_to_file)){
         perf$perf_summ %>%
           mutate(
             type='ts',
-            model=tr_plan$model[i]
+            model=tr_plan$model_lbl[i]
           )
       )
     perf_at %<>%
@@ -92,11 +96,11 @@ if(!file.exists(path_to_file)){
         perf$perf_at %>%
           mutate(
             type='ts',
-            model=tr_plan$model[i]
+            model=tr_plan$model_lbl[i]
           )
       )
     #-- roc
-    roc[[paste0(tr_plan$model[i])]]<-pROC::roc(
+    roc[[paste0(tr_plan$model_lbl[i])]]<-pROC::roc(
       response = pred_ts$actual,
       predictor = pred_ts$pred
     )
@@ -112,7 +116,7 @@ if(!file.exists(path_to_file)){
         calib$calib %>%
           mutate(
             type='ts',
-            model=tr_plan$model[i]
+            model=tr_plan$model_lbl[i]
           )
       )
     calibt %<>%
@@ -120,20 +124,20 @@ if(!file.exists(path_to_file)){
         calib$test %>%
           mutate(
             type='ts',
-            model=tr_plan$model[i]
+            model=tr_plan$model_lbl[i]
           )
       )
     # predictions
     pred %<>%
       # bind_rows(
       #   pred_tr %>%
-      #     mutate(type='tr',model=tr_plan$model[i])
+      #     mutate(type='tr',model=tr_plan$model_lbl[i])
       # ) %>%
       bind_rows(
         pred_ts %>%
           mutate(
             type='ts',
-            model=tr_plan$model[i]
+            model=tr_plan$model_lbl[i]
           )
       )
   }
@@ -188,12 +192,12 @@ p1<-pROC::ggroc(out$roc)+
   geom_hline(aes(yintercept=1),linetype=2)+
   geom_vline(aes(xintercept=1),linetype=2)+
   annotate(
-    "text",x=0.25,y=0.25,
+    "text",x=0.5,y=0.25,
     label=paste(label,collapse ="\n"),
-    fontface = 2 
+    fontface = 2,hjust = 0 
   )+
   labs(color = "model") +
-  theme(text=element_text(face="bold"))
+  theme(text=element_text(face="bold",size = 15))
 
 prc<-out$perf_at %>%
   filter(meas == "prec") %>%
@@ -219,13 +223,13 @@ p2<-ggplot(prc,aes(x=recall,y=meas_val_m,color=model))+
   annotate(
     "text",x=0.25,y=0.25,
     label=paste(prc_lbl,collapse ="\n"),
-    fontface = 2 
+    fontface = 2,hjust = 0
   )+
   geom_hline(aes(yintercept=1),linetype=2)+
   geom_vline(aes(xintercept=1),linetype=2)+
   ylim(0,1)+xlim(0,1)+
   labs(y="precision",color = "model") +
-  theme(text=element_text(face="bold"))
+  theme(text=element_text(face="bold",size = 15))
 
 ggarrange(p1,p2,ncol=2,common.legend = TRUE)
 
@@ -259,7 +263,8 @@ ggplot(calibr_full,aes(x=y_p,y=pred_p))+
   labs(x="Actual Probability",y="Predicted Probability",
        title='Calibration Plot')+
   facet_wrap(~model,scales="free")+
-  theme(text=element_text(face="bold"))
+  theme(text=element_text(face="bold",size=15),
+        strip.text = element_text(size = 15))
 
 ggsave(
   "./res/calibration.tiff",
@@ -287,13 +292,14 @@ ggplot(varimp %>% filter(rank <= 20),
   labs(x="Features",y="Normalized Scale",
        title="Top Important Variables")+
   coord_flip()+scale_y_continuous(trans = "reverse")+
-  theme(text = element_text(face="bold"))+
-  facet_wrap(~model,scales = "free",ncol=2)
+  facet_wrap(~model,scales = "free",ncol=2)+
+  theme(text = element_text(face="bold",size=15),
+        strip.text = element_text(size = 15))
 
 ggsave(
   './res/feature_importance.tiff',
   dpi=150,
-  width=15,
+  width=18,
   height=10,
   units="in",
   device = 'tiff'
@@ -324,9 +330,10 @@ for(i in 1:nrow(tr_plan)){
     geom_smooth(method="loess",formula=y~x)+
     geom_errorbar(aes(ymin=eff_lb,ymax=eff_ub))+
     geom_hline(aes(yintercept=1),linetype=2)+
-    theme(text = element_text(face="bold"))+
-    facet_wrap(~feat_rank,scales = "free",ncol=3)
-
+    facet_wrap(~feat_rank,scales = "free",ncol=3)+
+    theme(text = element_text(face="bold",size=15),
+            strip.text = element_text(size = 12))
+  
   ggsave(
     paste0('./res/shap_',tr_plan$model[i],".tiff"),
     dpi=150,
