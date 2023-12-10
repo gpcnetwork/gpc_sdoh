@@ -244,3 +244,23 @@ from I_SDH_SEL
 select var_domain, count(distinct var)
 from WT_CMS_MU_ENC_DD
 group by var_domain;
+
+
+create or replace table SUBGRP as 
+with cte_dual_lis as(
+    select distinct patid, 1 as ind
+    from WT_MU_CMS_ELIG_SDOH_I
+    where sdoh_var = 'DUAL_LIS_ELIG'
+)
+select a.patid, 
+       a.encounterid,
+       a.rowid,
+       coalesce(b.ind,0) as dual_lis, 
+       case when a.race <> 'WH' then 1 else 0 end as non_white,
+       coalesce(a.obes,0) as obes
+from WT_CMS_MU_ENC_BASE a  
+left join cte_dual_lis b on a.patid = b.patid
+;
+
+select count(distinct encounterid), count(*) from SUBGRP;
+select * from SUBGRP limit 5;

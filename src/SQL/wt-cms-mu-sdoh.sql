@@ -398,3 +398,5 @@ select sdoh_var, count(distinct patid) as pat_cnt
 from WT_MU_CMS_ELIG_SDOH_I 
 group by sdoh_var
 order by pat_cnt desc;
+
+

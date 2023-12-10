@@ -15,12 +15,15 @@ select * from GROUSE_DB.CMS_PCORNET_CDM.LDS_PROCEDURES where ppx = 'P' limit 5;
 select * from EXCLD_INDEX;
 select * from EXCLD_PLANNED; 
 
-select count(distinct patid) 
-from OVERVIEW.WT_TABLE1
-where src_seq like '%MU%' and 
-      xwalk_ind = 1
+select count(distinct patid)
+from SDOH_DB.ACXIOM.DEID_ACXIOM_DATA 
 ;
--- 189,999
+
+select count(distinct patid) 
+from SDOH_DB.ACXIOM.MU_GEOID_DEID
+;
+-- 602,111
+
 
 -- patient cohort table 1
 create or replace table WT_MU_CMS_TBL1 as 
@@ -257,8 +260,10 @@ from WT_MU_CMS_READMIT a
 join cte_ccs b on a.patid = b.patid and a.encounterid = b.encounterid 
 join EXCLD_INDEX c on b.ccs_dxgrpcd = c.ccs
 ;
-select count(distinct patid), count(distinct encounterid) from EXCLD_INDEX_CCS;
--- 42315	96877
+select excld_type, count(distinct patid), count(distinct encounterid) from EXCLD_INDEX_CCS
+group by excld_type;
+-- cancer	38585	81805
+-- psychiatric	6766	15367
 
 -- excld: planned readmission
 select * from EXCLD_PLANNED;
