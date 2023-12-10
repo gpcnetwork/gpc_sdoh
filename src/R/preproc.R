@@ -60,11 +60,25 @@ rm(base_df); gc()
 #== encode variable
 var_encoder<-readRDS("./data/mu_readmit_sdoh_si_long.rds") %>%
   select(VAR) %>% unique %>%
-  mutate(VAR2 = gsub("^(DRG_REGRP_DRG_)+","",VAR)) %>% unique %>%
+  mutate(VAR2 = case_when(
+    grepl("^(DRG_REGRP_DRG_)+",VAR) ~ gsub("^(DRG_REGRP_DRG_)+","",VAR),
+    TRUE ~ VAR
+  )) %>% unique %>%
   left_join(readRDS("./data/sdoh_dd.rds"),by=c("VAR2"="VAR")) %>%
-  mutate(VAR_LBL = coalesce(VAR_LABEL,VAR)) %>%
+  mutate(VAR2.y = case_when(
+    is.na(VAR_LABEL)&(grepl("^(P_)+",VAR)|grepl("^(H_)+",VAR)) ~ gsub('_[^_]*$', '', VAR),
+    TRUE ~ VAR
+  )) %>% unique %>%
+  left_join(readRDS("./data/sdoh_dd.rds"),by=c("VAR2.y"="VAR")) %>%
+  mutate(
+    VAR2 = coalesce(VAR2,VAR2.y),
+    VAR_LABEL = coalesce(VAR_LABEL.x,VAR_LABEL.y),
+    VAR_DOMAIN = coalesce(VAR_DOMAIN.x,VAR_DOMAIN.y),
+    VAR_LBL = coalesce(VAR_LABEL.x,VAR_LABEL.y,VAR),
+  ) %>%
   rowid_to_column('VAR3') %>%
-  mutate(VAR3 = paste0('V',VAR3))
+  mutate(VAR3 = paste0('V',VAR3)) %>%
+  select(VAR3,VAR,VAR2,VAR_LABEL,VAR_LBL,VAR_DOMAIN)
 
 saveRDS(var_encoder, file=file.path(dir_data,"var_encoder.rda"))
 
