@@ -47,9 +47,13 @@ select  distinct
         dense_rank() over (order by a.patid, a.encounterid) as rowid,
         a.patid, b.patid_acxiom, a.encounterid,
         a.readmit30d_death_ind,
-        a.ip_cnt_cum,
+        -- a.ip_cnt_cum,
+        case when a.ip_cnt_cum >=5  then '>5'
+             else '=' || a.ip_cnt_cum
+        end as ip_cnt_cum_cat,
         a.los,
         a.discharge_status,
+        case when a.enc_type = 'EI' then 1 else 0 end as ed_ind,
         -- a.discharge_disposition, 
         -- a.admitting_source,
         -- a.admit_date,
@@ -62,8 +66,9 @@ select  distinct
             when coalesce(d.race,b.race) in ('NI','UN') or coalesce(d.race,b.race) is null then 'NI'
             else 'OT'
         end as race,
-        case when coalesce(d.hispanic,b.hispanic) in ('Y','N') then coalesce(d.hispanic,b.hispanic)
-            else 'NI'
+        case when d.hispanic = 'Y' or b.hispanic = 'Y' then 'Y'
+             when d.hispanic = 'N' or b.hispanic = 'N' then 'N'
+             else 'NI'
         end as hispanic,
         case when o.obes_date <= a.admit_date then 1 else NULL end as obes,
         NVL(c.CCI_TOT,0) as CCI,
@@ -89,6 +94,10 @@ select drg_regrp, count(distinct patid) as pat_cnt
 from WT_CMS_MU_ENC_BASE
 group by drg_regrp 
 order by pat_cnt desc;
+
+select hispanic, count(distinct encounterid) as pat_cnt
+from WT_CMS_MU_ENC_BASE
+group by hispanic;
 
 select CCI, count(distinct patid) as pat_cnt
 from WT_CMS_MU_ENC_BASE
@@ -124,7 +133,6 @@ with cte_cat as (
     select *
     from (
     select  rowid,patid,encounterid,readmit30d_death_ind,
-            cast(ip_cnt_cum as number(18,0)) as ip_cnt_cum,
             cast(los as number(18,0)) as los,
             cast(age_at_enc as number(18,0)) as age_at_enc,
             cast(obes as number(18,0)) as obes,
@@ -133,7 +141,6 @@ with cte_cat as (
     )
     unpivot (
         VAL for VAR in (
-            ip_cnt_cum,
             los,
             age_at_enc,
             obes,
@@ -157,7 +164,7 @@ with cte_sdoh_rep as (
            a.rowid, a.patid, a.encounterid, a.readmit30d_death_ind, 
            b.sdoh_var as var, b.sdoh_val as val 
     from WT_CMS_MU_ENC_BASE a 
-    join WT_MU_CMS_ELIG_SDOH_S b 
+    join WT_MU_CMS_ELIG_SDOH_S_NUM b 
     on a.patid_acxiom = b.patid
 )
 select rowid, patid, encounterid, readmit30d_death_ind, var, val from WT_CMS_MU_ENC_BASE_LONG 
@@ -180,7 +187,7 @@ with cte_sdoh_rep as (
            a.rowid, a.patid, a.encounterid, a.readmit30d_death_ind, 
            b.sdoh_var as var, b.sdoh_val as val 
     from WT_CMS_MU_ENC_BASE a 
-    join WT_MU_CMS_ELIG_SDOH_I b 
+    join WT_MU_CMS_ELIG_SDOH_I_NUM b 
     on a.patid = b.patid
 )
 select rowid, patid, encounterid, readmit30d_death_ind, var, val from WT_CMS_MU_ENC_BASE_LONG 
@@ -196,14 +203,14 @@ with cte_sdoh_i as (
            a.rowid, a.patid, a.encounterid, a.readmit30d_death_ind, 
            b.sdoh_var as var, b.sdoh_val as val 
     from WT_CMS_MU_ENC_BASE a 
-    join WT_MU_CMS_ELIG_SDOH_I b 
+    join WT_MU_CMS_ELIG_SDOH_I_NUM b 
     on a.patid = b.patid
 ), cte_sdoh_s as (
     select distinct 
            a.rowid, a.patid, a.encounterid, a.readmit30d_death_ind, 
            b.sdoh_var as var, b.sdoh_val as val 
     from WT_CMS_MU_ENC_BASE a 
-    join WT_MU_CMS_ELIG_SDOH_S b 
+    join WT_MU_CMS_ELIG_SDOH_S_NUM b 
     on a.patid_acxiom = b.patid
 )
 select rowid, patid, encounterid, readmit30d_death_ind, var, val from WT_CMS_MU_ENC_BASE_LONG 
@@ -232,7 +239,7 @@ from Z_REF_DRG
 ;
 -- sdoh-s
 insert into WT_CMS_MU_ENC_DD
-select VAR, VAR_LABEL, VAR_DOMAIN
+select VAR, VAR_LABEL, VAR_DOMAIN,
 from S_SDH_SEL
 ;
 -- sdoh-i
@@ -249,7 +256,7 @@ group by var_domain;
 create or replace table SUBGRP as 
 with cte_dual_lis as(
     select distinct patid, 1 as ind
-    from WT_MU_CMS_ELIG_SDOH_I
+    from WT_MU_CMS_ELIG_SDOH_I_NUM
     where sdoh_var = 'DUAL_LIS_ELIG'
 )
 select a.patid, 
