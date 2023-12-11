@@ -22,7 +22,10 @@ dir_data<-file.path(getwd(),"data")
 
 # manual exclusion
 exlcd<-c(
-  "P_PROMINENCE"
+  "P_PROMINENCE",
+  "DRG_REGRP_DRG_000",
+  "DRG_REGRP_DRG_OT",
+  "P_ETHNIC"
 )
 
 # training planner

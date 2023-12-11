@@ -30,7 +30,6 @@ numvar_lst<-var_lst[
   var_lst %in% c(
     "AGE_AT_ENC",
     "LOS",
-    "IP_CNT_CUM",
     "CCI"
   )
 ]
@@ -48,23 +47,12 @@ cohort_summ %>%
     paste0("./res/cohort_summ.pdf")
 )
 
-var_lst2<-colnames(data_df)[
-  !colnames(data_df) %in% c(
-    "ROWID",
-    "PATID",
-    "ENCOUNTERID",
-    "PATID_ACXIOM",
+var_lst2<-var_lst[
+  !var_lst%in% c(
     "READMIT30D_DEATH_IND"
   )
 ]
-numvar_lst2<-var_lst[
-  var_lst %in% c(
-    "AGE_AT_ENC",
-    "LOS",
-    "IP_CNT_CUM",
-    "CCI"
-  )
-]
+numvar_lst2<-numvar_lst
 facvar_lst2<-var_lst2[!var_lst2 %in% numvar_lst2]
 cohort_summ<-univar_analysis_mixed(
   df = data_df,
@@ -79,6 +67,7 @@ cohort_summ %>%
     paste0("./res/cohort_readmit.pdf")
   )
 
+#==== s-sdh
 var_encoder<-readRDS("./data/var_encoder.rda")
 data_df<-readRDS("./data/mu_readmit_sdoh_s_long.rds") %>%
   semi_join(
@@ -87,6 +76,8 @@ data_df<-readRDS("./data/mu_readmit_sdoh_s_long.rds") %>%
     by="VAR"
   ) %>%
   select(ROWID,READMIT30D_DEATH_IND,VAR,VAL) %>%
+  group_by(ROWID,VAR) %>% arrange(desc(READMIT30D_DEATH_IND)) %>% 
+  slice(1:1) %>% ungroup %>%
   pivot_wider(names_from=VAR,values_from=VAL)
 gc()
 
@@ -104,5 +95,34 @@ cohort_summ<-univar_analysis_mixed(
 )
 cohort_summ %>%
   save_kable(
-    paste0("./res/cohort_readmit.pdf")
+    paste0("./res/cohort_readmit_s_sdh.pdf")
+  )
+
+data_df<-readRDS("./data/mu_readmit_sdoh_s_long.rds") %>%
+  semi_join(
+    var_encoder %>% 
+      filter(!is.na(VAR_DOMAIN)&!VAR_DOMAIN %in% c('DRG')),
+    by="VAR"
+  ) %>%
+  select(ROWID,READMIT30D_DEATH_IND,VAR,VAL) %>%
+  group_by(ROWID,VAR) %>% arrange(desc(READMIT30D_DEATH_IND)) %>% 
+  slice(1:1) %>% ungroup %>%
+  pivot_wider(names_from=VAR,values_from=VAL)
+gc()
+
+var_lst<-colnames(data_df)[
+  !colnames(data_df) %in% c(
+    "ROWID"
+  )
+]
+cohort_summ<-univar_analysis_mixed(
+  df = data_df,
+  id_col ="ROWID",
+  var_lst = var_lst,
+  facvar_lst  = c(),
+  pretty = T
+)
+cohort_summ %>%
+  save_kable(
+    paste0("./res/cohort_readmit_s_sdh.pdf")
   )
