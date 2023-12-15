@@ -88,12 +88,17 @@ left join cte_lowfreq e on a.drg = e.drg
 ;
 
 select count(distinct patid), count(distinct encounterid), count(*) from WT_CMS_MU_ENC_BASE
-;-- 60483	149158	149158
+;-- 60480	149139	149139
 
 select drg_regrp, count(distinct patid) as pat_cnt
 from WT_CMS_MU_ENC_BASE
 group by drg_regrp 
 order by pat_cnt desc;
+-- DRG_OT	52688
+-- DRG_470	5235
+-- DRG_871	4701
+-- DRG_000	3637
+--...
 
 select hispanic, count(distinct encounterid) as pat_cnt
 from WT_CMS_MU_ENC_BASE
@@ -158,6 +163,21 @@ select * from WT_CMS_MU_ENC_BASE_LONG
 -- where val = 0
 limit 5;
 
+create or replace table WT_MU_CMS_ELIG_SDOH_S_ORIG as 
+select distinct
+       a.rowid,
+       a.patid, 
+       a.encounterid,
+       a.readmit30d_death_ind,
+       b.sdoh_var,
+       b.sdoh_val,
+       b.sdoh_type
+from WT_CMS_MU_ENC_BASE a 
+join WT_MU_CMS_ELIG_SDOH_S b 
+on a.patid_acxiom = b.patid
+;
+
+
 create or replace table WT_CMS_MU_ENC_BASE_SDOH_S_LONG as 
 with cte_sdoh_rep as (
     select distinct 
@@ -173,7 +193,7 @@ select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_r
 ;
 
 select count(distinct patid), count(distinct encounterid) from WT_CMS_MU_ENC_BASE_SDOH_S_LONG;
--- 60483	149158
+-- 60480	149139
 select * from WT_CMS_MU_ENC_BASE_SDOH_S_LONG
 where var like 'RUCA%'
 limit 5;
@@ -181,6 +201,21 @@ limit 5;
 select * from WT_MU_CMS_ELIG_SDOH_I 
 -- where sdoh_val is null
 limit 5;
+
+create or replace table WT_MU_CMS_ELIG_SDOH_I_ORIG as 
+select distinct
+       a.rowid,
+       a.patid, 
+       a.encounterid,
+       a.readmit30d_death_ind,
+       b.sdoh_var,
+       b.sdoh_val,
+       b.sdoh_type
+from WT_CMS_MU_ENC_BASE a 
+join WT_MU_CMS_ELIG_SDOH_I b 
+on a.patid = b.patid
+;
+
 create or replace table WT_CMS_MU_ENC_BASE_SDOH_I_LONG as 
 with cte_sdoh_rep as (
     select distinct 
@@ -195,7 +230,7 @@ union
 select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_rep
 ;
 select count(distinct patid),count(distinct encounterid) from WT_CMS_MU_ENC_BASE_SDOH_I_LONG;
--- 60483	149158
+-- 60480	149139
 
 create or replace table WT_CMS_MU_ENC_BASE_SDOH_SI_LONG as 
 with cte_sdoh_i as (
@@ -220,7 +255,7 @@ union
 select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_s 
 ;
 select count(distinct patid),count(distinct encounterid) from WT_CMS_MU_ENC_BASE_SDOH_SI_LONG;
--- 60483	149158
+-- 60480	149139
 
 create or replace table WT_CMS_MU_ENC_DD(
     VAR varchar(50), 
@@ -239,7 +274,7 @@ from Z_REF_DRG
 ;
 -- sdoh-s
 insert into WT_CMS_MU_ENC_DD
-select VAR, VAR_LABEL, VAR_DOMAIN,
+select VAR, VAR_LABEL, VAR_DOMAIN
 from S_SDH_SEL
 ;
 -- sdoh-i
@@ -250,7 +285,31 @@ from I_SDH_SEL
 
 select var_domain, count(distinct var)
 from WT_CMS_MU_ENC_DD
-group by var_domain;
+group by var_domain
+order by var_domain;
+
+-- ACS	57
+-- ACXIOM-Children	2
+-- ACXIOM-Education	1
+-- ACXIOM-Ethnicity	4
+-- ACXIOM-Financial	7
+-- ACXIOM-Household	12
+-- ACXIOM-Income	2
+-- ACXIOM-Interests	44
+-- ACXIOM-Lifestyle	7
+-- ACXIOM-Occupation	3
+-- ACXIOM-Other	3
+-- ACXIOM-Political	1
+-- ACXIOM-Property	11
+-- ACXIOM-Vehicle	4
+-- ADI	2
+-- CCI	17
+-- DRG	999
+-- FARA	70
+-- MUA	1
+-- RUCA	2
+-- SLM	98
+-- SVI	66
 
 
 create or replace table SUBGRP as 

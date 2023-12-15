@@ -185,8 +185,7 @@ call get_sdoh_s(
        FALSE, NULL
 );
 select count(distinct patid), count(*) from WT_MU_CMS_ELIG_SDOH_S;
---60441	12428164
-
+--60438	12427500
 create or replace table WT_MU_CMS_ELIG_SDOH_S_NUM as
 select  PATID,
         GEOCODEID,
@@ -208,12 +207,18 @@ where SDOH_TYPE = 'N'
 ;
 
 select count(distinct patid), count(*) from WT_MU_CMS_ELIG_SDOH_S_NUM;
---60441	12413027
+--60438	12412195
 
 select sdoh_var, count(distinct patid) as pat_cnt
 from WT_MU_CMS_ELIG_SDOH_S 
 group by sdoh_var
 order by pat_cnt desc;
+-- EP_ASIAN	60371
+-- F_NOHSDP	60371
+-- F_AGE65	60371
+-- EPL_SNGPNT	60371
+-- F_LIMENG	60371
+-- ...
 
 -- get i-sdoh variables
 select * from I_SDH_SEL;
@@ -329,12 +334,18 @@ call get_sdoh_I(
 );
 
 select count(distinct patid),count(*) from WT_MU_CMS_ELIG_SDOH_I;
--- 60476	2624805
+-- 60473	2624479
 
 select sdoh_var, count(distinct patid) as pat_cnt
 from WT_MU_CMS_ELIG_SDOH_I 
 group by sdoh_var
 order by pat_cnt desc;
+-- H_OWN_RENT	60473
+-- H_HOME_LENGTH	60473
+-- H_NUM_PEOPLE	60472
+-- H_NUM_CHILD	60472
+-- H_MARRITAL_STAT	60472
+-- ...
 
 select * from WT_MU_CMS_ELIG_SDOH_I
 where sdoh_var = 'H_HOME_EQUITY';
@@ -399,4 +410,4 @@ where exists (
 ;
 
 select count(distinct patid),count(*) from WT_MU_CMS_ELIG_SDOH_I_NUM;
--- 60479	2460074
+-- 60476	2459799
