@@ -103,58 +103,34 @@ while (tables.next()){
     var cols_alias = cols.map(value => {return 'b.'+ value});
     var type = tables.getColumnValue(4);
 
-    var sqlstmt_sel = ''
-    if(type=='C'){
-        sqlstmt_sel+=`
-            select  PATID,
-                    GEOCODEID,
-                    GEO_ACCURACY,
-                    SDOH_VAR || '_' || SDOH_VAL as SDOH_VAR, 
-                    1 as SDOH_VAL,
-                    SDOH_SRC
-            from cte_stk
-        `
-    } else {
-        sqlstmt_sel+=`
-            select  PATID, 
-                    GEOCODEID,
-                    GEO_ACCURACY,
-                    SDOH_VAR, 
-                    try_to_number(ltrim(SDOH_VAl,'0')) as SDOH_VAl,
-                    SDOH_SRC
-            from cte_stk     
-            where try_to_number(ltrim(SDOH_VAl,'0')) is not null
-        `
-    }
-
+    // keep records in original categorical format
     var sqlstmt = `
-        insert into WT_MU_CMS_ELIG_SDOH_S(PATID,GEOCODEID,GEO_ACCURACY,SDOH_VAR,SDOH_VAL,SDOH_SRC)
-        with cte_stk as (
-            select  PATID,
-                    GEOCODEID,
-                    GEO_ACCURACY,
-                    SDOH_VAR,
-                    SDOH_VAL,
-                    '`+ schema +`' as SDOH_SRC
-            from (
-                select  a.patid, 
-                        b.geocodeid,
-                        b.geo_accuracy,
-                        `+ cols_alias +`
-                from `+ REF_COHORT +` a 
-                join SDOH_DB.`+ schema +`.`+ table +` b 
-                on startswith(a.`+ REF_PKEY +`,b.geocodeid)
-                -- on substr(a.CENSUS_BLOCK_GROUP_2020,1,length(b.geocodeid)) = b.geocodeid
-                where length(b.geocodeid) > 9 -- excluding zip, fips-st, fips-cty
-            )
-            unpivot 
-            (
-                SDOH_VAL for SDOH_VAR in (`+ cols +`)
-            )
-            where SDOH_VAL is not null
+        insert into WT_MU_CMS_ELIG_SDOH_S(PATID,GEOCODEID,GEO_ACCURACY,SDOH_VAR,SDOH_VAL,SDOH_TYPE,SDOH_SRC)
+        select  PATID,
+                GEOCODEID,
+                GEO_ACCURACY,
+                SDOH_VAR,
+                SDOH_VAL,
+                '`+ type +`' as SDOH_TYPE,
+                '`+ schema +`' as SDOH_SRC
+        from (
+            select  a.patid, 
+                    b.geocodeid,
+                    b.geo_accuracy,
+                    `+ cols_alias +`
+            from `+ REF_COHORT +` a 
+            join SDOH_DB.`+ schema +`.`+ table +` b 
+            on startswith(a.`+ REF_PKEY +`,b.geocodeid)
+            -- on substr(a.CENSUS_BLOCK_GROUP_2020,1,length(b.geocodeid)) = b.geocodeid
+            where length(b.geocodeid) > 9 -- excluding zip, fips-st, fips-cty
         )
-        `+ sqlstmt_sel +`
-    `
+        unpivot 
+        (
+            SDOH_VAL for SDOH_VAR in (`+ cols +`)
+        )
+        where SDOH_VAL is not null
+    `;
+
     var run_sqlstmt = snowflake.createStatement({sqlText: sqlstmt});
 
     if (DRY_RUN) {
@@ -190,10 +166,10 @@ create or replace table WT_MU_CMS_ELIG_SDOH_S (
        ,GEOCODEID varchar(15)
        ,GEO_ACCURACY varchar(3)
        ,SDOH_VAR varchar(100)
-       ,SDOH_VAL double
+       ,SDOH_VAL varchar(1000)
+       ,SDOH_TYPE varchar(2)
        ,SDOH_SRC varchar(10)
 );
-
 call get_sdoh_s(
        'WT_MU_CMS_ELIG_GEOID',
        'CENSUS_BLOCK_GROUP_2020',
@@ -208,9 +184,31 @@ call get_sdoh_s(
        ),
        FALSE, NULL
 );
-select count(distinct patid), count(*) from WT_MU_CMS_ELIG_SDOH_S
+select count(distinct patid), count(*) from WT_MU_CMS_ELIG_SDOH_S;
+--60441	12428164
+
+create or replace table WT_MU_CMS_ELIG_SDOH_S_NUM as
+select  PATID,
+        GEOCODEID,
+        GEO_ACCURACY,
+        SDOH_VAR || '_' || SDOH_VAL as SDOH_VAR, 
+        1 as SDOH_VAL,
+        SDOH_SRC
+from WT_MU_CMS_ELIG_SDOH_S
+where SDOH_TYPE = 'C'
+union
+select  PATID, 
+        GEOCODEID,
+        GEO_ACCURACY,
+        SDOH_VAR, 
+        try_to_number(ltrim(SDOH_VAl,'0')) as SDOH_VAl,
+        SDOH_SRC
+from WT_MU_CMS_ELIG_SDOH_S     
+where SDOH_TYPE = 'N'
 ;
--- 60,441
+
+select count(distinct patid), count(*) from WT_MU_CMS_ELIG_SDOH_S_NUM;
+--60441	12413027
 
 select sdoh_var, count(distinct patid) as pat_cnt
 from WT_MU_CMS_ELIG_SDOH_S 
@@ -265,46 +263,25 @@ while (tables.next()){
     cols = cols.filter(value=>{return !value.includes('PATID')});
     var cols_alias = cols.map(value => {return 'b.'+ value});
 
-    var sqlstmt_sel = ''
-    if(type=='C'){
-        sqlstmt_sel+=`
-            select  PATID, 
-                    SDOH_VAR || '_' || SDOH_VAL as SDOH_VAR, 
-                    1 as SDOH_VAL,
-                    SDOH_SRC
-            from cte_stk
-        `
-    } else {
-        sqlstmt_sel+=`
-            select  PATID, 
-                    SDOH_VAR, 
-                    try_to_number(ltrim(SDOH_VAl,'0')) as SDOH_VAl,
-                    SDOH_SRC
-            from cte_stk     
-            where try_to_number(ltrim(SDOH_VAl,'0')) is not null
-        `
-    }
     var sqlstmt = `
-        insert into WT_MU_CMS_ELIG_SDOH_I(PATID,SDOH_VAR,SDOH_VAL,SDOH_SRC)
-        with cte_stk as (
-            select  PATID,
-                    SDOH_VAR,
-                    SDOH_VAL,
-                    'ACXIOM' as SDOH_SRC
-            from (
-                select  a.patid, 
-                        `+ cols_alias +`
-                from `+ REF_COHORT +` a 
-                join SDOH_DB.`+ schema +`.`+ table +` b 
-                on a.`+ REF_PKEY +` = b.patid
-            )
-            unpivot 
-            (
-                SDOH_VAL for SDOH_VAR in (`+ cols +`)
-            )
-            where SDOH_VAL is not null
+        insert into WT_MU_CMS_ELIG_SDOH_I(PATID,SDOH_VAR,SDOH_VAL,SDOH_TYPE,SDOH_SRC)
+        select  PATID,
+                SDOH_VAR,
+                SDOH_VAL,
+                '`+ type +`' as SDOH_TYPE,
+                'ACXIOM' as SDOH_SRC
+        from (
+            select  a.patid, 
+                    `+ cols_alias +`
+            from `+ REF_COHORT +` a 
+            join SDOH_DB.`+ schema +`.`+ table +` b 
+            on a.`+ REF_PKEY +` = b.patid
         )
-        `+ sqlstmt_sel +`
+        unpivot 
+        (
+            SDOH_VAL for SDOH_VAR in (`+ cols +`)
+        )
+        where SDOH_VAL is not null
     `
     var run_sqlstmt = snowflake.createStatement({sqlText: sqlstmt});
 
@@ -323,10 +300,11 @@ while (tables.next()){
 }
 $$
 ;
-create or replace table WT_MU_CMS_ELIG_SDOH_I (
+create or replace table WT_MU_CMS_ELIG_SDOH_I(
         PATID varchar(50) NOT NULL
        ,SDOH_VAR varchar(50)
-       ,SDOH_VAL double
+       ,SDOH_VAL varchar(1000)
+       ,SDOH_TYPE varchar(2)
        ,SDOH_SRC varchar(10)
 );
 
@@ -350,8 +328,37 @@ call get_sdoh_I(
        FALSE, NULL
 );
 
+select count(distinct patid),count(*) from WT_MU_CMS_ELIG_SDOH_I;
+-- 60476	2624805
+
+select sdoh_var, count(distinct patid) as pat_cnt
+from WT_MU_CMS_ELIG_SDOH_I 
+group by sdoh_var
+order by pat_cnt desc;
+
+select * from WT_MU_CMS_ELIG_SDOH_I
+where sdoh_var = 'H_HOME_EQUITY';
+
+
+create or replace table WT_MU_CMS_ELIG_SDOH_I_NUM as 
+select  PATID, 
+        SDOH_VAR || '_' || SDOH_VAL as SDOH_VAR, 
+        1 as SDOH_VAL,
+        SDOH_SRC
+from WT_MU_CMS_ELIG_SDOH_I
+where SDOH_TYPE = 'C'
+union 
+select  PATID, 
+        SDOH_VAR, 
+        try_to_number(ltrim(SDOH_VAl,'0')) as SDOH_VAl,
+        SDOH_SRC
+from WT_MU_CMS_ELIG_SDOH_I     
+where SDOH_TYPE = 'N' and 
+      try_to_number(ltrim(SDOH_VAl,'0')) is not null
+;
+
 -- add medicaid and LIS eligibility indicator from CMS data
-insert into WT_MU_CMS_ELIG_SDOH_I 
+insert into WT_MU_CMS_ELIG_SDOH_I_NUM 
 select distinct 
         a.patid,
         'DUAL_ELIG' as SDOH_VAR,
@@ -364,7 +371,7 @@ where exists (
 )
 ;
 
-insert into WT_MU_CMS_ELIG_SDOH_I 
+insert into WT_MU_CMS_ELIG_SDOH_I_NUM 
 select distinct 
         a.patid,
         'LIS_ELIG' as SDOH_VAR,
@@ -377,7 +384,7 @@ where exists (
 )
 ;
 
-insert into WT_MU_CMS_ELIG_SDOH_I 
+insert into WT_MU_CMS_ELIG_SDOH_I_NUM 
 select distinct 
         a.patid,
         'DUAL_LIS_ELIG' as SDOH_VAR,
@@ -391,12 +398,5 @@ where exists (
 )
 ;
 
-select count(distinct patid),count(*) from WT_MU_CMS_ELIG_SDOH_I;
--- 60,479
-
-select sdoh_var, count(distinct patid) as pat_cnt
-from WT_MU_CMS_ELIG_SDOH_I 
-group by sdoh_var
-order by pat_cnt desc;
-
-
+select count(distinct patid),count(*) from WT_MU_CMS_ELIG_SDOH_I_NUM;
+-- 60479	2460074
