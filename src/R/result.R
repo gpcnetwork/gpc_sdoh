@@ -214,7 +214,7 @@ prc_lbl<-out$perf_summ %>%
     model,":",
     round(meas_val_m,3),
     "(",round(meas_val_lb,3),
-    ",",round(meas_val_ub,3),")"
+    "-",round(meas_val_ub,3),")"
   )) %>% select(lab) %>% pull
 
 p2<-ggplot(prc,aes(x=recall,y=meas_val_m,color=model))+
@@ -259,9 +259,10 @@ calibr_full<-out$calibr %>%
 ggplot(calibr_full,aes(x=y_p,y=pred_p))+
   geom_point()+geom_abline(intercept=0,slope=1)+
   geom_errorbar(aes(ymin=binCI_lower,ymax=binCI_upper))+
-  geom_text(aes(x=0.1,y=0.6,label=lab),hjust = 0,fontface="bold")+
+  geom_text(aes(x=0.05,y=0.6,label=lab),hjust = 0,fontface="bold")+
   labs(x="Actual Probability",y="Predicted Probability",
        title='Calibration Plot')+
+  ylim(0,0.8)+xlim(0,0.8)+
   facet_wrap(~model,scales="free")+
   theme(text=element_text(face="bold",size=15),
         strip.text = element_text(size = 15))

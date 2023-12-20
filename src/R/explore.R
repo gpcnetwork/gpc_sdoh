@@ -47,19 +47,12 @@ cohort_summ %>%
     paste0("./res/cohort_summ.pdf")
 )
 
-var_lst2<-var_lst[
-  !var_lst%in% c(
-    "READMIT30D_DEATH_IND"
-  )
-]
-numvar_lst2<-numvar_lst
-facvar_lst2<-var_lst2[!var_lst2 %in% numvar_lst2]
 cohort_summ<-univar_analysis_mixed(
   df = data_df,
   id_col ="ROWID",
-  var_lst = var_lst2,
+  var_lst = var_lst[!var_lst%in% c("READMIT30D_DEATH_IND")],
   grp = data_df$READMIT30D_DEATH_IND,
-  facvar_lst  = facvar_lst2,
+  facvar_lst  = facvar_lst[!facvar_lst%in% c("READMIT30D_DEATH_IND")],
   pretty = T
 )
 cohort_summ %>%
@@ -68,10 +61,10 @@ cohort_summ %>%
   )
 
 #==== s-sdh
-data_df<-readRDS("./data/mu_readmit_sdoh_s.rds") %>% select(-PATID,-ENCOUNTERID) 
+data_df<-readRDS("./data/mu_readmit_sdoh_s.rds") %>% 
+  select(-PATID,-ENCOUNTERID) 
 var_encoder<-data_df %>% select(SDOH_VAR,SDOH_TYPE) %>% unique
 N<-length(unique(data_df$ROWID))
-gc()
 
 entropy<-data_df %>%
   group_by(SDOH_VAR) %>%
@@ -99,18 +92,31 @@ entropy<-data_df %>%
 
 write.csv(entropy,file="./res/entropy_s_sdh.csv",row.names = F)
 
-data_df %<>%
-  group_by(ROWID) %>% slice(1:1) %>% ungroup %>%
-  pivot_wider(names_from = SDOH_VAR, values_from = SDOH_VAL)
+var_lst<-var_encoder %>% 
+  filter(!SDOH_VAR %in% c(
+    'CBSA_NAME'
+  )) %>%
+  select(SDOH_VAR) %>% pull
 
-var_lst<-var_encoder %>% select(SDOH_VAR) %>% pull
-facvar_lst<-var_encoder %>% filter(SDOH_TYPE=="C") %>% select(SDOH_VAR) %>% pull
-var_lbl_df<-var_encoder %>% select(SDOH_VAR) %>% unique %>%
+facvar_lst<-var_encoder %>% 
+  filter(!SDOH_VAR %in% c(
+    'CBSA_NAME'
+  )) %>%
+  filter(SDOH_TYPE=="C") %>% 
+  select(SDOH_VAR) %>% pull
+
+var_lbl_df<-var_encoder %>% 
+  select(SDOH_VAR) %>% unique %>%
   left_join(
     readRDS("./data/sdoh_dd.rds") %>% 
       select(VAR,VAR_LABEL),
     by=c("SDOH_VAR"="VAR")) %>%
   rename(var=SDOH_VAR,var_lbl=VAR_LABEL)
+
+data_df %<>%
+  group_by(ROWID) %>% slice(1:1) %>% ungroup %>%
+  pivot_wider(names_from = SDOH_VAR, values_from = SDOH_VAL)
+
 cohort_summ<-univar_analysis_mixed(
   df = data_df,
   id_col ="ROWID",
@@ -139,7 +145,8 @@ cohort_summ %>%
   )
 
 #==== i-sdh
-data_df<-readRDS("./data/mu_readmit_sdoh_i.rds") %>% select(-PATID,-ENCOUNTERID) 
+data_df<-readRDS("./data/mu_readmit_sdoh_i.rds") %>% 
+  select(-PATID,-ENCOUNTERID) 
 var_encoder<-data_df %>% select(SDOH_VAR,SDOH_TYPE) %>% unique
 N<-length(unique(data_df$ROWID))
 gc()

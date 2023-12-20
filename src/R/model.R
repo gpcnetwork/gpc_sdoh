@@ -55,7 +55,7 @@ for(i in 1:nrow(tr_plan)){
   # i<-4 # uncomment for unit test
   # training
   tr<-readRDS(tr_plan$path_to_data[i]) %>% 
-    semi_join(readRDS("./data/part_idx_noleak.rda") %>% 
+    semi_join(readRDS("./data/part_idx_leakprone.rda") %>% 
                 filter(hdout82 == 0),
               by="ROWID") %>%
     select(-PATID, -ENCOUNTERID) %>%
@@ -83,7 +83,7 @@ for(i in 1:nrow(tr_plan)){
   
   # testing
   ts<-readRDS(tr_plan$path_to_data[i]) %>% 
-    semi_join(readRDS("./data/part_idx_noleak.rda") %>% 
+    semi_join(readRDS("./data/part_idx_leakprone.rda") %>% 
                 filter(hdout82 == 1),
               by="ROWID") %>%
     select(-PATID, -ENCOUNTERID) %>%
@@ -112,7 +112,7 @@ for(i in 1:nrow(tr_plan)){
   # customize folds (so same patient remain in the same fold)
   folds<-list()
   for(fold in 1:5){
-    fold_lst<-readRDS("./data/part_idx_noleak.rda") %>%
+    fold_lst<-readRDS("./data/part_idx_leakprone.rda") %>%
       filter(hdout82==0&cv5==fold) %>%
       select(ROWID) %>% 
       inner_join(

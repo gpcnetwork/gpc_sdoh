@@ -139,7 +139,6 @@ NE,SLM,SLD_2021,AUTOOWN0,N,Number of households in CBG that own zero automobiles
 NE,SLM,SLD_2021,AUTOOWN1,N,Number of households in CBG that own one automobile
 NE,SLM,SLD_2021,AUTOOWN2P,N,Number of households in CBG that own two or more automobiles
 NE,SLM,SLD_2021,CBSA_EMP,N,Total employment in CBSA 2017
-NE,SLM,SLD_2021,CBSA_NAME,N,Name of CBSA in which CBG resides
 NE,SLM,SLD_2021,CBSA_WRK,N,Total number of workers that live in CBSA 2017
 NE,SLM,SLD_2021,COUNTHU,N,Housing units
 NE,SLM,SLD_2021,D1_FLAG,C,Flag indicating that density metrics are based on total CBG land acreage rather than unprotected acreage
