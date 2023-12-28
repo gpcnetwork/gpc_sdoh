@@ -4,8 +4,7 @@
 # File: wt-cms-mu-sdoh.sql                                            
 */
 -- check availability of dependency tables
-select * from WT_MU_CMS_READMIT_ELIG limit 5;
-select * from WT_MU_CMS_ELIG_GEOID limit 5;
+select * from WT_MU_EHR_ELIG_GEOID limit 5;
 select * from SDOH_DB.ACXIOM.DEID_ACXIOM_DATA limit 5;
 select * from SDOH_DB.ADI.ADI_2020 limit 5;
 select * from SDOH_DB.FARA.FARA_2019 limit 5;
@@ -57,6 +56,7 @@ select * from S_SDH_SEL;
 
 -- get s-sdoh variables
 create or replace procedure get_sdoh_s(
+    TGT_TABLE string,
     REF_COHORT string,
     REF_PKEY string,
     SDOH_TBLS array,
@@ -68,6 +68,7 @@ language javascript
 as
 $$
 /**
+ * @param {string} TGT_TABLE: name of target sdoh collection table
  * @param {string} REF_COHORT: name of reference patient table (absolute path/full name), should at least include (patid)
  * @param {string} REF_PKEY: primary key column in REF_COHORT table for matchin with SDOH tables
  * @param {array} SDOH_TBLS: an array of tables in SDOH_DB
@@ -105,7 +106,7 @@ while (tables.next()){
 
     // keep records in original categorical format
     var sqlstmt = `
-        insert into WT_MU_CMS_ELIG_SDOH_S(PATID,GEOCODEID,GEO_ACCURACY,SDOH_VAR,SDOH_VAL,SDOH_TYPE,SDOH_SRC)
+        insert into `+ TGT_TABLE +`(PATID,GEOCODEID,GEO_ACCURACY,SDOH_VAR,SDOH_VAL,SDOH_TYPE,SDOH_SRC)
         select  PATID,
                 GEOCODEID,
                 GEO_ACCURACY,
@@ -150,7 +151,8 @@ $$
 ;
 /* test */
 -- call get_sdoh_s(
---        'SDOH_DB.ACXIOM.MU_GEOID_DEID',
+--        'WT_MU_EHR_ELIG_SDOH_S'
+--        'WT_MU_EHR_ELIG_GEOID',
 --        'CENSUS_BLOCK_GROUP_2020',
 --        array_construct(
 --               'RUCA_2010'
@@ -161,7 +163,7 @@ $$
 -- );
 -- select * from TMP_SP_OUTPUT;
 
-create or replace table WT_MU_CMS_ELIG_SDOH_S (
+create or replace table WT_MU_EHR_ELIG_SDOH_S (
         PATID varchar(50) NOT NULL
        ,GEOCODEID varchar(15)
        ,GEO_ACCURACY varchar(3)
@@ -171,7 +173,8 @@ create or replace table WT_MU_CMS_ELIG_SDOH_S (
        ,SDOH_SRC varchar(10)
 );
 call get_sdoh_s(
-       'WT_MU_CMS_ELIG_GEOID',
+       'WT_MU_EHR_ELIG_SDOH_S',
+       'WT_MU_EHR_ELIG_GEOID',
        'CENSUS_BLOCK_GROUP_2020',
        array_construct(
               'ACS_2019'
@@ -184,45 +187,43 @@ call get_sdoh_s(
        ),
        FALSE, NULL
 );
-select count(distinct patid), count(*) from WT_MU_CMS_ELIG_SDOH_S;
---60438	12427500
-create or replace table WT_MU_CMS_ELIG_SDOH_S_NUM as
+select count(distinct patid), count(*) from WT_MU_EHR_ELIG_SDOH_S;
+--45588	9427449
+create or replace table WT_MU_EHR_ELIG_SDOH_S_NUM as
 select  PATID,
         GEOCODEID,
         GEO_ACCURACY,
+        SDOH_VAR as SDOH_VAR_ORIG,
         SDOH_VAR || '_' || SDOH_VAL as SDOH_VAR, 
         1 as SDOH_VAL,
         SDOH_SRC
-from WT_MU_CMS_ELIG_SDOH_S
+from WT_MU_EHR_ELIG_SDOH_S
 where SDOH_TYPE = 'C'
 union
 select  PATID, 
         GEOCODEID,
         GEO_ACCURACY,
+        SDOH_VAR as SDOH_VAR_ORIG,
         SDOH_VAR, 
         try_to_number(ltrim(SDOH_VAl,'0')) as SDOH_VAl,
         SDOH_SRC
-from WT_MU_CMS_ELIG_SDOH_S     
+from WT_MU_EHR_ELIG_SDOH_S     
 where SDOH_TYPE = 'N'
 ;
 
-select count(distinct patid), count(*) from WT_MU_CMS_ELIG_SDOH_S_NUM;
---60438	12412195
+select count(distinct patid), count(*) from WT_MU_EHR_ELIG_SDOH_S_NUM;
+--45588	12412195
 
 select sdoh_var, count(distinct patid) as pat_cnt
-from WT_MU_CMS_ELIG_SDOH_S 
+from WT_MU_EHR_ELIG_SDOH_S 
 group by sdoh_var
 order by pat_cnt desc;
--- EP_ASIAN	60371
--- F_NOHSDP	60371
--- F_AGE65	60371
--- EPL_SNGPNT	60371
--- F_LIMENG	60371
--- ...
+
 
 -- get i-sdoh variables
 select * from I_SDH_SEL;
 create or replace procedure get_sdoh_i(
+    TGT_TABLE string,
     REF_COHORT string,
     REF_PKEY string,
     SDOH_TBLS array,
@@ -234,6 +235,7 @@ language javascript
 as
 $$
 /**
+ * @param {string} TGT_TABLE: name of target sdoh collection table
  * @param {string} REF_COHORT: name of reference patient table (absolute path/full name), should at least include (patid)
  * @param {string} REF_PKEY: primary key column in REF_COHORT table for matchin with SDOH tables
  * @param {array} SDOH_TBLS: an array of tables in SDOH_DB
@@ -269,7 +271,7 @@ while (tables.next()){
     var cols_alias = cols.map(value => {return 'b.'+ value});
 
     var sqlstmt = `
-        insert into WT_MU_CMS_ELIG_SDOH_I(PATID,SDOH_VAR,SDOH_VAL,SDOH_TYPE,SDOH_SRC)
+        insert into `+ TGT_TABLE +`(PATID,SDOH_VAR,SDOH_VAL,SDOH_TYPE,SDOH_SRC)
         select  PATID,
                 SDOH_VAR,
                 SDOH_VAL,
@@ -305,7 +307,7 @@ while (tables.next()){
 }
 $$
 ;
-create or replace table WT_MU_CMS_ELIG_SDOH_I(
+create or replace table WT_MU_EHR_ELIG_SDOH_I(
         PATID varchar(50) NOT NULL
        ,SDOH_VAR varchar(50)
        ,SDOH_VAL varchar(1000)
@@ -315,7 +317,8 @@ create or replace table WT_MU_CMS_ELIG_SDOH_I(
 
 /*test*/
 -- call get_sdoh_I(
---     'WT_MU_CMS_ELIG_TBL2',
+--     'WT_MU_EHR_ELIG_SDOH_I',
+--     'WT_MU_EHR_ELIG_TBL2',
 --     'PATID_ACXIOM',
 --     array_construct(
 --         'DEID_ACXIOM_DATA'
@@ -325,7 +328,8 @@ create or replace table WT_MU_CMS_ELIG_SDOH_I(
 -- select * from TMP_SP_OUTPUT;
 
 call get_sdoh_I(
-       'WT_MU_CMS_ELIG_TBL2',
+       'WT_MU_EHR_ELIG_SDOH_I',
+       'WT_MU_EHR_ELIG_TBL2',
        'PATID_ACXIOM',
        array_construct(
             'DEID_ACXIOM_DATA'
@@ -333,75 +337,82 @@ call get_sdoh_I(
        FALSE, NULL
 );
 
-select count(distinct patid),count(*) from WT_MU_CMS_ELIG_SDOH_I;
--- 60473	2624479
+select count(distinct patid),count(*) from WT_MU_EHR_ELIG_SDOH_I;
+-- 45620	1978385
+
+select sdoh_var, count(distinct sdoh_val) from WT_MU_EHR_ELIG_SDOH_I
+where sdoh_type = 'N'
+group by sdoh_var
+order by count(distinct sdoh_val) desc
+;
 
 select sdoh_var, count(distinct patid) as pat_cnt
-from WT_MU_CMS_ELIG_SDOH_I 
+from WT_MU_EHR_ELIG_SDOH_I 
 group by sdoh_var
 order by pat_cnt desc;
--- H_OWN_RENT	60473
--- H_HOME_LENGTH	60473
--- H_NUM_PEOPLE	60472
--- H_NUM_CHILD	60472
--- H_MARRITAL_STAT	60472
+-- H_HOME_LENGTH	45620
+-- H_NUM_CHILD	45620
+-- H_INCOME	45620
+-- H_OWN_RENT	45620
+-- H_NUM_PEOPLE	45620
+-- H_MARRITAL_STAT	45620
 -- ...
 
-select * from WT_MU_CMS_ELIG_SDOH_I
-where sdoh_var = 'H_HOME_EQUITY';
-
-
-create or replace table WT_MU_CMS_ELIG_SDOH_I_NUM as 
-select  PATID, 
+create or replace table WT_MU_EHR_ELIG_SDOH_I_NUM as 
+select  PATID,
+        SDOH_VAR as SDOH_VAR_ORIG,
         SDOH_VAR || '_' || SDOH_VAL as SDOH_VAR, 
         1 as SDOH_VAL,
         SDOH_SRC
-from WT_MU_CMS_ELIG_SDOH_I
+from WT_MU_EHR_ELIG_SDOH_I
 where SDOH_TYPE = 'C'
 union 
 select  PATID, 
+        SDOH_VAR as SDOH_VAR_ORIG,
         SDOH_VAR, 
         try_to_number(ltrim(SDOH_VAl,'0')) as SDOH_VAl,
         SDOH_SRC
-from WT_MU_CMS_ELIG_SDOH_I     
+from WT_MU_EHR_ELIG_SDOH_I     
 where SDOH_TYPE = 'N' and 
       try_to_number(ltrim(SDOH_VAl,'0')) is not null
 ;
 
 -- add medicaid and LIS eligibility indicator from CMS data
-insert into WT_MU_CMS_ELIG_SDOH_I_NUM 
+insert into WT_MU_EHR_ELIG_SDOH_I_NUM 
 select distinct 
         a.patid,
+        'DUAL_ELIG' as SDOH_VAR_ORIG,
         'DUAL_ELIG' as SDOH_VAR,
         1 as SDOH_VAL,
         'CMS' as SDOH_SRC
-from WT_MU_CMS_ELIG_TBL2 a  
+from WT_MU_EHR_ELIG_TBL2 a  
 where exists (
     select 1 from GROUSE_DB.CMS_PCORNET_CDM.LDS_ENROLLMENT b 
     where a.patid = b.patid and b.raw_basis = 'DUAL'
 )
 ;
-
-insert into WT_MU_CMS_ELIG_SDOH_I_NUM 
+insert into WT_MU_EHR_ELIG_SDOH_I_NUM 
 select distinct 
         a.patid,
+        'LIS_ELIG' as SDOH_VAR_ORIG,
         'LIS_ELIG' as SDOH_VAR,
         1 as SDOH_VAL,
         'CMS' as SDOH_SRC
-from WT_MU_CMS_ELIG_TBL2 a  
+from WT_MU_EHR_ELIG_TBL2 a  
 where exists (
     select 1 from GROUSE_DB.CMS_PCORNET_CDM.LDS_ENROLLMENT b 
     where a.patid = b.patid and b.raw_basis = 'LIS'
 )
 ;
 
-insert into WT_MU_CMS_ELIG_SDOH_I_NUM 
+insert into WT_MU_EHR_ELIG_SDOH_I_NUM 
 select distinct 
         a.patid,
+        'DUAL_LIS_ELIG' as SDOH_VAR_ORIG,
         'DUAL_LIS_ELIG' as SDOH_VAR,
         1 as SDOH_VAL,
         'CMS' as SDOH_SRC
-from WT_MU_CMS_ELIG_TBL2 a  
+from WT_MU_EHR_ELIG_TBL2 a  
 where exists (
     select 1 from GROUSE_DB.CMS_PCORNET_CDM.LDS_ENROLLMENT b 
     where a.patid = b.patid and 
@@ -409,5 +420,5 @@ where exists (
 )
 ;
 
-select count(distinct patid),count(*) from WT_MU_CMS_ELIG_SDOH_I_NUM;
--- 60476	2459799
+select count(distinct patid),count(*) from WT_MU_EHR_ELIG_SDOH_I_NUM;
+--45623	1808572

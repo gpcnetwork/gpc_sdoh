@@ -4,58 +4,72 @@
 # File: wt-cms-mu-clinic.sql                                            
 */
 -- check availability of dependency tables
-select * from WT_MU_CMS_ELIG_TBL2 limit 5;
-select * from WT_MU_CMS_READMIT_ELIG limit 5;
+select * from WT_MU_EHR_ELIG_TBL2 limit 5;
 select * from GROUSE_DB.CMS_PCORNET_CDM.LDS_DIAGNOSIS limit 5;
+select * from GROUSE_DB.PCORNET_CDM_MU.LDS_DIAGNOSIS limit 5;
 select * from GROUSE_DB.GROUPER_VALUESETS.ICD9DX_CCS limit 5;
 select * from GROUSE_DB.CMS_PCORNET_CDM.LDS_PROCEDURES limit 5;
+select * from GROUSE_DB.PCORNET_CDM_MU.LDS_PROCEDURES limit 5;
 select * from GROUSE_DB.CMS_PCORNET_CDM.LDS_DISPENSING limit 5;
 select * from GROUSE_DB.PCORNET_CDM_MU.LDS_VITAL limit 5;
 select * from Z_REF_CCI;
 
 -- get clinical features each pat-enc
-create or replace table WT_MU_CMS_DX as 
+create or replace table WT_MU_DX as 
 select a.patid
       ,dx.encounterid
       ,dx.enc_type
       ,dx.dx
       ,dx.dx_type
       ,dx.dx_date
-from WT_MU_CMS_ELIG_TBL2 a 
+from WT_MU_EHR_ELIG_TBL2 a 
 join GROUSE_DB.CMS_PCORNET_CDM.LDS_DIAGNOSIS dx 
 on a.patid = dx.patid
+union 
+select a.patid
+      ,dx.encounterid
+      ,dx.enc_type
+      ,dx.dx
+      ,dx.dx_type
+      ,dx.dx_date
+from WT_MU_EHR_ELIG_TBL2 a 
+join GROUSE_DB.PCORNET_CDM_MU.LDS_DIAGNOSIS dx 
+on a.patid = dx.patid
 ;
-select count(distinct patid) from WT_MU_CMS_DX;
--- 60,482
+select count(distinct patid) from WT_MU_DX;
+-- 45625
+select * from WT_MU_DX
+where dx_type = '09'
+limit 5;
 
-create or replace table WT_MU_CMS_CCI as
+create or replace table WT_MU_CCI as
 select  distinct
         dx.patid,
         dx.dx_date as cci_date,
         cci.code_grp,
         cci.full as code_grp_lbl,
         cci.score as cci_score
-    from WT_MU_CMS_DX dx
-    join Z_REF_CCI cci 
-    on dx.dx like cci.code || '%' and 
-       dx.dx_type = cci.code_type
+from WT_MU_DX dx
+join Z_REF_CCI cci 
+on dx.dx like cci.code || '%' and 
+   dx.dx_type = lpad(cci.code_type,2,'0')
 ; 
-select count(distinct patid) from WT_MU_CMS_CCI;
--- 58,131
+select count(distinct patid) from WT_MU_CCI;
+-- 43866
 
-create or replace table WT_MU_CMS_DX_CCS as 
+create or replace table WT_MU_DX_CCS as 
 with cte_ccs as (
     select distinct dx.*,
            ccs.ccs_slvl1 as ccs_dxgrpcd, 
            ccs.ccs_slvl1label as ccs_dxgrp
-    from WT_MU_CMS_DX dx 
+    from WT_MU_DX dx 
     join GROUSE_DB.GROUPER_VALUESETS.ICD10CM_CCS ccs 
     on replace(dx.DX,'.','') = ccs.ICD10CM and dx.DX_TYPE = '10'
     union
     select distinct dx.*,
            icd9.ccs_mlvl1 as ccs_dxgrpcd, 
            icd9.ccs_mlvl1label as ccs_dxgrp
-    from WT_MU_CMS_DX dx 
+    from WT_MU_DX dx 
     join GROUSE_DB.GROUPER_VALUESETS.ICD9DX_CCS icd9 
     on rpad(replace(dx.DX,'.',''),5,'0') = icd9.ICD9 and dx.DX_TYPE = '09'
 )
@@ -69,27 +83,37 @@ select distinct
 from cte_ccs
 ;
 
-select count(distinct patid) from WT_MU_CMS_DX_CCS;
--- 60,480
+select count(distinct patid) from WT_MU_DX_CCS;
+-- 45625
 
-create or replace table WT_MU_CMS_PX as
+create or replace table WT_MU_PX as
 select a.patid
       ,px.encounterid
       ,px.enc_type
       ,px.px
       ,px.px_type
       ,px.px_date
-from WT_MU_CMS_ELIG_TBL2 a 
+from WT_MU_EHR_ELIG_TBL2 a 
 join GROUSE_DB.CMS_PCORNET_CDM.LDS_PROCEDURES px 
 on a.patid = px.patid
+union
+select a.patid
+      ,px.encounterid
+      ,px.enc_type
+      ,px.px
+      ,px.px_type
+      ,px.px_date
+from WT_MU_EHR_ELIG_TBL2 a 
+join GROUSE_DB.PCORNET_CDM_MU.LDS_PROCEDURES px 
+on a.patid = px.patid
 ;
-select count(distinct patid) from WT_MU_CMS_PX;
--- 60,400
+select count(distinct patid) from WT_MU_PX;
+-- 45625
 
-create or replace table WT_MU_CMS_PX_CCS as
+create or replace table WT_MU_PX_CCS as
 with cte_ccs as (
     select b.*, a.ccslvl::varchar as ccs_pxgrpcd, a.ccslvl_label as ccs_pxgrp
-    from WT_MU_CMS_PX b
+    from WT_MU_PX b
     join ONTOLOGY.GROUPER_VALUESETS.CPT_CCS a 
     on to_double(b.PX) between to_double(a.cpt_lb) and to_double(a.cpt_ub) 
        and b.PX_TYPE = 'CH' 
@@ -97,20 +121,20 @@ with cte_ccs as (
        and regexp_like(a.cpt_lb,'^[[:digit:]]+$')
     union 
     select b.*, a.ccslvl::varchar as ccs_pxgrpcd, a.ccslvl_label as ccs_pxgrp
-    from WT_MU_CMS_PX b 
+    from WT_MU_PX b 
     join ONTOLOGY.GROUPER_VALUESETS.CPT_CCS a 
     on b.PX = a.cpt_lb 
        and b.PX_TYPE = 'CH' 
        and not regexp_like(a.cpt_lb,'^[[:digit:]]+$')
     union
     select b.*, a.ccs_slvl1 as ccs_pxgrpcd, a.ccs_slvl1label as ccs_pxgrp
-    from WT_MU_CMS_PX b 
+    from WT_MU_PX b 
     join GROUSE_DB.GROUPER_VALUESETS.ICD9PX_CCS a 
     on replace(b.PX,'.','') = a.ICD9 
        and b.PX_TYPE = '09'
     union 
     select b.*, c.ccs_slvl1 as ccs_pxgrpcd, c.ccs_slvl1label as ccs_pxgrp
-    from WT_MU_CMS_PX b
+    from WT_MU_PX b
     join GROUSE_DB.GROUPER_VALUESETS.ICD10PCS_CCS c 
     on b.PX = c.ICD10PCS and b.PX_TYPE = '10'
 )
@@ -123,30 +147,11 @@ select distinct
        px_date as ccs_date
 from cte_ccs
 ;
-select count(distinct patid), count(*) from WT_MU_CMS_PX_CCS;
--- 60,388
-
-create or replace table WT_MU_CMS_RX as
-select a.patid
-      ,rx.ndc
-      ,rx.raw_rx_med_name
-      ,split_part(rx.raw_rx_med_name,'[',0) as gnn
-      ,rx.dispense_date
-      ,rx.dispense_sup
-      ,rx.dispense_amt
-      ,rx.dispense_dose_disp
-      ,rx.dispense_dose_disp_unit
-      ,rx.dispense_dose_form
-      ,rx.dispense_route
-from WT_MU_CMS_ELIG_TBL2 a 
-join GROUSE_DB.CMS_PCORNET_CDM.LDS_DISPENSING rx 
-on a.patid = rx.patid
-;
-select count(distinct patid) from WT_MU_CMS_RX;
--- 50656
+select count(distinct patid), count(*) from WT_MU_PX_CCS;
+-- 45625	29851442
 
 -- clinical observables from EHR
-create or replace table WT_MU_CMS_EHR_HX as
+create or replace table WT_MU_EHR_HX as
 with cte_unpvt_num as (
     select patid, measure_date, measure_time, 
         OBS_NAME, OBS_NUM,'NI' as OBS_QUAL,
@@ -198,7 +203,7 @@ select  distinct
         ,b.OBS_UNIT
         ,b.OBS_QUAL
         ,b.OBS_NAME
-from WT_MU_CMS_ELIG_TBL2 a
+from WT_MU_EHR_ELIG_TBL2 a
 join (
     select * from cte_unpvt_num
     union 
@@ -215,7 +220,7 @@ select  distinct
         ,b.obsclin_result_unit as OBS_UNIT
         ,coalesce(trim(b.obsclin_result_qual),trim(b.obsclin_result_text)) as OBS_QUAL
         ,coalesce(b.raw_obsclin_name, c.long_common_name) as OBS_NAME
-from WT_MU_CMS_ELIG_TBL2 a
+from WT_MU_EHR_ELIG_TBL2 a
 join GROUSE_DB.PCORNET_CDM_MU.LDS_OBS_CLIN b
     on a.patid = b.patid
 left join ONTOLOGY.LOINC.LOINC_V2_17 c
@@ -228,14 +233,20 @@ where obsclin_result_num is not null
     )
 ;
 
-select count(distinct patid) from WT_MU_CMS_EHR_HX;
--- 60,304
+select count(distinct patid) from WT_MU_EHR_HX;
+-- 45597
 
-select obs_name,count(distinct patid) from WT_MU_CMS_EHR_HX
+select obs_name,count(distinct patid) from WT_MU_EHR_HX
 group by obs_name
 order by count(distinct patid) desc;
 
-
--- encounters observed in EHR
--- create or replace table WT_MU_CMS_EHR_ENC as
--- ;
+-- SYSTOLIC	45527
+-- DIASTOLIC	45493
+-- Weight (kg)	45405
+-- Height (cm)	45290
+-- BMI	45225
+-- SpO2	44869
+-- Braden Skin Score	41693
+-- WT	40942
+-- Mean NIBP	40417
+-- Characteristics of Speech	39866
