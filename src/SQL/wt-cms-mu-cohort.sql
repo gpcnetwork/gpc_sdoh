@@ -96,9 +96,32 @@ select count(distinct patid), count(*) from WT_MU_CMS_TBL1;
 -- 129,500
 
 -- encounter cohort
-create or replace table WT_MU_CMS_READMIT as
-with cte_ip as (
-    select a.patid,
+create or replace table WT_MU_CMS_ADMIT as 
+with cte_cnsr as (
+    select patid, max(censor_date) as censor_date
+    from (
+        select patid, max(enr_end_date) as censor_date 
+        from GROUSE_DB.CMS_PCORNET_CDM.LDS_ENROLLMENT
+        group by patid
+        union 
+        select patid, max(coalesce(discharge_date,admit_date)) as censor_date
+        from GROUSE_DB.PCORNET_CDM_MU.LDS_ENCOUNTER
+        group by patid
+    )
+    group by patid
+),  cte_death as (
+    select patid, max(death_date) as death_date
+    from (
+        select patid, death_date 
+        from GROUSE_DB.CMS_PCORNET_CDM.LDS_DEATH
+        union 
+        select patid, death_date
+        from GROUSE_DB.PCORNET_CDM_MU.LDS_DEATH
+    )
+    group by patid
+)
+select  distinct
+        a.patid,
         a.enr_end,
         b.encounterid,
         b.enc_type,
@@ -110,15 +133,22 @@ with cte_ip as (
         b.discharge_disposition,
         p.provider_npi,
         d.death_date,
+        s.censor_date,
         1 as ip_counter
-    from WT_MU_CMS_TBL1 a 
-    join GROUSE_DB.CMS_PCORNET_CDM.LDS_ENCOUNTER b on a.patid = b.patid
-    left join GROUSE_DB.CMS_PCORNET_CDM.LDS_DEATH d on a.patid = d.patid
-    left join GROUSE_DB.CMS_PCORNET_CDM.LDS_PROVIDER p on b.PROVIDERID = p.PROVIDERID
-    where b.enc_type in ('IP','EI')
-), cte_lag as (
+from WT_MU_CMS_TBL1 a 
+join GROUSE_DB.CMS_PCORNET_CDM.LDS_ENCOUNTER b on a.patid = b.patid
+left join GROUSE_DB.CMS_PCORNET_CDM.LDS_PROVIDER p on b.PROVIDERID = p.PROVIDERID
+left join cte_death d on a.patid = d.patid
+left join cte_cnsr s on s.patid = a.patid
+where b.enc_type in ('IP','EI')
+;
+
+select * from WT_MU_CMS_ADMIT limit 5;
+
+create or replace table WT_MU_CMS_READMIT as
+with cte_lag as (
     select patid,
-        enr_end,
+        censor_date,
         encounterid,
         lead(encounterid) over (partition by patid order by admit_date) as encounterid_lead,
         enc_type,
@@ -137,12 +167,12 @@ with cte_ip as (
         death_date,
         count(distinct admit_date) over (partition by patid) as ip_cnt_tot,
         sum(ip_counter) over (partition by patid order by admit_date asc rows between unbounded preceding and current row) as ip_cnt_cum
-    from cte_ip
+    from WT_MU_CMS_ADMIT
 ), cte_readmit as (
     select l.*,
            coalesce(nullifzero(datediff('day',l.admit_date,l.discharge_date)),1) as los,
            datediff('day',l.discharge_date,l.admit_date_lead) as days_disch_to_lead,
-           datediff('day',l.discharge_date,l.enr_end) as days_disch_to_censor,
+           datediff('day',l.discharge_date,l.censor_date) as days_disch_to_censor,
            datediff('day',l.discharge_date,l.death_date) as days_disch_to_death
     from cte_lag l
     where days_disch_to_lead > 0 or days_disch_to_lead is null
@@ -338,7 +368,10 @@ select count(distinct patid), count(distinct encounterid) from EXCLD_PLANNED_CCS
 
 create or replace table WT_MU_CMS_READMIT_ELIG as 
 select a.*, 
-       case when a.days_disch_to_lead <= 30 or a.days_disch_to_death <= a.days_disch_to_lead then 1 else 0 end as readmit30d_death_ind 
+       case when a.days_disch_to_lead <= 30 or -- non-terminal encounter
+                 (a.encounterid_lead is null and a.days_disch_to_death <= 30) -- terminal encounter
+       then 1 else 0 
+       end as readmit30d_death_ind 
 from WT_MU_CMS_READMIT a
 where least(coalesce(a.days_disch_to_death,a.days_disch_to_censor),a.days_disch_to_censor) > 30 and 
       a.discharge_disposition not in ('E') and 
@@ -352,8 +385,12 @@ select count(distinct patid), count(distinct encounterid), count(*) from WT_MU_C
 select readmit30d_death_ind, count(distinct encounterid)
 from WT_MU_CMS_READMIT_ELIG
 group by readmit30d_death_ind;
--- 1	26117
--- 0	123022
+-- 1	25976
+-- 0	123163
+
+select * from WT_MU_CMS_READMIT_ELIG 
+-- where days_disch_to_death is not null
+order by patid, admit_date;
 
 create or replace table WT_MU_CMS_ELIG_TBL2 as
 select a.* 
