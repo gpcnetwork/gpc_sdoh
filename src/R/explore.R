@@ -177,6 +177,9 @@ entropy<-data_df %>%
     ee1 = sum(p1*log(1/p1)),
     ee2 = sum(p2*log(1/p2)),
     .groups = "drop"
+  ) %>%
+  mutate(
+    ee3 = case_when(ee2==0 ~ ee1, TRUE ~ ee2)
   )
 
 write.csv(entropy,file="./res/entropy_i_sdh.csv",row.names = F)
@@ -193,7 +196,7 @@ var_lbl_df<-var_encoder %>%
   rename(var=SDOH_VAR,var_lbl=VAR_LABEL)
 
 # generate summary by chunks
-var_seq<-c(seq(1,length(var_lst),by=100),length(var_lst))
+var_seq<-c(seq(1,length(var_lst),by=50),length(var_lst))
 for(i in seq_along(var_seq[-1])){
   var_pos<-var_seq[i:(i+1)]
   var_sub<-var_lst[var_pos[1]:var_pos[2]]

@@ -318,12 +318,22 @@ for(i in 1:nrow(tr_plan)){
         mutate(feat_rank=factor(feat_rank,levels=rev(levels(feat_rank)))),
       by = c('var' = "Feature")
     ) %>%
-    group_by(var,val,feat_rank) %>%
+    group_by(var,VAR,val,feat_rank) %>%
     summarise(
       eff_m = exp(median(effect,na.rm=T)),
       eff_lb = exp(quantile(effect,0.025,na.rm=T)),
       eff_ub = exp(quantile(effect,0.975,na.rm=T)),
       .groups = "drop"
+    ) %>%
+    # manual filtering of extreme values
+    filter(
+      !(
+        (VAR=="H_HOME_BUILD_YR"&(val>2022|val<1800))|
+        (VAR=="H_ASSESSED_VALUE"&(val<1|val>750000)) |
+        (VAR=="H_ONLINE_SPEND"&val>6000) |
+        (VAR=="H_TOTAL_SPEND_2YR"&val>6000) |
+        (VAR=="H_HOME_EQUITY"&val>750000)
+      )
     )
 
   ggplot(shap_sel,aes(x=val,y=eff_m))+
