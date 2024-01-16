@@ -158,17 +158,17 @@ from WT_MU_EHR_CMS_READMIT a
 join cte_ccs b on a.patid = b.patid and a.encounterid = b.encounterid 
 join EXCLD_INDEX c on b.ccs_dxgrpcd = c.ccs
 ;
-select excld_type, count(distinct patid), count(distinct encounterid) from EXCLD_INDEX_CCS_EHR
+select excld_type, count(distinct patid), count(distinct encounterid) from EXCLD_INDEX_CCS_EHR_CMS
 group by excld_type;
--- cancer	24087	38198
--- psychiatric	3159	4972
+-- cancer	20292	30420
+-- psychiatric	2630	3790
 
 -- excld: planned readmission
 select * from EXCLD_PLANNED;
-create or replace table EXCLD_PLANNED_CCS_EHR as 
+create or replace table EXCLD_PLANNED_CCS_EHR_CMS as 
 with cte_ccs_px as (
     select b.*, a.ccslvl::varchar as ccs_pxgrpcd, a.ccslvl_label as ccs_pxgrp
-    from WT_MU_EHR_PPX b
+    from WT_MU_EHR_CMS_PPX b
     join ONTOLOGY.GROUPER_VALUESETS.CPT_CCS a 
     on to_double(b.PX) between to_double(a.cpt_lb) and to_double(a.cpt_ub) 
        and b.PX_TYPE = 'CH' 
@@ -176,34 +176,34 @@ with cte_ccs_px as (
        and regexp_like(a.cpt_lb,'^[[:digit:]]+$')
     union 
     select b.*, a.ccslvl::varchar as ccs_pxgrpcd, a.ccslvl_label as ccs_pxgrp
-    from WT_MU_EHR_PPX b 
+    from WT_MU_EHR_CMS_PPX b 
     join ONTOLOGY.GROUPER_VALUESETS.CPT_CCS a 
     on b.PX = a.cpt_lb 
        and b.PX_TYPE = 'CH' 
        and not regexp_like(a.cpt_lb,'^[[:digit:]]+$')
     union
     select b.*, a.ccs_slvl1 as ccs_pxgrpcd, a.ccs_slvl1label as ccs_pxgrp
-    from WT_MU_EHR_PPX b 
+    from WT_MU_EHR_CMS_PPX b 
     join GROUSE_DB.GROUPER_VALUESETS.ICD9PX_CCS a 
     on replace(b.PX,'.','') = a.ICD9 
        and b.PX_TYPE = '09'
     union 
     select b.*, c.ccs_slvl1 as ccs_pxgrpcd, c.ccs_slvl1label as ccs_pxgrp
-    from WT_MU_EHR_PPX b
+    from WT_MU_EHR_CMS_PPX b
     join GROUSE_DB.GROUPER_VALUESETS.ICD10PCS_CCS c 
     on b.PX = c.ICD10PCS and b.PX_TYPE = '10'
 ), cte_ccs_dx as (
     select distinct dx.*,
            ccs.ccs_slvl1 as ccs_dxgrpcd, 
            ccs.ccs_slvl1label as ccs_dxgrp
-    from WT_MU_EHR_PDX dx 
+    from WT_MU_EHR_CMS_PDX dx 
     join GROUSE_DB.GROUPER_VALUESETS.ICD10CM_CCS ccs 
     on replace(dx.DX,'.','') = ccs.ICD10CM and dx.DX_TYPE = '10'
     union
     select distinct dx.*,
            icd9.ccs_mlvl1 as ccs_dxgrpcd, 
            icd9.ccs_mlvl1label as ccs_dxgrp
-    from WT_MU_EHR_PDX dx 
+    from WT_MU_EHR_CMS_PDX dx 
     join GROUSE_DB.GROUPER_VALUESETS.ICD9DX_CCS icd9 
     on rpad(replace(dx.DX,'.',''),5,'0') = icd9.ICD9 and dx.DX_TYPE = '09'
 )
@@ -225,7 +225,7 @@ join cte_ccs_dx b on a.patid = b.patid and a.encounterid = b.encounterid
 join EXCLD_PLANNED c on b.ccs_dxgrpcd = c.ccs
 where c.ccs_type = 'dx'
 ;
-select count(distinct patid), count(distinct encounterid) from EXCLD_PLANNED_CCS_EHR;
+select count(distinct patid), count(distinct encounterid) from EXCLD_PLANNED_CCS_EHR_CMS;
 -- 34603	52820
 
 create or replace table WT_MU_EHR_READMIT_ELIG as 

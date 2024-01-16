@@ -14,7 +14,6 @@ select * from GROUSE_DB.PCORNET_CDM_MU.LDS_DIAGNOSIS where pdx = 'P' limit 5;
 select * from GROUSE_DB.PCORNET_CDM_MU.LDS_PROCEDURES where ppx = 'P' limit 5;
 select * from EXCLD_INDEX;
 select * from EXCLD_PLANNED; 
-select * from WT_MU_CMS_ADMIT limit 5;
 
 create or replace table WT_MU_EHR_TBL1 as 
 with cte_obes as (
@@ -114,7 +113,10 @@ select  distinct
         a.enr_end,
         b.encounterid,
         b.enc_type,
-        b.drg,
+        case when length(trim(b.drg)) > 3 then LTRIM(b.drg,'0') 
+            when length(trim(b.drg)) < 3 then LPAD(b.drg,3,'0')
+            else trim(b.drg) 
+        end as drg,
         b.admit_date,
         b.discharge_date,
         b.admitting_source,
@@ -130,9 +132,11 @@ left join GROUSE_DB.PCORNET_CDM_MU.LDS_PROVIDER p on b.PROVIDERID = p.PROVIDERID
 left join cte_death d on a.patid = d.patid
 left join cte_cnsr s on s.patid = a.patid
 where b.enc_type in ('IP','EI')
+order by a.patid, b.admit_date
 ;
 
 select count(distinct patid), count(distinct encounterid) from WT_MU_EHR_ADMIT;
+-- 71878	208993
 
 create or replace table WT_MU_EHR_READMIT as
 with cte_lag as (
@@ -153,9 +157,7 @@ with cte_lag as (
         discharge_disposition,
         provider_npi,
         lead(provider_npi) over (partition by patid order by admit_date) as provider_npi_lead, 
-        death_date,
-        count(distinct admit_date) over (partition by patid) as ip_cnt_tot,
-        sum(ip_counter) over (partition by patid order by admit_date asc rows between unbounded preceding and current row) as ip_cnt_cum
+        death_date
     from WT_MU_EHR_ADMIT
 ), cte_readmit as (
     select l.*,
@@ -165,32 +167,37 @@ with cte_lag as (
            datediff('day',l.discharge_date,l.death_date) as days_disch_to_death
     from cte_lag l
     where days_disch_to_lead > 0 or days_disch_to_lead is null
+), cte_cumcnt as (
+    select a.patid, a.encounterid, 
+           count(distinct b.admit_date) over (partition by a.patid, a.encounterid) as ip_cumcnt_12m,
+           row_number() over (partition by a.patid, a.encounterid order by b.admit_date) as rn
+    from WT_MU_EHR_ADMIT a 
+    join WT_MU_EHR_ADMIT b 
+    on a.patid = b.patid
+    where b.admit_date < a.admit_date and b.admit_date >= dateadd(month,-12,a.admit_date)
 )
-select patid,
-       ip_cnt_tot,
-       ip_cnt_cum,
-       encounterid,
-       encounterid_lead,
-       enc_type,
-       case when length(trim(drg)) > 3 then LTRIM(drg,'0') 
-            when length(trim(drg)) < 3 then LPAD(drg,3,'0')
-            else trim(drg) 
-       end as drg,
-       admit_date,
-       admitting_source,
-       discharge_date,
-       discharge_status,
-       discharge_disposition,
-       los,
-       provider_npi,
-       days_disch_to_lead, 
-       enc_type_lead,
-       drg_lead,
-       provider_npi_lead,
-       days_disch_to_censor,
-       days_disch_to_death,
-       row_number() over (partition by patid order by admit_date) as ip_idx
-from cte_readmit
+select a.patid,
+       a.encounterid,
+       a.encounterid_lead,
+       a.enc_type,
+       a.drg,
+       a.admit_date,
+       a.admitting_source,
+       a.discharge_date,
+       a.discharge_status,
+       a.discharge_disposition,
+       a.los,
+       a.provider_npi,
+       a.days_disch_to_lead, 
+       a.enc_type_lead,
+       a.drg_lead,
+       a.provider_npi_lead,
+       a.days_disch_to_censor,
+       a.days_disch_to_death,
+       b.ip_cumcnt_12m
+from cte_readmit a 
+left join cte_cumcnt b 
+on a.patid = b.patid and a.encounterid = b.encounterid and b.rn = 1
 ;
 
 select * from WT_MU_EHR_READMIT 
@@ -198,7 +205,7 @@ order by patid, admit_date
 limit 50;
 
 select count(distinct patid), count(distinct encounterid) from WT_MU_EHR_READMIT;
--- 71,878	198,582 
+-- 71878	198569 
 
 create or replace table WT_MU_EHR_ELIG_TBL1 as
 select a.* 
@@ -242,25 +249,28 @@ select * from WT_MU_EHR_PPX limit 5;
 -- excld: <= 30 days
 select count(distinct patid), count(distinct encounterid) from WT_MU_EHR_READMIT
 where least(coalesce(days_disch_to_death,days_disch_to_censor),days_disch_to_censor) <= 30;
--- 27610	47602
+-- 13932	16330
 
 -- excld: expired at discharge
 select count(distinct patid), count(distinct encounterid) from WT_MU_EHR_READMIT
 where discharge_disposition = 'E' or discharge_status = 'EX';
--- 4434	4435
+-- 4430	4430
 
 -- excld: against medical advice
 select count(distinct patid), count(distinct encounterid) from WT_MU_EHR_READMIT
 where discharge_status = 'AM';
--- 901	1197
+-- 899	1193
 
 -- excld: transfer to another acute care hospital
 select count(distinct patid), count(distinct encounterid) from WT_MU_EHR_READMIT
-where discharge_status = 'IP';
--- 0 0
+where discharge_status in ('SH','IP');
+-- 2708	3205
 
 -- excld: primary psychiatric diagnoses 
 -- excld: medical treatment of cancer
+insert into EXCLD_INDEX
+select 'rehab',254,'Rehabilitation'
+;
 select * from EXCLD_INDEX;
 create or replace table EXCLD_INDEX_CCS_EHR as 
 with cte_ccs as (
@@ -289,8 +299,9 @@ join EXCLD_INDEX c on b.ccs_dxgrpcd = c.ccs
 ;
 select excld_type, count(distinct patid), count(distinct encounterid) from EXCLD_INDEX_CCS_EHR
 group by excld_type;
--- cancer	24087	38198
--- psychiatric	3159	4972
+-- cancer	24089	38184
+-- psychiatric	3173	4972
+-- rehab	58	84
 
 -- excld: planned readmission
 select * from EXCLD_PLANNED;
@@ -355,29 +366,33 @@ join EXCLD_PLANNED c on b.ccs_dxgrpcd = c.ccs
 where c.ccs_type = 'dx'
 ;
 select count(distinct patid), count(distinct encounterid) from EXCLD_PLANNED_CCS_EHR;
--- 34603	52820
+-- 34605	52806
 
 create or replace table WT_MU_EHR_READMIT_ELIG as 
 select a.*, 
-       case when a.days_disch_to_lead <= 30 or -- non-terminal encounter
+       case when (a.days_disch_to_lead <= 30 and c.ccs is null) or -- non-terminal encounter
                  (a.encounterid_lead is null and a.days_disch_to_death <= 30) -- terminal encounter
        then 1 else 0 
-       end as readmit30d_death_ind 
+       end as readmit30d_death_ind
 from WT_MU_EHR_READMIT a
+left join EXCLD_INDEX_CCS_EHR o 
+on a.patid = o.patid and a.encounterid = o.encounterid
+left join EXCLD_PLANNED_CCS_EHR c 
+on a.patid = c.patid and a.encounterid_lead = c.encounterid
+-- apply exclusion criteria
 where least(coalesce(a.days_disch_to_death,a.days_disch_to_censor),a.days_disch_to_censor) > 30 and 
       a.discharge_disposition not in ('E') and 
-      a.discharge_status not in ('AM','EX','IP') and 
-      not exists (select 1 from EXCLD_INDEX_CCS_EHR b where a.patid = b.patid and a.encounterid = b.encounterid) and 
-      not exists (select 1 from EXCLD_PLANNED_CCS_EHR c where a.patid = c.patid and a.encounterid_lead = c.encounterid)
+      a.discharge_status not in ('AM','EX','IP','SH') and 
+      not exists (select 1 from EXCLD_INDEX_CCS_EHR b where a.patid = b.patid and a.encounterid = b.encounterid)
 ;
 select count(distinct patid), count(distinct encounterid), count(*) from WT_MU_EHR_READMIT_ELIG;
--- 45625	92065	92065
+-- 50169	104237	104237
 
 select readmit30d_death_ind, count(distinct encounterid)
 from WT_MU_EHR_READMIT_ELIG
 group by readmit30d_death_ind;
--- 1	13873
--- 0	78192
+-- 1	16278
+-- 0	87959
 
 select * from WT_MU_EHR_READMIT_ELIG 
 -- where days_disch_to_death is not null
@@ -391,9 +406,8 @@ where exists (
     where a.patid = b.patid
 )
 ;
-
 select count(distinct patid), count(*) from WT_MU_EHR_ELIG_TBL2;
--- 45625
+-- 50169
 
 create or replace table WT_MU_EHR_ELIG_GEOID as
 select a.*
@@ -404,4 +418,4 @@ where exists (
 ) 
 ;
 select count(distinct patid), count(*) from WT_MU_EHR_ELIG_GEOID;
--- 45625	46251
+-- 50169	50874
