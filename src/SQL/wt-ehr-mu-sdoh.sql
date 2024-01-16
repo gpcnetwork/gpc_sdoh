@@ -188,7 +188,7 @@ call get_sdoh_s(
        FALSE, NULL
 );
 select count(distinct patid), count(*) from WT_MU_EHR_ELIG_SDOH_S;
---45588	9427449
+--50892	10512765
 create or replace table WT_MU_EHR_ELIG_SDOH_S_NUM as
 select  PATID,
         GEOCODEID,
@@ -205,20 +205,29 @@ select  PATID,
         GEO_ACCURACY,
         SDOH_VAR as SDOH_VAR_ORIG,
         SDOH_VAR, 
-        try_to_number(ltrim(SDOH_VAl,'0')) as SDOH_VAl,
+        case when ltrim(SDOH_VAl,'0') = '' then 0 
+             else try_to_number(ltrim(SDOH_VAl,'0'))
+        end as SDOH_VAl,
         SDOH_SRC
 from WT_MU_EHR_ELIG_SDOH_S     
-where SDOH_TYPE = 'N'
+where SDOH_TYPE = 'N' and 
+      try_to_number(ltrim(SDOH_VAl,'0')) is not null
 ;
 
 select count(distinct patid), count(*) from WT_MU_EHR_ELIG_SDOH_S_NUM;
---45588	12412195
+--50892	9561621
 
 select sdoh_var, count(distinct patid) as pat_cnt
 from WT_MU_EHR_ELIG_SDOH_S 
 group by sdoh_var
 order by pat_cnt desc;
-
+-- EPL_GROUPQ	50820
+-- EP_HISP	50820
+-- F_HBURD	50820
+-- F_AGE65	50820
+-- EP_UNEMP	50820
+-- EP_NOINT	50820
+-- ...
 
 -- get i-sdoh variables
 select * from I_SDH_SEL;
@@ -338,24 +347,21 @@ call get_sdoh_I(
 );
 
 select count(distinct patid),count(*) from WT_MU_EHR_ELIG_SDOH_I;
--- 45620	1978385
+-- 50929	2225854
 
-select sdoh_var, count(distinct sdoh_val) from WT_MU_EHR_ELIG_SDOH_I
-where sdoh_type = 'N'
-group by sdoh_var
-order by count(distinct sdoh_val) desc
-;
+select count(distinct patid),count(*) from WT_MU_EHR_ELIG_SDOH_I
+where sdoh_var = 'H_ASSESSED_VALUE';
+-- 30897	34146
 
 select sdoh_var, count(distinct patid) as pat_cnt
 from WT_MU_EHR_ELIG_SDOH_I 
 group by sdoh_var
 order by pat_cnt desc;
--- H_HOME_LENGTH	45620
--- H_NUM_CHILD	45620
--- H_INCOME	45620
--- H_OWN_RENT	45620
--- H_NUM_PEOPLE	45620
--- H_MARRITAL_STAT	45620
+-- H_OWN_RENT	50929
+-- H_HOME_LENGTH	50929
+-- H_NUM_CHILD	50928
+-- H_NUM_PEOPLE	50928
+-- H_INCOME	50928
 -- ...
 
 create or replace table WT_MU_EHR_ELIG_SDOH_I_NUM as 
@@ -370,7 +376,9 @@ union
 select  PATID, 
         SDOH_VAR as SDOH_VAR_ORIG,
         SDOH_VAR, 
-        try_to_number(ltrim(SDOH_VAl,'0')) as SDOH_VAl,
+        case when ltrim(SDOH_VAl,'0') = '' then 0 
+             else try_to_number(ltrim(SDOH_VAl,'0'))
+        end as SDOH_VAl,
         SDOH_SRC
 from WT_MU_EHR_ELIG_SDOH_I     
 where SDOH_TYPE = 'N' and 
@@ -404,7 +412,6 @@ where exists (
     where a.patid = b.patid and b.raw_basis = 'LIS'
 )
 ;
-
 insert into WT_MU_EHR_ELIG_SDOH_I_NUM 
 select distinct 
         a.patid,
@@ -421,4 +428,4 @@ where exists (
 ;
 
 select count(distinct patid),count(*) from WT_MU_EHR_ELIG_SDOH_I_NUM;
---45623	1808572
+--50934	2038642

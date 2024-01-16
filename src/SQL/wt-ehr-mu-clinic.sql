@@ -37,7 +37,7 @@ join GROUSE_DB.PCORNET_CDM_MU.LDS_DIAGNOSIS dx
 on a.patid = dx.patid
 ;
 select count(distinct patid) from WT_MU_DX;
--- 45625
+-- 50937
 select * from WT_MU_DX
 where dx_type = '09'
 limit 5;
@@ -55,7 +55,7 @@ on dx.dx like cci.code || '%' and
    dx.dx_type = lpad(cci.code_type,2,'0')
 ; 
 select count(distinct patid) from WT_MU_CCI;
--- 43866
+-- 48939
 
 create or replace table WT_MU_DX_CCS as 
 with cte_ccs as (
@@ -84,7 +84,7 @@ from cte_ccs
 ;
 
 select count(distinct patid) from WT_MU_DX_CCS;
--- 45625
+-- 50937
 
 create or replace table WT_MU_PX as
 select a.patid
@@ -108,7 +108,7 @@ join GROUSE_DB.PCORNET_CDM_MU.LDS_PROCEDURES px
 on a.patid = px.patid
 ;
 select count(distinct patid) from WT_MU_PX;
--- 45625
+-- 50937
 
 create or replace table WT_MU_PX_CCS as
 with cte_ccs as (

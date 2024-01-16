@@ -47,10 +47,10 @@ select  distinct
         dense_rank() over (order by a.patid, a.encounterid) as rowid,
         a.patid, b.patid_acxiom, a.encounterid,
         a.readmit30d_death_ind,
-        -- a.ip_cnt_cum,
-        case when a.ip_cnt_cum >=5  then '>5'
-             else '=' || a.ip_cnt_cum
-        end as ip_cnt_cum_cat,
+        a.ip_cumcnt_12m,
+        case when a.ip_cumcnt_12m >=5  then '>5'
+             else '=' || a.ip_cumcnt_12m
+        end as ip_cumcnt_12m_cat,
         a.los,
         a.discharge_status,
         case when a.enc_type = 'EI' then 1 else 0 end as ed_ind,
@@ -88,17 +88,23 @@ left join cte_lowfreq e on a.drg = e.drg
 ;
 
 select count(distinct patid), count(distinct encounterid), count(*) from WT_EHR_MU_ENC_BASE;
--- 45625	92065	92065
+-- 50169	104237	104237
+
+select readmit30d_death_ind, count(distinct encounterid)
+from WT_EHR_MU_ENC_BASE
+group by readmit30d_death_ind;
+-- 1	16278
+-- 0	87959
 
 select drg_regrp, count(distinct patid) as pat_cnt
 from WT_EHR_MU_ENC_BASE
 group by drg_regrp 
 order by pat_cnt desc;
--- DRG_OT	39684
--- DRG_NI	3497
--- DRG_470	1784
--- DRG_871	1715
---...
+-- DRG_OT	43201
+-- DRG_NI	5137
+-- DRG_871	1940
+-- DRG_470	1905
+-- ...
 
 select hispanic, count(distinct encounterid) as pat_cnt
 from WT_EHR_MU_ENC_BASE
@@ -177,25 +183,21 @@ join WT_MU_EHR_ELIG_SDOH_S b
 on a.patid_acxiom = b.patid
 ;
 
+select count(distinct patid), count(distinct rowid) from WT_MU_EHR_ELIG_SDOH_S_ORIG
+where sdoh_var = 'ADI_NATRANK';
+--45522
+
+select * from WT_MU_EHR_ELIG_SDOH_S_ORIG
+where sdoh_var = 'EP_AGE65' and sdoh_val is not null
+limit 5;
+
 create or replace table WT_EHR_MU_ENC_BASE_SDOH_S_LONG as 
-with cte_freq as (
-    select sdoh_var,count(*)
-    from WT_MU_EHR_ELIG_SDOH_S_ORIG
-    group by sdoh_var
-    having count(*) >= 1000
-), cte_ssdh_sel as (
-    select a.*
-    from WT_MU_EHR_ELIG_SDOH_S_NUM a
-    where exists (
-        select 1 from cte_freq
-        where cte_freq.sdoh_var = a.sdoh_var_orig
-    )
-), cte_sdoh_rep as (
+with cte_sdoh_rep as (
     select distinct 
            a.rowid, a.patid, a.encounterid, a.readmit30d_death_ind, 
            b.sdoh_var as var, b.sdoh_val as val 
     from WT_EHR_MU_ENC_BASE a 
-    join cte_ssdh_sel b 
+    join WT_MU_EHR_ELIG_SDOH_S_NUM b 
     on a.patid_acxiom = b.patid
 )
 select rowid, patid, encounterid, readmit30d_death_ind, var, val from WT_EHR_MU_ENC_BASE_LONG 
@@ -205,9 +207,6 @@ select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_r
 
 select count(distinct patid), count(distinct encounterid) from WT_EHR_MU_ENC_BASE_SDOH_S_LONG;
 -- 45625	92065
-select * from WT_EHR_MU_ENC_BASE_SDOH_S_LONG
-where var like 'RUCA%'
-limit 5;
 
 select * from WT_MU_EHR_ELIG_SDOH_I 
 -- where sdoh_val is null
@@ -225,6 +224,10 @@ select distinct
 from WT_EHR_MU_ENC_BASE a 
 join WT_MU_EHR_ELIG_SDOH_I b 
 on a.patid = b.patid
+;
+
+select count(distinct patid), count(distinct encounterid) from WT_MU_EHR_ELIG_SDOH_I_ORIG
+where sdoh_var = 'H_ASSESSED_VALUE'
 ;
 
 create or replace table WT_EHR_MU_ENC_BASE_SDOH_I_LONG as 
