@@ -287,8 +287,8 @@ varimp<-out$varimp %>%
   mutate(feat_rank=as.factor(feat_rank)) %>%
   mutate(feat_rank=factor(feat_rank,levels=rev(levels(feat_rank))))
 
-ggplot(varimp %>% filter(rank <= 20),
-       aes(x=feat_rank,y=Gain_rescale))+
+ggplot(varimp %>% filter(rank <= 15),
+       aes(x=feat_rank,y=Gain_rescale,fill=VAR_DOMAIN_TYPE))+
   geom_bar(stat="identity")+
   labs(x="Features",y="Normalized Scale",
        title="Top Important Variables")+

@@ -63,7 +63,7 @@ cohort_summ %>%
 #==== s-sdh
 data_df<-readRDS("./data/mu_readmit_sdoh_s.rds") %>% 
   select(-PATID,-ENCOUNTERID) 
-var_encoder<-data_df %>% select(SDOH_VAR,SDOH_TYPE) %>% unique
+var_encoder<-data_df %>% select(SDOH_VAR,SDOH_TYPE,SDOH_TYPE) %>% unique
 N<-length(unique(data_df$ROWID))
 
 entropy<-data_df %>%
@@ -92,18 +92,8 @@ entropy<-data_df %>%
 
 write.csv(entropy,file="./res/entropy_s_sdh.csv",row.names = F)
 
-var_lst<-var_encoder %>% 
-  filter(!SDOH_VAR %in% c(
-    'CBSA_NAME'
-  )) %>%
-  select(SDOH_VAR) %>% pull
-
-facvar_lst<-var_encoder %>% 
-  filter(!SDOH_VAR %in% c(
-    'CBSA_NAME'
-  )) %>%
-  filter(SDOH_TYPE=="C") %>% 
-  select(SDOH_VAR) %>% pull
+var_lst<-var_encoder %>% select(SDOH_VAR) %>% pull
+facvar_lst<-var_encoder %>% filter(SDOH_TYPE=="C") %>% select(SDOH_VAR) %>% pull
 
 var_lbl_df<-var_encoder %>% 
   select(SDOH_VAR) %>% unique %>%
@@ -113,36 +103,50 @@ var_lbl_df<-var_encoder %>%
     by=c("SDOH_VAR"="VAR")) %>%
   rename(var=SDOH_VAR,var_lbl=VAR_LABEL)
 
-data_df %<>%
-  group_by(ROWID) %>% slice(1:1) %>% ungroup %>%
-  pivot_wider(names_from = SDOH_VAR, values_from = SDOH_VAL)
-
-cohort_summ<-univar_analysis_mixed(
-  df = data_df,
-  id_col ="ROWID",
-  var_lst = var_lst,
-  facvar_lst  = facvar_lst,
-  pretty = T,
-  var_lbl_df = var_lbl_df
-)
-cohort_summ %>%
-  save_kable(
-    paste0("./res/cohort_summ_s_sdh.pdf")
+# generate summary by chunks
+var_seq<-c(seq(1,length(var_lst),by=50),length(var_lst))
+for(i in seq_along(var_seq[-1])){
+  var_pos<-var_seq[i:(i+1)]
+  var_sub<-var_lst[var_pos[1]:var_pos[2]]
+  facvar_sub<-facvar_lst[facvar_lst %in% var_sub]
+  
+  sub_df<-data_df %>%
+    filter(SDOH_VAR %in% var_sub) %>%
+    group_by(ROWID,SDOH_VAR) %>% dplyr::slice(1:1) %>% ungroup %>%
+    pivot_wider(
+      names_from = SDOH_VAR, values_from = SDOH_VAL,
+      values_fill = "NI"
+    )
+  
+  cohort_summ<-univar_analysis_mixed(
+    df = sub_df,
+    id_col ="ROWID",
+    var_lst = var_sub,
+    facvar_lst  = facvar_sub,
+    pretty = T,
+    var_lbl_df = var_lbl_df
   )
-
-cohort_summ<-univar_analysis_mixed(
-  df = data_df,
-  id_col ="ROWID",
-  var_lst = var_lst[!var_lst %in% c("READMIT30D_DEATH_IND")],
-  facvar_lst  = facvar_lst[!facvar_lst %in% c("READMIT30D_DEATH_IND")],
-  grp = data_df$READMIT30D_DEATH_IND,
-  pretty = F,
-  var_lbl_df = var_lbl_df
-)
-cohort_summ %>%
-  save_kable(
-    paste0("./res/cohort_readmit_summ_s_sdh.pdf")
+  cohort_summ %>%
+    save_kable(
+      paste0("./res/cohort_summ_s_sdh_",i,".pdf")
+    )
+  
+  cohort_summ<-univar_analysis_mixed(
+    df = sub_df,
+    id_col ="ROWID",
+    var_lst = var_sub[!var_sub %in% c("READMIT30D_DEATH_IND")],
+    facvar_lst  = facvar_sub[!facvar_sub %in% c("READMIT30D_DEATH_IND")],
+    grp = sub_df$READMIT30D_DEATH_IND,
+    pretty = T,
+    var_lbl_df = var_lbl_df
   )
+  cohort_summ %>%
+    save_kable(
+      paste0("./res/cohort_readmit_summ_s_sdh_",i,".pdf")
+    )
+  
+  print(paste0("completed summarization for variables: ",var_pos[i],"-",var_pos[i+1]))
+}
 
 #==== i-sdh
 data_df<-readRDS("./data/mu_readmit_sdoh_i.rds") %>% 
@@ -155,7 +159,7 @@ entropy<-data_df %>%
   group_by(SDOH_VAR) %>%
   mutate(
     var_n = length(unique(ROWID)),
-    cat_n = length(unique(SDOH_VAL))
+    cat_n = length(unique(SDOH_VAL))+1,
   ) %>%
   ungroup %>%
   group_by(SDOH_VAR,SDOH_VAL,var_n,cat_n) %>%
@@ -177,42 +181,58 @@ entropy<-data_df %>%
 
 write.csv(entropy,file="./res/entropy_i_sdh.csv",row.names = F)
 
-data_df %<>%
-  group_by(ROWID) %>% slice(1:1) %>% ungroup %>%
-  pivot_wider(names_from = SDOH_VAR, values_from = SDOH_VAL)
-
 var_lst<-var_encoder %>% select(SDOH_VAR) %>% pull
 facvar_lst<-var_encoder %>% filter(SDOH_TYPE=="C") %>% select(SDOH_VAR) %>% pull
-var_lbl_df<-var_encoder %>% select(SDOH_VAR) %>% unique %>%
+
+var_lbl_df<-var_encoder %>% 
+  select(SDOH_VAR) %>% unique %>%
   left_join(
     readRDS("./data/sdoh_dd.rds") %>% 
       select(VAR,VAR_LABEL),
     by=c("SDOH_VAR"="VAR")) %>%
   rename(var=SDOH_VAR,var_lbl=VAR_LABEL)
-cohort_summ<-univar_analysis_mixed(
-  df = data_df,
-  id_col ="ROWID",
-  var_lst = var_lst,
-  facvar_lst  = facvar_lst,
-  pretty = T,
-  var_lbl_df = var_lbl_df
-)
-cohort_summ %>%
-  save_kable(
-    paste0("./res/cohort_summ_i_sdh.pdf")
-  )
 
-cohort_summ<-univar_analysis_mixed(
-  df = data_df,
-  id_col ="ROWID",
-  var_lst = var_lst[!var_lst %in% c("READMIT30D_DEATH_IND")],
-  facvar_lst  = facvar_lst[!facvar_lst %in% c("READMIT30D_DEATH_IND")],
-  grp = data_df$READMIT30D_DEATH_IND,
-  pretty = T,
-  var_lbl_df = var_lbl_df
-)
-cohort_summ %>%
-  save_kable(
-    paste0("./res/cohort_readmit_summ_i_sdh.pdf")
+# generate summary by chunks
+var_seq<-c(seq(1,length(var_lst),by=100),length(var_lst))
+for(i in seq_along(var_seq[-1])){
+  var_pos<-var_seq[i:(i+1)]
+  var_sub<-var_lst[var_pos[1]:var_pos[2]]
+  facvar_sub<-facvar_lst[facvar_lst %in% var_sub]
+  
+  sub_df<-data_df %>%
+    filter(SDOH_VAR %in% var_sub) %>%
+    group_by(ROWID,SDOH_VAR) %>% dplyr::slice(1:1) %>% ungroup %>%
+    pivot_wider(
+      names_from = SDOH_VAR, values_from = SDOH_VAL,
+      values_fill = "NI"
+    )
+  
+  cohort_summ<-univar_analysis_mixed(
+    df = sub_df,
+    id_col ="ROWID",
+    var_lst = var_sub,
+    facvar_lst  = facvar_sub,
+    pretty = T,
+    var_lbl_df = var_lbl_df
   )
-
+  cohort_summ %>%
+    save_kable(
+      paste0("./res/cohort_summ_i_sdh_",i,".pdf")
+    )
+  
+  cohort_summ<-univar_analysis_mixed(
+    df = sub_df,
+    id_col ="ROWID",
+    var_lst = var_sub[!var_sub %in% c("READMIT30D_DEATH_IND")],
+    facvar_lst  = facvar_sub[!facvar_sub %in% c("READMIT30D_DEATH_IND")],
+    grp = sub_df$READMIT30D_DEATH_IND,
+    pretty = T,
+    var_lbl_df = var_lbl_df
+  )
+  cohort_summ %>%
+    save_kable(
+      paste0("./res/cohort_readmit_summ_i_sdh_",i,".pdf")
+    )
+  
+  print(paste0("completed summarization for variables: ",var_pos[1],"-",var_pos[2]))
+}

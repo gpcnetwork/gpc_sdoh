@@ -165,21 +165,21 @@ for(i in 1:nrow(tr_plan)){
   }
   
   # shap explainer
-  # path_to_file<-file.path(dir_data,paste0("shap_",tr_plan$model[i],".rda"))
-  # if(!file.exists(path_to_file)){
-  #   k<-which(xgb_rslt$feat_imp$Feature=="shadow")-1
-  #   explainer<-explain_model(
-  #     X = trX,
-  #     y = try$READMIT30D_DEATH_IND,
-  #     xgb_rslt = xgb_rslt,
-  #     top_k = k,
-  #     boots = 10,
-  #     nns = 30,
-  #     verb = TRUE
-  #   )
-  #   saveRDS(explainer,path_to_file)
-  #   #-------------------------------------------
-  #   print(paste0(tr_plan$model[i],":model explainer developed for ",k," variables."))
-  # }
+  path_to_file<-file.path(dir_data,paste0("shap_",tr_plan$model[i],".rda"))
+  if(!file.exists(path_to_file)){
+    k<-which(xgb_rslt$feat_imp$Feature=="shadow")-1
+    explainer<-explain_model(
+      X = trX,
+      y = try$READMIT30D_DEATH_IND,
+      xgb_rslt = xgb_rslt,
+      top_k = k,
+      boots = 10,
+      nns = 30,
+      verb = TRUE
+    )
+    saveRDS(explainer,path_to_file)
+    #-------------------------------------------
+    print(paste0(tr_plan$model[i],":model explainer developed for ",k," variables."))
+  }
 }
 

@@ -21,32 +21,32 @@ sf_conn <- DBI::dbConnect(
 
 #==================================================================================
 # base table
-dat<-tbl(sf_conn,in_schema("SX_SDOH","WT_CMS_MU_ENC_BASE")) %>% collect()
+dat<-tbl(sf_conn,in_schema("SX_SDOH","WT_EHR_MU_ENC_BASE")) %>% collect()
 saveRDS(dat,file="./data/mu_readmit_base.rds")
 
-dat<-tbl(sf_conn,in_schema("SX_SDOH","WT_CMS_MU_ENC_BASE_LONG")) %>% collect()
+dat<-tbl(sf_conn,in_schema("SX_SDOH","WT_EHR_MU_ENC_BASE_LONG")) %>% collect()
 saveRDS(dat,file="./data/mu_readmit_base_long.rds")
 
 # sdoh-s
-dat<-tbl(sf_conn,in_schema("SX_SDOH","WT_MU_CMS_ELIG_SDOH_S_ORIG")) %>% collect()
+dat<-tbl(sf_conn,in_schema("SX_SDOH","WT_MU_EHR_ELIG_SDOH_S_ORIG")) %>% collect()
 saveRDS(dat,file="./data/mu_readmit_sdoh_s.rds")
 
-dat<-tbl(sf_conn,in_schema("SX_SDOH","WT_CMS_MU_ENC_BASE_SDOH_S_LONG")) %>% collect()
+dat<-tbl(sf_conn,in_schema("SX_SDOH","WT_EHR_MU_ENC_BASE_SDOH_S_LONG")) %>% collect()
 saveRDS(dat,file="./data/mu_readmit_sdoh_s_long.rds")
 
 # sdoh-i
-dat<-tbl(sf_conn,in_schema("SX_SDOH","WT_MU_CMS_ELIG_SDOH_I_ORIG")) %>% collect()
+dat<-tbl(sf_conn,in_schema("SX_SDOH","WT_MU_EHR_ELIG_SDOH_I_ORIG")) %>% collect()
 saveRDS(dat,file="./data/mu_readmit_sdoh_i.rds")
 
-dat<-tbl(sf_conn,in_schema("SX_SDOH","WT_CMS_MU_ENC_BASE_SDOH_I_LONG")) %>% collect()
+dat<-tbl(sf_conn,in_schema("SX_SDOH","WT_EHR_MU_ENC_BASE_SDOH_I_LONG")) %>% collect()
 saveRDS(dat,file="./data/mu_readmit_sdoh_i_long.rds")
 
 # sdoh-si
-dat<-tbl(sf_conn,in_schema("SX_SDOH","WT_CMS_MU_ENC_BASE_SDOH_SI_LONG")) %>% collect()
+dat<-tbl(sf_conn,in_schema("SX_SDOH","WT_EHR_MU_ENC_BASE_SDOH_SI_LONG")) %>% collect()
 saveRDS(dat,file="./data/mu_readmit_sdoh_si_long.rds")
 
 # data dictionary
-dat<-tbl(sf_conn,in_schema("SX_SDOH","WT_CMS_MU_ENC_DD")) %>% collect()
+dat<-tbl(sf_conn,in_schema("SX_SDOH","DATA_DICT")) %>% collect()
 saveRDS(dat,file="./data/sdoh_dd.rds")
 
 # subgroup selector

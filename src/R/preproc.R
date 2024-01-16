@@ -78,7 +78,12 @@ var_encoder<-readRDS("./data/mu_readmit_sdoh_si_long.rds") %>%
   ) %>%
   rowid_to_column('VAR3') %>%
   mutate(VAR3 = paste0('V',VAR3)) %>%
-  select(VAR3,VAR,VAR2,VAR_LABEL,VAR_LBL,VAR_DOMAIN)
+  select(VAR3,VAR,VAR2,VAR_LABEL,VAR_LBL,VAR_DOMAIN) %>%
+  mutate(VAR_DOMAIN_TYPE = case_when(
+    grepl("^(ACXIOM)+",VAR_DOMAIN) ~ 'i',
+    grepl("(DRG)",VAR_DOMAIN)|is.na(VAR_DOMAIN) ~ 'b',
+    TRUE ~ 's'
+  ))
 
 saveRDS(var_encoder, file=file.path(dir_data,"var_encoder.rda"))
 
