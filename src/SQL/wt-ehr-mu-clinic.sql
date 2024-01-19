@@ -37,7 +37,7 @@ join GROUSE_DB.PCORNET_CDM_MU.LDS_DIAGNOSIS dx
 on a.patid = dx.patid
 ;
 select count(distinct patid) from WT_MU_DX;
--- 50937
+-- 57133
 select * from WT_MU_DX
 where dx_type = '09'
 limit 5;
@@ -55,7 +55,7 @@ on dx.dx like cci.code || '%' and
    dx.dx_type = lpad(cci.code_type,2,'0')
 ; 
 select count(distinct patid) from WT_MU_CCI;
--- 48939
+-- 46531
 
 create or replace table WT_MU_DX_CCS as 
 with cte_ccs as (
@@ -84,7 +84,7 @@ from cte_ccs
 ;
 
 select count(distinct patid) from WT_MU_DX_CCS;
--- 50937
+-- 57133
 
 create or replace table WT_MU_PX as
 select a.patid
@@ -108,7 +108,7 @@ join GROUSE_DB.PCORNET_CDM_MU.LDS_PROCEDURES px
 on a.patid = px.patid
 ;
 select count(distinct patid) from WT_MU_PX;
--- 50937
+-- 57133
 
 create or replace table WT_MU_PX_CCS as
 with cte_ccs as (
@@ -148,7 +148,7 @@ select distinct
 from cte_ccs
 ;
 select count(distinct patid), count(*) from WT_MU_PX_CCS;
--- 45625	29851442
+-- 57133	26594539
 
 -- clinical observables from EHR
 create or replace table WT_MU_EHR_HX as
@@ -234,19 +234,84 @@ where obsclin_result_num is not null
 ;
 
 select count(distinct patid) from WT_MU_EHR_HX;
--- 45597
+-- 57133
 
 select obs_name,count(distinct patid) from WT_MU_EHR_HX
 group by obs_name
 order by count(distinct patid) desc;
 
--- SYSTOLIC	45527
--- DIASTOLIC	45493
--- Weight (kg)	45405
--- Height (cm)	45290
--- BMI	45225
--- SpO2	44869
--- Braden Skin Score	41693
--- WT	40942
--- Mean NIBP	40417
--- Characteristics of Speech	39866
+-- SYSTOLIC	57133
+-- DIASTOLIC	57133
+-- Weight (kg)	57130
+-- SpO2	57121
+-- Height (cm)	57105
+-- BMI	57043
+-- Braden Skin Score	54995
+-- Mean NIBP	53996
+-- WT	53767
+-- Glasgow Coma Score Adult/Adoles/Peds	52786
+-- HT	52351
+-- Characteristics of Speech	49285
+-- Characteristics of Cough	49075
+-- Height (Inches Calc)	48676
+-- Oxygen Flow Rate (L/min)	48313
+-- Oral Intake	47670
+-- Infectious Symptoms Screen	47577
+-- Urine Voided (Output)	46442
+-- Skin Turgor	46110
+-- Smokeless Tobacco	45999
+-- ORIGINAL_BMI	45698
+-- FiO2 (.21-1.00)	45531
+-- Weight (Lbs Calc)	42974
+-- Wounds Drainage:	41174
+-- Anterior Right Upper Breath Sounds	36901
+-- Anterior Left Upper Breath Sounds	36896
+-- Severity of Retractions	36338
+-- Height (inches)	36330
+-- Temperature (Fahrenheit Calc)	36176
+-- Urine Cath Output	35973
+-- Cough Reflex	35907
+-- Anterior Right Lower Breath Sounds	33431
+-- ANES SPO2	32088
+-- ANES Oxygen Flow Rate (L/min)	31972
+-- ANES DBP NIBP	31910
+-- ANES SBP NIBP	31877
+-- ANES Mean NIBP	31479
+-- Most Recent BMI	30487
+-- ANES Inspired O2	29696
+-- Tobacco Score	29480
+-- BSA DuBois	29447
+-- ANES Respiratory Rate Vent Setting	29408
+-- Primary Fluids Vol Infused (Intake)	28525
+-- ANES Tidal Volume	28344
+-- ANES Respiratory Rate:  ETCO2	25831
+-- ANES Medical Air Flow Rate	24636
+-- Respiratory Assessment Severity Score	20170
+-- Spontaneous Cough (Respiratory Score)	19704
+-- ANES Urine Output	17677
+-- ANES Heart Rate Source EKG	16346
+-- Breath Sounds RT	15078
+-- Incentive Spirometry Volume Achieved	14150
+-- Dosing Weight (kg)	14002
+-- Edema Location	13679
+-- What pain score do you want us to treat	13588
+-- Abdominal Assessment	13299
+-- Ideal Body Weight Calculated	13174
+-- Blood Pressure Systolic	12223
+-- Blood Pressure Diastolic	12039
+-- HR Supine	12014
+-- HR Standing	11990
+-- MAP Arterial	11081
+-- SBP Arterial	11044
+-- O2 Delivery Device	10978
+-- Peep/CPAP Set	10937
+-- DBP Arterial	10922
+-- Volume Exhaled	10915
+-- Minute Ventilation	10772
+-- HR Sitting Upright	10770
+-- Past Medical History	10117
+
+
+select obs_qual, count(distinct patid) from WT_MU_EHR_HX 
+where obs_name = 'Characteristics of Cough'
+group by obs_qual;

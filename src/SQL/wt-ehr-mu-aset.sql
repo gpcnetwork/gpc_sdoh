@@ -47,10 +47,9 @@ select  distinct
         dense_rank() over (order by a.patid, a.encounterid) as rowid,
         a.patid, b.patid_acxiom, a.encounterid,
         a.readmit30d_death_ind,
-        a.ip_cumcnt_12m,
-        case when a.ip_cumcnt_12m >=5  then '>5'
-             else '=' || a.ip_cumcnt_12m
-        end as ip_cumcnt_12m_cat,
+        case when a.ip_cumcnt_12m >=6 then 6
+             else a.ip_cumcnt_12m
+        end as ip_cumcnt_12m, -- clipping
         a.los,
         a.discharge_status,
         case when a.enc_type = 'EI' then 1 else 0 end as ed_ind,
@@ -71,11 +70,13 @@ select  distinct
              else 'NI'
         end as hispanic,
         case when o.obes_date <= a.admit_date then 1 else NULL end as obes,
-        NVL(c.CCI_TOT,0) as CCI,
+        case when c.CCI_TOT >=16 then 16
+             else NVL(c.CCI_TOT,0)  
+        end as CCI,
         case when c.CCI_TOT between 1 and 2 then 'CCI1' 
-            when c.CCI_TOT between 3 and 4 then 'CCI2'
-            when c.CCI_TOT >= 5 then 'CCI3'
-            else 'CCI0'
+             when c.CCI_TOT between 3 and 4 then 'CCI2'
+             when c.CCI_TOT >= 5 then 'CCI3'
+             else 'CCI0'
         end as CCI_CLASS,
         -- a.drg,
         coalesce(e.drg_regrp, 'DRG_NI') as drg_regrp
@@ -88,22 +89,23 @@ left join cte_lowfreq e on a.drg = e.drg
 ;
 
 select count(distinct patid), count(distinct encounterid), count(*) from WT_EHR_MU_ENC_BASE;
--- 50169	104237	104237
+-- 57133	107497	107497
 
 select readmit30d_death_ind, count(distinct encounterid)
 from WT_EHR_MU_ENC_BASE
 group by readmit30d_death_ind;
--- 1	16278
--- 0	87959
+-- 1	14539
+-- 0	92958
 
 select drg_regrp, count(distinct patid) as pat_cnt
 from WT_EHR_MU_ENC_BASE
 group by drg_regrp 
 order by pat_cnt desc;
--- DRG_OT	43201
--- DRG_NI	5137
--- DRG_871	1940
--- DRG_470	1905
+-- DRG_OT	43858
+-- DRG_NI	4247
+-- DRG_885	3035
+-- DRG_470	2591
+-- DRG_775	2207
 -- ...
 
 select hispanic, count(distinct encounterid) as pat_cnt
@@ -147,7 +149,8 @@ with cte_cat as (
             cast(los as number(18,0)) as los,
             cast(age_at_enc as number(18,0)) as age_at_enc,
             cast(obes as number(18,0)) as obes,
-            cast(cci as number(18,0)) as cci
+            cast(cci as number(18,0)) as cci,
+            cast(ip_cumcnt_12m as number(18,0)) as ip_cumcnt_12m
     from WT_EHR_MU_ENC_BASE
     )
     unpivot (
@@ -155,7 +158,8 @@ with cte_cat as (
             los,
             age_at_enc,
             obes,
-            cci
+            cci,
+            ip_cumcnt_12m
         )
     ) 
     where val is not null   
@@ -185,11 +189,7 @@ on a.patid_acxiom = b.patid
 
 select count(distinct patid), count(distinct rowid) from WT_MU_EHR_ELIG_SDOH_S_ORIG
 where sdoh_var = 'ADI_NATRANK';
---45522
-
-select * from WT_MU_EHR_ELIG_SDOH_S_ORIG
-where sdoh_var = 'EP_AGE65' and sdoh_val is not null
-limit 5;
+-- 56914	107170
 
 create or replace table WT_EHR_MU_ENC_BASE_SDOH_S_LONG as 
 with cte_sdoh_rep as (
@@ -205,9 +205,8 @@ union
 select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_rep
 ;
 
-select count(distinct patid), count(distinct encounterid) from WT_EHR_MU_ENC_BASE_SDOH_S_LONG;
--- 45625	92065
-
+select count(distinct patid), count(distinct encounterid), count(distinct var) from WT_EHR_MU_ENC_BASE_SDOH_S_LONG;
+-- 57133	107497	399
 select * from WT_MU_EHR_ELIG_SDOH_I 
 -- where sdoh_val is null
 limit 5;
@@ -226,9 +225,18 @@ join WT_MU_EHR_ELIG_SDOH_I b
 on a.patid = b.patid
 ;
 
-select count(distinct patid), count(distinct encounterid) from WT_MU_EHR_ELIG_SDOH_I_ORIG
+select count(distinct patid), count(distinct rowid) 
+from WT_MU_EHR_ELIG_SDOH_I_ORIG
 where sdoh_var = 'H_ASSESSED_VALUE'
 ;
+-- 32392	55898
+
+select sdoh_val, count(distinct rowid) 
+from WT_MU_EHR_ELIG_SDOH_I_ORIG
+where sdoh_var = 'H_HOME_BUILD_YR'
+group by sdoh_val
+order by sdoh_val desc
+; 
 
 create or replace table WT_EHR_MU_ENC_BASE_SDOH_I_LONG as 
 with cte_sdoh_rep as (
@@ -243,8 +251,8 @@ select rowid, patid, encounterid, readmit30d_death_ind, var, val from WT_EHR_MU_
 union 
 select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_rep
 ;
-select count(distinct patid),count(distinct encounterid) from WT_EHR_MU_ENC_BASE_SDOH_I_LONG;
--- 45625	92065
+select count(distinct patid),count(distinct encounterid), count(distinct var) from WT_EHR_MU_ENC_BASE_SDOH_I_LONG;
+-- 57133	107497	366
 
 create or replace table WT_EHR_MU_ENC_BASE_SDOH_SI_LONG as 
 with cte_sdoh_i as (
@@ -268,8 +276,8 @@ select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_i
 union
 select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_s 
 ;
-select count(distinct patid),count(distinct encounterid) from WT_EHR_MU_ENC_BASE_SDOH_SI_LONG;
--- 45625	92065
+select count(distinct patid),count(distinct encounterid), count(distinct var) from WT_EHR_MU_ENC_BASE_SDOH_SI_LONG;
+-- 57133	107497	722
 
 create or replace table DATA_DICT(
     VAR varchar(50), 
@@ -337,10 +345,12 @@ select a.patid,
        a.rowid,
        coalesce(b.ind,0) as dual_lis, 
        case when a.race <> 'WH' then 1 else 0 end as non_white,
-       coalesce(a.obes,0) as obes
+       coalesce(a.obes,0) as obes,
+       case when a.age_at_enc >=65 then 1 else 0 end as age_65up
 from WT_EHR_MU_ENC_BASE a  
 left join cte_dual_lis b on a.patid = b.patid
 ;
 
 select count(distinct encounterid), count(*) from SUBGRP;
+-- 107497
 select * from SUBGRP limit 5;
