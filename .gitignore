@@ -38,7 +38,10 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
-# Private folders
-*data/*rda
-*data/*rds
+# Private or Data folders
+*data/*
 *private/*
+
+# All R dataframes
+*.rda
+*.rds

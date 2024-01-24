@@ -16,6 +16,10 @@ source_url("https://raw.githubusercontent.com/sxinger/utils/master/analysis_util
 # useful path to dir
 dir_data<-file.path(getwd(),"data")
 
+# partition use
+part_type<-"leakprone"
+# part_type<-"noleak"
+
 # training planner
 tr_plan<-data.frame(
   model = as.character(),
@@ -25,22 +29,22 @@ tr_plan<-data.frame(
   bind_rows(data.frame(
     model = 'base',
     model_lbl = 'base',
-    path_to_data = "./data/xgb_base.rda"
+    path_to_data = file.path(dir_data,part_type,"xgb_base.rda")
   )) %>%
   bind_rows(data.frame(
     model = 'sdoh_i',
     model_lbl = 'i-sdh-aug',
-    path_to_data = "./data/xgb_sdoh_i.rda"
+    path_to_data = file.path(dir_data,part_type,"xgb_sdoh_i.rda")
   )) %>%
   bind_rows(data.frame(
     model = 'sdoh_s',
     model_lbl = 's-sdh-aug',
-    path_to_data = "./data/xgb_sdoh_s.rda"
+    path_to_data = file.path(dir_data,part_type,"xgb_sdoh_s.rda")
   )) %>%
   bind_rows(data.frame(
     model = 'sdoh_si',
     model_lbl = 'si-sdh-aug',
-    path_to_data = "./data/xgb_sdoh_si.rda"
+    path_to_data = file.path(dir_data,part_type,"xgb_sdoh_si.rda")
   ))
 
 # load var encoder
@@ -48,7 +52,7 @@ var_encoder<-readRDS("./data/var_encoder.rda")
 
 # integrate results
 #==== all ====
-path_to_file<-file.path(dir_data,"xgb_results_all.rda")
+path_to_file<-file.path(dir_data,part_type,"xgb_results_all.rda")
 if(!file.exists(path_to_file)){
   pred<-c()
   perf_summ<-c()
@@ -283,18 +287,17 @@ varimp<-out$varimp %>%
     rank_lpad= str_pad(rank,3,"left",'0'),
     feat_rank = paste0(rank_lpad,".",VAR_LBL)
   ) %>%
-  mutate(feat_rank=paste0(substr(feat_rank,1,50),"...")) %>%
+  mutate(feat_rank=paste0(substr(feat_rank,1,40),"-\n",substr(feat_rank,41,80),"...")) %>%
   mutate(feat_rank=as.factor(feat_rank)) %>%
   mutate(feat_rank=factor(feat_rank,levels=rev(levels(feat_rank))))
 
 ggplot(varimp %>% filter(rank <= 15),
        aes(x=feat_rank,y=Gain_rescale,fill=VAR_DOMAIN_TYPE))+
   geom_bar(stat="identity")+
-  labs(x="Features",y="Normalized Scale",
-       title="Top Important Variables")+
+  labs(x="Features",y="Normalized Scale",fill="Feature Domain")+
   coord_flip()+scale_y_continuous(trans = "reverse")+
-  facet_wrap(~model,scales = "free",ncol=2)+
-  theme(text = element_text(face="bold",size=15),
+  facet_wrap(~ model,scales = "free",ncol=2)+
+  theme(text = element_text(face="bold",size=13),
         strip.text = element_text(size = 15))
 
 ggsave(
@@ -308,7 +311,10 @@ ggsave(
 
 # shap
 for(i in 1:nrow(tr_plan)){
-  shap<-readRDS(paste0("./data/shap_",tr_plan$model[i],".rda"))
+  shap<-readRDS(file.path(
+    dir_data,part_type,
+    paste0("xgb_shap_",tr_plan$model[i],".rda")
+  ))
   k_sel<-length(unique(shap$var))
   shap_sel<-shap %>%
     inner_join(
@@ -318,7 +324,7 @@ for(i in 1:nrow(tr_plan)){
         mutate(feat_rank=factor(feat_rank,levels=rev(levels(feat_rank)))),
       by = c('var' = "Feature")
     ) %>%
-    group_by(var,VAR,val,feat_rank) %>%
+    group_by(var,VAR,val,VAR_DOMAIN_TYPE,feat_rank) %>%
     summarise(
       eff_m = exp(median(effect,na.rm=T)),
       eff_lb = exp(quantile(effect,0.025,na.rm=T)),
@@ -332,7 +338,8 @@ for(i in 1:nrow(tr_plan)){
         (VAR=="H_ASSESSED_VALUE"&(val<1|val>750000)) |
         (VAR=="H_ONLINE_SPEND"&val>6000) |
         (VAR=="H_TOTAL_SPEND_2YR"&val>6000) |
-        (VAR=="H_HOME_EQUITY"&val>750000)
+        (VAR=="H_HOME_EQUITY"&val>750000) |
+        (VAR=="ADI_NATRANK"&val>100)
       )
     )
 
@@ -341,12 +348,13 @@ for(i in 1:nrow(tr_plan)){
     geom_smooth(method="loess",formula=y~x)+
     geom_errorbar(aes(ymin=eff_lb,ymax=eff_ub))+
     geom_hline(aes(yintercept=1),linetype=2)+
+    labs(x="feature value", y="exp(shap); est.OR")+
     facet_wrap(~feat_rank,scales = "free",ncol=3)+
     theme(text = element_text(face="bold",size=15),
             strip.text = element_text(size = 12))
   
   ggsave(
-    paste0('./res/shap_',tr_plan$model[i],".tiff"),
+    paste0('./res/xgb_shap_',tr_plan$model[i],".tiff"),
     dpi=150,
     width=12,
     height=8,
@@ -355,5 +363,4 @@ for(i in 1:nrow(tr_plan)){
   )
 }
 
-  
 

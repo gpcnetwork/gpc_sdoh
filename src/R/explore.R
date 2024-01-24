@@ -11,7 +11,7 @@ pacman::p_load(
 # webshot::install_phantomjs() # needed for save_kabel()
 source_url("https://raw.githubusercontent.com/sxinger/utils/master/analysis_util.R")
 
-# load data 
+##==== base ==== 
 data_df<-readRDS("./data/mu_readmit_base.rds") %>%
   replace_na(list(OBES = 0)) %>%
   inner_join(readRDS("./data/subgrp_sel.rds") %>%
@@ -30,7 +30,8 @@ numvar_lst<-var_lst[
   var_lst %in% c(
     "AGE_AT_ENC",
     "LOS",
-    "CCI"
+    "CCI",
+    "IP_CUMCNT_12M"
   )
 ]
 facvar_lst<-var_lst[!var_lst %in% numvar_lst]
@@ -60,40 +61,17 @@ cohort_summ %>%
     paste0("./res/cohort_readmit.pdf")
   )
 
-#==== s-sdh
-data_df<-readRDS("./data/mu_readmit_sdoh_s.rds") %>% 
-  select(-PATID,-ENCOUNTERID) 
+#==== s-sdh ====
+data_df<-readRDS("./data/mu_readmit_sdoh_s.rds") %>% select(-PATID,-ENCOUNTERID) 
 var_encoder<-data_df %>% select(SDOH_VAR,SDOH_TYPE,SDOH_TYPE) %>% unique
-N<-length(unique(data_df$ROWID))
-
-entropy<-data_df %>%
-  group_by(SDOH_VAR) %>%
-  mutate(
-    var_n = length(unique(ROWID)),
-    cat_n = length(unique(SDOH_VAL))
-  ) %>%
-  ungroup %>%
-  group_by(SDOH_VAR,SDOH_VAL,var_n,cat_n) %>%
-  summarise(
-    val_n = length(unique(ROWID)),
-    .groups="drop"
-  ) %>%
-  mutate(
-    p1 = val_n/N,
-    p2 = val_n/var_n
-  ) %>%
-  group_by(SDOH_VAR) %>%
-  summarise(
-    pe = mean(log(cat_n)),
-    ee1 = sum(p1*log(1/p1)),
-    ee2 = sum(p2*log(1/p2)),
-    .groups = "drop"
-  )
-
-write.csv(entropy,file="./res/entropy_s_sdh.csv",row.names = F)
-
-var_lst<-var_encoder %>% select(SDOH_VAR) %>% pull
-facvar_lst<-var_encoder %>% filter(SDOH_TYPE=="C") %>% select(SDOH_VAR) %>% pull
+var_lst<-var_encoder %>% select(SDOH_VAR) %>%
+  filter(!SDOH_VAR %in% c(
+    "CBSA_NAME"
+  )) %>% pull 
+facvar_lst<-var_encoder %>% filter(SDOH_TYPE=="C") %>% 
+  filter(!SDOH_VAR %in% c(
+    "CBSA_NAME"
+  )) %>% pull
 
 var_lbl_df<-var_encoder %>% 
   select(SDOH_VAR) %>% unique %>%
@@ -112,7 +90,8 @@ for(i in seq_along(var_seq[-1])){
   
   sub_df<-data_df %>%
     filter(SDOH_VAR %in% var_sub) %>%
-    group_by(ROWID,SDOH_VAR) %>% dplyr::slice(1:1) %>% ungroup %>%
+    group_by(ROWID,SDOH_VAR) %>% dplyr::slice(1:1) %>% 
+    ungroup %>% select(-SDOH_TYPE) %>%
     pivot_wider(
       names_from = SDOH_VAR, values_from = SDOH_VAL,
       values_fill = "NI"
@@ -145,45 +124,12 @@ for(i in seq_along(var_seq[-1])){
       paste0("./res/cohort_readmit_summ_s_sdh_",i,".pdf")
     )
   
-  print(paste0("completed summarization for variables: ",var_pos[i],"-",var_pos[i+1]))
+  print(paste0("completed summarization for variables: ",var_pos[1],"-",var_pos[2]))
 }
 
-#==== i-sdh
-data_df<-readRDS("./data/mu_readmit_sdoh_i.rds") %>% 
-  select(-PATID,-ENCOUNTERID) 
+#==== i-sdh ====
+data_df<-readRDS("./data/mu_readmit_sdoh_i.rds") %>% select(-PATID,-ENCOUNTERID) 
 var_encoder<-data_df %>% select(SDOH_VAR,SDOH_TYPE) %>% unique
-N<-length(unique(data_df$ROWID))
-gc()
-
-entropy<-data_df %>%
-  group_by(SDOH_VAR) %>%
-  mutate(
-    var_n = length(unique(ROWID)),
-    cat_n = length(unique(SDOH_VAL))+1,
-  ) %>%
-  ungroup %>%
-  group_by(SDOH_VAR,SDOH_VAL,var_n,cat_n) %>%
-  summarise(
-    val_n = length(unique(ROWID)),
-    .groups="drop"
-  ) %>%
-  mutate(
-    p1 = val_n/N,
-    p2 = val_n/var_n
-  ) %>%
-  group_by(SDOH_VAR) %>%
-  summarise(
-    pe = mean(log(cat_n)),
-    ee1 = sum(p1*log(1/p1)),
-    ee2 = sum(p2*log(1/p2)),
-    .groups = "drop"
-  ) %>%
-  mutate(
-    ee3 = case_when(ee2==0 ~ ee1, TRUE ~ ee2)
-  )
-
-write.csv(entropy,file="./res/entropy_i_sdh.csv",row.names = F)
-
 var_lst<-var_encoder %>% select(SDOH_VAR) %>% pull
 facvar_lst<-var_encoder %>% filter(SDOH_TYPE=="C") %>% select(SDOH_VAR) %>% pull
 
@@ -204,7 +150,8 @@ for(i in seq_along(var_seq[-1])){
   
   sub_df<-data_df %>%
     filter(SDOH_VAR %in% var_sub) %>%
-    group_by(ROWID,SDOH_VAR) %>% dplyr::slice(1:1) %>% ungroup %>%
+    group_by(ROWID,SDOH_VAR) %>% dplyr::slice(1:1) %>% 
+    ungroup %>% select(-SDOH_TYPE) %>%
     pivot_wider(
       names_from = SDOH_VAR, values_from = SDOH_VAL,
       values_fill = "NI"

@@ -20,12 +20,22 @@ source_url("https://raw.githubusercontent.com/sxinger/utils/master/model_util.R"
 # useful path to dir
 dir_data<-file.path(getwd(),"data")
 
+# partition use
+# part_type<-"leakprone"
+part_type<-"noleak"
+
 # manual exclusion
 exlcd<-c(
   "P_PROMINENCE",
   "DRG_REGRP_DRG_000",
   "DRG_REGRP_DRG_OT",
-  "P_ETHNIC"
+  "DRG_REGRP_DRG_NI",
+  "IP_CUMCNT_12M",
+  "CCI_CLASS_CCI0",
+  "CCI_CLASS_CCI1",
+  "CCI_CLASS_CCI2",
+  "CCI_CLASS_CCI3",
+  "RACE_OT"
 )
 
 # training planner
@@ -55,7 +65,7 @@ for(i in 1:nrow(tr_plan)){
   # i<-4 # uncomment for unit test
   # training
   tr<-readRDS(tr_plan$path_to_data[i]) %>% 
-    semi_join(readRDS("./data/part_idx_leakprone.rda") %>% 
+    semi_join(readRDS(paste0("./data/part_idx_",part_type,".rda")) %>% 
                 filter(hdout82 == 0),
               by="ROWID") %>%
     select(-PATID, -ENCOUNTERID) %>%
@@ -83,7 +93,7 @@ for(i in 1:nrow(tr_plan)){
   
   # testing
   ts<-readRDS(tr_plan$path_to_data[i]) %>% 
-    semi_join(readRDS("./data/part_idx_leakprone.rda") %>% 
+    semi_join(readRDS(paste0("./data/part_idx_",part_type,".rda")) %>% 
                 filter(hdout82 == 1),
               by="ROWID") %>%
     select(-PATID, -ENCOUNTERID) %>%
@@ -112,7 +122,7 @@ for(i in 1:nrow(tr_plan)){
   # customize folds (so same patient remain in the same fold)
   folds<-list()
   for(fold in 1:5){
-    fold_lst<-readRDS("./data/part_idx_leakprone.rda") %>%
+    fold_lst<-readRDS(paste0("./data/part_idx_",part_type,".rda")) %>%
       filter(hdout82==0&cv5==fold) %>%
       select(ROWID) %>% 
       inner_join(
@@ -136,7 +146,7 @@ for(i in 1:nrow(tr_plan)){
   print(paste0(tr_plan$model[i],":training data prepared."))
   
   # rapid xgb - only tune the number of trees
-  path_to_file<-file.path(dir_data,paste0("xgb_",tr_plan$model[i],".rda"))
+  path_to_file<-file.path(dir_data,part_type,paste0("xgb_",tr_plan$model[i],".rda"))
   if(!file.exists(path_to_file)){
     xgb_rslt<-prune_xgb(
       # dtrain, dtest are required to have attr:'id'
@@ -165,7 +175,7 @@ for(i in 1:nrow(tr_plan)){
   }
   
   # shap explainer
-  path_to_file<-file.path(dir_data,paste0("shap_",tr_plan$model[i],".rda"))
+  path_to_file<-file.path(dir_data,part_type,paste0("xgb_shap_",tr_plan$model[i],".rda"))
   if(!file.exists(path_to_file)){
     k<-which(xgb_rslt$feat_imp$Feature=="shadow")-1
     explainer<-explain_model(
