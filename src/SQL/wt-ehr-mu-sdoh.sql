@@ -346,8 +346,9 @@ call get_sdoh_I(
 select count(distinct patid),count(*) from WT_MU_EHR_ELIG_SDOH_I;
 -- 57118	2365292
 
-select count(distinct patid),count(*) from WT_MU_EHR_ELIG_SDOH_I
-where sdoh_var = 'H_ASSESSED_VALUE';
+select sdoh_val, count(distinct patid),count(*) from WT_MU_EHR_ELIG_SDOH_I
+where sdoh_var = 'P_HISPANIC_LANG'
+group by sdoh_val;
 -- 32392	36233
 
 select sdoh_var, count(distinct patid) as pat_cnt
@@ -425,61 +426,3 @@ where exists (
 
 select count(distinct patid),count(*) from WT_MU_EHR_ELIG_SDOH_I_NUM;
 -- 57121	2115177
-
-
-
-
-
-
-
-
-create or replace table WT_MU_EHR_ALL_SDOH_S (
-        PATID varchar(50) NOT NULL
-       ,GEOCODEID varchar(15)
-       ,GEO_ACCURACY varchar(3)
-       ,SDOH_VAR varchar(100)
-       ,SDOH_VAL varchar(1000)
-       ,SDOH_TYPE varchar(2)
-       ,SDOH_SRC varchar(10)
-);
-call get_sdoh_s(
-       'WT_MU_EHR_ALL_SDOH_S',
-       'SDOH_DB.ACXIOM.MU_GEOID_DEID',
-       'CENSUS_BLOCK_GROUP_2020',
-       array_construct(
-              'ACS_2019'
-             ,'ADI_2020'
-             ,'FARA_2019'
-             ,'MUA_MO'
-             ,'RUCA_2010'
-             ,'SLD_2021'
-             ,'SVI_CT_2020'
-       ),
-       FALSE, NULL
-);
-select count(distinct patid), count(*) from WT_MU_EHR_ALL_SDOH_S;
--- 20115	4121180
-create or replace table WT_MU_EHR_ALL_SDOH_S_NUM as
-select  PATID,
-        GEOCODEID,
-        GEO_ACCURACY,
-        SDOH_VAR as SDOH_VAR_ORIG,
-        SDOH_VAR || '_' || SDOH_VAL as SDOH_VAR, 
-        1 as SDOH_VAL,
-        SDOH_SRC
-from WT_MU_EHR_ELIG_SDOH_S
-where SDOH_TYPE = 'C'
-union
-select  PATID, 
-        GEOCODEID,
-        GEO_ACCURACY,
-        SDOH_VAR as SDOH_VAR_ORIG,
-        SDOH_VAR, 
-        case when ltrim(SDOH_VAl,'0') = '' then 0 
-             else try_to_number(ltrim(SDOH_VAl,'0'))
-        end as SDOH_VAl,
-        SDOH_SRC
-from WT_MU_EHR_ELIG_SDOH_S     
-where SDOH_TYPE = 'N' and 
-      try_to_number(ltrim(SDOH_VAl,'0')) is not null
-;

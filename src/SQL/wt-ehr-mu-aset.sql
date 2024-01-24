@@ -191,22 +191,76 @@ select count(distinct patid), count(distinct rowid) from WT_MU_EHR_ELIG_SDOH_S_O
 where sdoh_var = 'ADI_NATRANK';
 -- 56914	107170
 
+create or replace table WT_MU_EHR_ELIG_SDOH_S_SIMP as 
+with cte_n as (
+    select count(distinct rowid) as N
+    from WT_MU_EHR_ELIG_SDOH_S_ORIG
+), cte_rt as (
+    select a.sdoh_type, a.sdoh_var, 
+        count(distinct a.rowid)/cte_n.N as rt,
+        sum(a.readmit30d_death_ind)/cte_n.N as crt 
+    from WT_MU_EHR_ELIG_SDOH_S_ORIG a 
+    natural full outer join cte_n
+    group by a.sdoh_type,a.sdoh_var,cte_n.N  
+), cte_imp as (
+    select sdoh_var, median(sdoh_val) as imp_val 
+    from WT_MU_EHR_ELIG_SDOH_S_ORIG
+    where sdoh_type = 'N' and regexp_like(sdoh_val, '^[0-9]+$')
+    group by sdoh_var
+    union
+    select sdoh_var, NULL as imp_val
+    from WT_MU_EHR_ELIG_SDOH_S_ORIG
+    where sdoh_type = 'C'
+    group by sdoh_var
+)
+select cte_rt.*, cte_imp.imp_val
+from cte_rt
+join cte_imp 
+on cte_rt.sdoh_var = cte_imp.sdoh_var    
+;
+
+select * from WT_MU_EHR_ELIG_SDOH_S_SIMP 
+order by rt;
+
 create or replace table WT_EHR_MU_ENC_BASE_SDOH_S_LONG as 
-with cte_sdoh_rep as (
-    select distinct 
-           a.rowid, a.patid, a.encounterid, a.readmit30d_death_ind, 
-           b.sdoh_var as var, b.sdoh_val as val 
+with cte_full as (
+    select distinct
+           a.rowid, 
+           a.patid, 
+           a.patid_acxiom,
+           a.encounterid, 
+           a.readmit30d_death_ind, 
+           b.sdoh_var,
+           b.imp_val
     from WT_EHR_MU_ENC_BASE a 
+    natural full outer join WT_MU_EHR_ELIG_SDOH_S_SIMP b 
+    where b.rt >= 0.5 -- sparsity-based filtering
+), cte_sdoh_rep as (
+    select a.rowid, 
+           a.patid, 
+           a.encounterid, 
+           a.readmit30d_death_ind, 
+           b.sdoh_var as var, 
+           coalesce(b.sdoh_val,a.imp_val) as val 
+    from cte_full a 
     join WT_MU_EHR_ELIG_SDOH_S_NUM b 
     on a.patid_acxiom = b.patid
+    where a.sdoh_var = b.sdoh_var_orig
 )
 select rowid, patid, encounterid, readmit30d_death_ind, var, val from WT_EHR_MU_ENC_BASE_LONG 
 union 
 select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_rep
+where val is not null
 ;
 
-select count(distinct patid), count(distinct encounterid), count(distinct var) from WT_EHR_MU_ENC_BASE_SDOH_S_LONG;
--- 57133	107497	399
+select count(distinct patid), count(distinct sdoh_var), count(*)
+from WT_MU_EHR_ELIG_SDOH_S_NUM;
+-- 57046	356	10505587
+
+select count(distinct patid), count(distinct encounterid), count(distinct var), count(*)
+from WT_EHR_MU_ENC_BASE_SDOH_S_LONG;
+-- 57133	107497	319	15066729
+
 select * from WT_MU_EHR_ELIG_SDOH_I 
 -- where sdoh_val is null
 limit 5;
@@ -225,6 +279,11 @@ join WT_MU_EHR_ELIG_SDOH_I b
 on a.patid = b.patid
 ;
 
+select sdoh_var, count(distinct patid), count(distinct rowid)
+from WT_MU_EHR_ELIG_SDOH_I_ORIG
+group by sdoh_var
+;
+
 select count(distinct patid), count(distinct rowid) 
 from WT_MU_EHR_ELIG_SDOH_I_ORIG
 where sdoh_var = 'H_ASSESSED_VALUE'
@@ -238,46 +297,85 @@ group by sdoh_val
 order by sdoh_val desc
 ; 
 
+create or replace table WT_MU_EHR_ELIG_SDOH_I_SIMP as 
+with cte_n as (
+    select count(distinct rowid) as N
+    from WT_MU_EHR_ELIG_SDOH_I_ORIG
+), cte_rt as (
+    select a.sdoh_type, a.sdoh_var, 
+           count(distinct a.rowid)/cte_n.N as rt,
+           sum(a.readmit30d_death_ind)/cte_n.N as crt 
+    from WT_MU_EHR_ELIG_SDOH_I_ORIG a 
+    natural full outer join cte_n
+    group by a.sdoh_type,a.sdoh_var,cte_n.N  
+), cte_imp as (
+    select sdoh_var, median(sdoh_val) as imp_val 
+    from WT_MU_EHR_ELIG_SDOH_I_ORIG
+    where sdoh_type = 'N' and regexp_like(sdoh_val, '^[0-9]+$')
+    group by sdoh_var
+    union
+    select sdoh_var, NULL as imp_val
+    from WT_MU_EHR_ELIG_SDOH_I_ORIG
+    where sdoh_type = 'C'
+    group by sdoh_var
+)
+select cte_rt.*, cte_imp.imp_val
+from cte_rt
+join cte_imp 
+on cte_rt.sdoh_var = cte_imp.sdoh_var    
+;
+
+select * from WT_MU_EHR_ELIG_SDOH_I_SIMP 
+order by rt;
+
+
 create or replace table WT_EHR_MU_ENC_BASE_SDOH_I_LONG as 
-with cte_sdoh_rep as (
-    select distinct 
-           a.rowid, a.patid, a.encounterid, a.readmit30d_death_ind, 
-           b.sdoh_var as var, b.sdoh_val as val 
+with cte_full as (
+    select distinct
+           a.rowid, 
+           a.patid, 
+           a.patid_acxiom,
+           a.encounterid, 
+           a.readmit30d_death_ind, 
+           b.sdoh_var,
+           b.imp_val
     from WT_EHR_MU_ENC_BASE a 
+    natural full outer join WT_MU_EHR_ELIG_SDOH_I_SIMP b 
+    where b.rt >= 0.01 or b.sdoh_type = 'C' -- sparsity-based filtering
+), cte_sdoh_rep as (
+    select a.rowid, 
+           a.patid, 
+           a.encounterid, 
+           a.readmit30d_death_ind, 
+           b.sdoh_var as var, 
+           coalesce(b.sdoh_val,a.imp_val) as val 
+    from cte_full a 
     join WT_MU_EHR_ELIG_SDOH_I_NUM b 
     on a.patid = b.patid
+    where a.sdoh_var = b.sdoh_var_orig
 )
 select rowid, patid, encounterid, readmit30d_death_ind, var, val from WT_EHR_MU_ENC_BASE_LONG 
 union 
 select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_rep
+where val is not null
 ;
-select count(distinct patid),count(distinct encounterid), count(distinct var) from WT_EHR_MU_ENC_BASE_SDOH_I_LONG;
--- 57133	107497	366
+
+select count(distinct patid),count(distinct encounterid), count(distinct var), count(*)
+from WT_EHR_MU_ENC_BASE_SDOH_I_LONG;
+-- 57133	107497	363	4779629
 
 create or replace table WT_EHR_MU_ENC_BASE_SDOH_SI_LONG as 
-with cte_sdoh_i as (
-    select distinct 
-           a.rowid, a.patid, a.encounterid, a.readmit30d_death_ind, 
-           b.sdoh_var as var, b.sdoh_val as val 
-    from WT_EHR_MU_ENC_BASE a 
-    join WT_MU_EHR_ELIG_SDOH_I_NUM b 
-    on a.patid = b.patid
-), cte_sdoh_s as (
-    select distinct 
-           a.rowid, a.patid, a.encounterid, a.readmit30d_death_ind, 
-           b.sdoh_var as var, b.sdoh_val as val 
-    from WT_EHR_MU_ENC_BASE a 
-    join WT_MU_EHR_ELIG_SDOH_S_NUM b 
-    on a.patid_acxiom = b.patid
+with cte_combine as (
+    select * from WT_EHR_MU_ENC_BASE_SDOH_S_LONG
+    union 
+    select * from WT_EHR_MU_ENC_BASE_SDOH_I_LONG
 )
-select rowid, patid, encounterid, readmit30d_death_ind, var, val from WT_EHR_MU_ENC_BASE_LONG 
-union 
-select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_i 
-union
-select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_s 
+select distinct cte_combine.* 
+from cte_combine
 ;
-select count(distinct patid),count(distinct encounterid), count(distinct var) from WT_EHR_MU_ENC_BASE_SDOH_SI_LONG;
--- 57133	107497	722
+select count(distinct patid),count(distinct encounterid), count(distinct var), count(*)
+from WT_EHR_MU_ENC_BASE_SDOH_SI_LONG;
+-- 57133	107497	639	18775481
 
 create or replace table DATA_DICT(
     VAR varchar(50), 
