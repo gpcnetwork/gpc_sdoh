@@ -303,8 +303,8 @@ ggplot(varimp %>% filter(rank <= 15),
 ggsave(
   './res/feature_importance.tiff',
   dpi=150,
-  width=18,
-  height=10,
+  width=20,
+  height=15,
   units="in",
   device = 'tiff'
 )
@@ -320,7 +320,7 @@ for(i in 1:nrow(tr_plan)){
     inner_join(
       varimp %>%
         filter(model==tr_plan$model[i]) %>%
-        filter(rank <= 12) %>%
+        filter(rank <= 20) %>%
         mutate(feat_rank=factor(feat_rank,levels=rev(levels(feat_rank)))),
       by = c('var' = "Feature")
     ) %>%
@@ -356,8 +356,8 @@ for(i in 1:nrow(tr_plan)){
   ggsave(
     paste0('./res/xgb_shap_',tr_plan$model[i],".tiff"),
     dpi=150,
-    width=12,
-    height=8,
+    width=15,
+    height=12,
     units="in",
     device = 'tiff'
   )
