@@ -409,19 +409,21 @@ group by var_domain
 order by var_domain;
 
 -- ACS	57
--- ACXIOM-Children	2
--- ACXIOM-Education	1
 -- ACXIOM-Ethnicity	4
--- ACXIOM-Financial	7
+-- ACXIOM-Children	2
 -- ACXIOM-Household	12
+-- ACXIOM-Vehicle	4
+-- ACXIOM-Financial	7
 -- ACXIOM-Income	2
+-- ACXIOM-Property	11
 -- ACXIOM-Interests	44
 -- ACXIOM-Lifestyle	7
--- ACXIOM-Occupation	3
+-- ACXIOM-Education	1
+-- ACXIOM-Occupation 3
 -- ACXIOM-Other	3
 -- ACXIOM-Political	1
--- ACXIOM-Property	11
--- ACXIOM-Vehicle	4
+
+
 -- ADI	2
 -- CCI	17
 -- DRG	999
