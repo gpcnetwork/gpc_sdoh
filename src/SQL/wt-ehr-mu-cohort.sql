@@ -253,8 +253,8 @@ select * from WT_MU_EHR_PPX limit 5;
 
 -- excld: <= 30 days
 select count(distinct patid), count(distinct encounterid) from WT_MU_EHR_READMIT
-where least(coalesce(days_disch_to_death,days_disch_to_censor),days_disch_to_censor) <= 30;
--- 20499	22718
+where least(days_disch_to_censor) <= 30;
+-- 18737	20207
 
 -- excld: expired at discharge
 select count(distinct patid), count(distinct encounterid) from WT_MU_EHR_READMIT
