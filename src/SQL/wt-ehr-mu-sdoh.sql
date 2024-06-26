@@ -4,18 +4,19 @@
 # File: wt-cms-mu-sdoh.sql                                            
 */
 -- check availability of dependency tables
-select * from WT_MU_EHR_ELIG_GEOID limit 5;
 select * from SDOH_DB.ACXIOM.DEID_ACXIOM_DATA limit 5;
 select * from SDOH_DB.ADI.ADI_2020 limit 5;
 select * from SDOH_DB.FARA.FARA_2019 limit 5;
 select * from SDOH_DB.FARA.Z_REF_2019;
 select * from SDOH_DB.ACS.ACS_2019 limit 5;
 select * from SDOH_DB.ACS.Z_REF;
-select * from SDOH_DB.MUA.MUA_MO limit 5;
+select * from SDOH_DB.MUA.MUA_2024 limit 5;
 select * from SDOH_DB.RUCA.RUCA_2010 limit 5;
 select * from SDOH_DB.SLM.SLD_2021 limit 5;
 select * from SDOH_DB.SVI.SVI_CT_2020 limit 5;
+select * from S_SDH_SEL; 
 
+/* SDH data dictionary */
 create or replace table S_SDH_DD as 
 with all_var as (
     select table_schema, table_name, column_name
@@ -53,6 +54,24 @@ on a.table_schema = b.var_domain and a.column_name = b.var
 ;
 -- manual screening and upload S_SDH_SEL
 select * from S_SDH_SEL;
+
+
+-- paramatrize table names
+set tbl_flag = 'EHR_CMS';
+-- set tbl_flag = 'EHR';
+
+-- cohort table
+set cohort_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_GEOID';
+select * from identifier($cohort_tbl_nm) limit 5;
+
+set cohort_tbl_nm2 = 'WT_MU_' || $tbl_flag || '_ELIG_TBL2';
+select * from identifier($cohort_tbl_nm2) limit 5;
+
+-- covariate table
+set ssdh_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_SDOH_S';
+set ssdh_num_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_SDOH_S_NUM';
+set isdh_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_SDOH_I';
+set isdh_num_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_SDOH_I_NUM';
 
 -- get s-sdoh variables
 create or replace procedure get_sdoh_s(
@@ -151,8 +170,8 @@ $$
 ;
 /* test */
 -- call get_sdoh_s(
---        'WT_MU_EHR_ELIG_SDOH_S'
---        'WT_MU_EHR_ELIG_GEOID',
+--        $ssdh_tbl_nm,
+--        $cohort_tbl_nm,
 --        'CENSUS_BLOCK_GROUP_2020',
 --        array_construct(
 --               'RUCA_2010'
@@ -162,7 +181,7 @@ $$
 --        True, 'TMP_SP_OUTPUT'
 -- );
 -- select * from TMP_SP_OUTPUT;
-create or replace table WT_MU_EHR_ELIG_SDOH_S (
+create or replace table identifier($ssdh_tbl_nm) (
         PATID varchar(50) NOT NULL
        ,GEOCODEID varchar(15)
        ,GEO_ACCURACY varchar(3)
@@ -172,8 +191,8 @@ create or replace table WT_MU_EHR_ELIG_SDOH_S (
        ,SDOH_SRC varchar(10)
 );
 call get_sdoh_s(
-       'WT_MU_EHR_ELIG_SDOH_S',
-       'WT_MU_EHR_ELIG_GEOID',
+       $ssdh_tbl_nm,
+       $cohort_tbl_nm,
        'CENSUS_BLOCK_GROUP_2020',
        array_construct(
               'ACS_2019'
@@ -186,9 +205,10 @@ call get_sdoh_s(
        ),
        FALSE, NULL
 );
-select count(distinct patid), count(*) from WT_MU_EHR_ELIG_SDOH_S;
--- 57046	11534731
-create or replace table WT_MU_EHR_ELIG_SDOH_S_NUM as
+select count(distinct patid), count(*) from identifier($ssdh_tbl_nm);
+-- 46853	7644067
+
+create or replace table identifier($ssdh_num_tbl_nm) as
 select  PATID,
         GEOCODEID,
         GEO_ACCURACY,
@@ -196,7 +216,7 @@ select  PATID,
         SDOH_VAR || '_' || SDOH_VAL as SDOH_VAR, 
         1 as SDOH_VAL,
         SDOH_SRC
-from WT_MU_EHR_ELIG_SDOH_S
+from identifier($ssdh_tbl_nm)
 where SDOH_TYPE = 'C'
 union
 select  PATID, 
@@ -208,16 +228,16 @@ select  PATID,
              else try_to_number(ltrim(SDOH_VAl,'0'))
         end as SDOH_VAl,
         SDOH_SRC
-from WT_MU_EHR_ELIG_SDOH_S     
+from identifier($ssdh_tbl_nm)     
 where SDOH_TYPE = 'N' and 
       try_to_number(ltrim(SDOH_VAl,'0')) is not null
 ;
 
-select count(distinct patid), count(*) from WT_MU_EHR_ELIG_SDOH_S_NUM;
---57046	10505587
+select count(distinct patid), count(*) from identifier($ssdh_num_tbl_nm);
+--46853	7047339
 
 select sdoh_var, count(distinct patid) as pat_cnt
-from WT_MU_EHR_ELIG_SDOH_S 
+from identifier($ssdh_tbl_nm) 
 group by sdoh_var
 order by pat_cnt desc;
 -- EP_NHPI	56915
@@ -313,7 +333,7 @@ while (tables.next()){
 }
 $$
 ;
-create or replace table WT_MU_EHR_ELIG_SDOH_I(
+create or replace table identifier($isdh_tbl_nm)(
         PATID varchar(50) NOT NULL
        ,SDOH_VAR varchar(50)
        ,SDOH_VAL varchar(1000)
@@ -323,8 +343,8 @@ create or replace table WT_MU_EHR_ELIG_SDOH_I(
 
 /*test*/
 -- call get_sdoh_I(
---     'WT_MU_EHR_ELIG_SDOH_I',
---     'WT_MU_EHR_ELIG_TBL2',
+--     $isdh_tbl_nm,
+--     $cohort_tbl_nm2,
 --     'PATID_ACXIOM',
 --     array_construct(
 --         'DEID_ACXIOM_DATA'
@@ -334,8 +354,8 @@ create or replace table WT_MU_EHR_ELIG_SDOH_I(
 -- select * from TMP_SP_OUTPUT;
 
 call get_sdoh_I(
-       'WT_MU_EHR_ELIG_SDOH_I',
-       'WT_MU_EHR_ELIG_TBL2',
+       $isdh_tbl_nm,
+       $cohort_tbl_nm2,
        'PATID_ACXIOM',
        array_construct(
             'DEID_ACXIOM_DATA'
@@ -343,16 +363,17 @@ call get_sdoh_I(
        FALSE, NULL
 );
 
-select count(distinct patid),count(*) from WT_MU_EHR_ELIG_SDOH_I;
--- 57118	2365292
+select count(distinct patid),count(*) from identifier($isdh_tbl_nm);
+-- 44487	1863160
+-- 63488	2706895
 
-select sdoh_val, count(distinct patid),count(*) from WT_MU_EHR_ELIG_SDOH_I
+select sdoh_val, count(distinct patid),count(*) from identifier($isdh_tbl_nm)
 where sdoh_var = 'P_HISPANIC_LANG'
 group by sdoh_val;
 -- 32392	36233
 
 select sdoh_var, count(distinct patid) as pat_cnt
-from WT_MU_EHR_ELIG_SDOH_I 
+from identifier($isdh_tbl_nm) 
 group by sdoh_var
 order by pat_cnt desc;
 -- H_HOME_LENGTH	57118
@@ -361,13 +382,13 @@ order by pat_cnt desc;
 -- H_INCOME	57118
 -- ...
 
-create or replace table WT_MU_EHR_ELIG_SDOH_I_NUM as 
+create or replace table identifier($isdh_num_tbl_nm) as 
 select  PATID,
         SDOH_VAR as SDOH_VAR_ORIG,
         SDOH_VAR || '_' || SDOH_VAL as SDOH_VAR, 
         1 as SDOH_VAL,
         SDOH_SRC
-from WT_MU_EHR_ELIG_SDOH_I
+from identifier($isdh_tbl_nm)
 where SDOH_TYPE = 'C'
 union 
 select  PATID, 
@@ -377,46 +398,46 @@ select  PATID,
              else try_to_number(ltrim(SDOH_VAl,'0'))
         end as SDOH_VAl,
         SDOH_SRC
-from WT_MU_EHR_ELIG_SDOH_I     
+from identifier($isdh_tbl_nm)     
 where SDOH_TYPE = 'N' and 
       try_to_number(ltrim(SDOH_VAl,'0')) is not null
 ;
 
 -- add medicaid and LIS eligibility indicator from CMS data
-insert into WT_MU_EHR_ELIG_SDOH_I_NUM 
+insert into identifier($isdh_num_tbl_nm) 
 select distinct 
         a.patid,
         'DUAL_ELIG' as SDOH_VAR_ORIG,
         'DUAL_ELIG' as SDOH_VAR,
         1 as SDOH_VAL,
         'CMS' as SDOH_SRC
-from WT_MU_EHR_ELIG_TBL2 a  
+from identifier($cohort_tbl_nm2) a  
 where exists (
     select 1 from GROUSE_DB.CMS_PCORNET_CDM.LDS_ENROLLMENT b 
     where a.patid = b.patid and b.raw_basis = 'DUAL'
 )
 ;
-insert into WT_MU_EHR_ELIG_SDOH_I_NUM 
+insert into identifier($isdh_num_tbl_nm) 
 select distinct 
         a.patid,
         'LIS_ELIG' as SDOH_VAR_ORIG,
         'LIS_ELIG' as SDOH_VAR,
         1 as SDOH_VAL,
         'CMS' as SDOH_SRC
-from WT_MU_EHR_ELIG_TBL2 a  
+from identifier($cohort_tbl_nm2) a  
 where exists (
     select 1 from GROUSE_DB.CMS_PCORNET_CDM.LDS_ENROLLMENT b 
     where a.patid = b.patid and b.raw_basis = 'LIS'
 )
 ;
-insert into WT_MU_EHR_ELIG_SDOH_I_NUM 
+insert into identifier($isdh_num_tbl_nm) 
 select distinct 
         a.patid,
         'DUAL_LIS_ELIG' as SDOH_VAR_ORIG,
         'DUAL_LIS_ELIG' as SDOH_VAR,
         1 as SDOH_VAL,
         'CMS' as SDOH_SRC
-from WT_MU_EHR_ELIG_TBL2 a  
+from identifier($cohort_tbl_nm2) a  
 where exists (
     select 1 from GROUSE_DB.CMS_PCORNET_CDM.LDS_ENROLLMENT b 
     where a.patid = b.patid and 
@@ -424,5 +445,7 @@ where exists (
 )
 ;
 
-select count(distinct patid),count(*) from WT_MU_EHR_ELIG_SDOH_I_NUM;
--- 57121	2115177
+select count(distinct patid),count(*) from identifier($isdh_num_tbl_nm);
+-- 44489	1695288
+-- 63582	2481289
+

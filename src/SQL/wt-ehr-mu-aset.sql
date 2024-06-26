@@ -3,20 +3,50 @@
 # Author: Xing Song, xsm7f@umsystem.edu                            
 # File: wt-cms-mu-aset.sql                                            
 */
-select * from WT_MU_EHR_READMIT_ELIG limit 5;
-select * from WT_MU_CCI limit 5;
-select * from WT_MU_EHR_ELIG_TBL2 limit 5;
-select count(*)*0.01 from WT_MU_EHR_READMIT_ELIG;
--- 1000
 
-create or replace table WT_EHR_MU_ENC_BASE as 
+-- paramatrize table names
+set tbl_flag = 'EHR_CMS';
+-- set tbl_flag = 'EHR';
+
+-- cohort table
+set cohort_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_TBL1';
+select * from identifier($cohort_tbl_nm) limit 5;
+
+set cohort_tbl_nm2 = 'WT_MU_' || $tbl_flag || '_ELIG_TBL2';
+select * from identifier($cohort_tbl_nm2) limit 5;
+
+set readmit_tbl_nm = 'WT_MU_' || $tbl_flag || '_READMIT_ELIG';
+select * from identifier($readmit_tbl_nm) limit 5;
+select count(*)*0.01 from identifier($readmit_tbl_nm);
+
+set cci_tbl_nm = 'WT_MU_' || $tbl_flag || '_CCI';
+select * from identifier($cci_tbl_nm) limit 5;
+
+
+-- covariate table
+set base_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_ENC_BASE';
+set base_long_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_ENC_BASE_LONG';
+set base_ssdh_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_SDOH_S';
+set base_ssdh_num_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_SDOH_S_NUM';
+set base_ssdh_orig_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_SDOH_S_ORIG';
+set base_ssdh_simp_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_SDOH_S_SIMP';
+set base_ssdh_long_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_BASE_SDOH_S_LONG';
+set base_isdh_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_SDOH_I';
+set base_isdh_num_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_SDOH_I_NUM';
+set base_isdh_orig_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_SDOH_I_ORIG';
+set base_isdh_simp_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_SDOH_I_SIMP';
+set base_isdh_long_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_BASE_SDOH_I_LONG';
+set base_sisdh_long_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_BASE_SDOH_SI_LONG';
+
+
+create or replace table identifier($base_tbl_nm) as 
 with cte_cci as (
     select a.patid, b.encounterid, 
            a.cci_date, a.code_grp, a.cci_score,
            datediff('day',a.cci_date,b.discharge_date) as days_to_discharge,
            row_number() over (partition by a.patid, b.encounterid, a.code_grp order by a.cci_date) as rn
-    from WT_MU_CCI a
-    join WT_MU_EHR_READMIT_ELIG b 
+    from identifier($cci_tbl_nm) a
+    join identifier($readmit_tbl_nm) b 
     on a.patid = b.patid
     where a.cci_date <= b.discharge_date
 ), cte_tot as (
@@ -31,12 +61,12 @@ with cte_cci as (
            case when count(*)>= 1000 then 'DRG_'||drg
                 else 'DRG_OT'
            end as drg_regrp
-    from WT_MU_EHR_READMIT_ELIG
+    from identifier($readmit_tbl_nm)
     group by drg
 ), cte_obes as (
     select patid, min(obes_date) as obes_date
     from (
-        select patid, bmi_obes1_date as obes_date from WT_MU_EHR_TBL1
+        select patid, bmi_obes1_date as obes_date from identifier($cohort_tbl_nm)
         union 
         select patid, dx_date as obes_date from WT_MU_DX
         where dx like '278%' or dx like 'E66%' or dx like 'Z68.3%' or dx like 'Z68.4%'
@@ -46,7 +76,7 @@ with cte_cci as (
 select  distinct 
         dense_rank() over (order by a.patid, a.encounterid) as rowid,
         a.patid, b.patid_acxiom, a.encounterid,
-        a.readmit30d_death_ind,
+        a.readmit30d_ind,
         case when a.ip_cumcnt_12m >=6 then 6
              else a.ip_cumcnt_12m
         end as ip_cumcnt_12m, -- clipping
@@ -80,25 +110,25 @@ select  distinct
         end as CCI_CLASS,
         -- a.drg,
         coalesce(e.drg_regrp, 'DRG_NI') as drg_regrp
-from WT_MU_EHR_READMIT_ELIG a 
-join WT_MU_EHR_ELIG_TBL2 b on a.patid = b.patid
+from identifier($readmit_tbl_nm) a 
+join identifier($cohort_tbl_nm2) b on a.patid = b.patid
 left join GROUSE_DB.CMS_PCORNET_CDM.LDS_DEMOGRAPHIC d on a.patid = d.patid
 left join cte_obes o on a.patid = o.patid
 left join cte_tot c on a.patid = c.patid and a.encounterid = c.encounterid
 left join cte_lowfreq e on a.drg = e.drg
 ;
 
-select count(distinct patid), count(distinct encounterid), count(*) from WT_EHR_MU_ENC_BASE;
--- 57133	107497	107497
+select count(distinct patid), count(distinct encounterid), count(*) from identifier($base_tbl_nm);
+-- 44500	78077
 
-select readmit30d_death_ind, count(distinct encounterid)
-from WT_EHR_MU_ENC_BASE
-group by readmit30d_death_ind;
--- 1	14539
--- 0	92958
+select readmit30d_ind, count(distinct encounterid)
+from identifier($base_tbl_nm)
+group by readmit30d_ind;
+-- 1	8800
+-- 0	69277
 
 select drg_regrp, count(distinct patid) as pat_cnt
-from WT_EHR_MU_ENC_BASE
+from identifier($base_tbl_nm)
 group by drg_regrp 
 order by pat_cnt desc;
 -- DRG_OT	43858
@@ -109,28 +139,28 @@ order by pat_cnt desc;
 -- ...
 
 select hispanic, count(distinct encounterid) as pat_cnt
-from WT_EHR_MU_ENC_BASE
+from identifier($base_tbl_nm)
 group by hispanic;
 
 select CCI, count(distinct patid) as pat_cnt
-from WT_EHR_MU_ENC_BASE
+from identifier($base_tbl_nm)
 group by CCI 
 order by CCI;
 
-select * from WT_EHR_MU_ENC_BASE limit 5;
-create or replace table WT_EHR_MU_ENC_BASE_LONG as 
+select * from identifier($base_tbl_nm) limit 5;
+create or replace table identifier($base_long_tbl_nm) as 
 with cte_cat as (
-    select rowid, patid, encounterid, readmit30d_death_ind,
+    select rowid, patid, encounterid, readmit30d_ind,
            var || '_' || val as var, 1 as val 
     from (
-        select  rowid,patid,encounterid,readmit30d_death_ind,
+        select  rowid,patid,encounterid,readmit30d_ind,
                 discharge_status,
                 sex,
                 race,
                 hispanic,
                 cci_class,
                 drg_regrp
-        from WT_EHR_MU_ENC_BASE
+        from identifier($base_tbl_nm)
     )
     unpivot (
         VAL for VAR in (
@@ -145,13 +175,13 @@ with cte_cat as (
 ), cte_num as (
     select *
     from (
-    select  rowid,patid,encounterid,readmit30d_death_ind,
+    select  rowid,patid,encounterid,readmit30d_ind,
             cast(los as number(18,0)) as los,
             cast(age_at_enc as number(18,0)) as age_at_enc,
             cast(obes as number(18,0)) as obes,
             cast(cci as number(18,0)) as cci,
             cast(ip_cumcnt_12m as number(18,0)) as ip_cumcnt_12m
-    from WT_EHR_MU_ENC_BASE
+    from identifier($base_tbl_nm)
     )
     unpivot (
         VAL for VAR in (
@@ -164,52 +194,52 @@ with cte_cat as (
     ) 
     where val is not null   
 )
-select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_cat 
+select rowid, patid, encounterid, readmit30d_ind, var, val from cte_cat 
 union 
-select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_num
+select rowid, patid, encounterid, readmit30d_ind, var, val from cte_num
 ;
 
-select * from WT_EHR_MU_ENC_BASE_LONG 
+select * from identifier($base_long_tbl_nm) 
 -- where val = 0
 limit 5;
 
-create or replace table WT_MU_EHR_ELIG_SDOH_S_ORIG as 
+create or replace table identifier($base_ssdh_orig_tbl_nm) as 
 select distinct
        a.rowid,
        a.patid, 
        a.encounterid,
-       a.readmit30d_death_ind,
+       a.readmit30d_ind,
        b.sdoh_var,
        b.sdoh_val,
        b.sdoh_type
-from WT_EHR_MU_ENC_BASE a  
-join WT_MU_EHR_ELIG_SDOH_S b 
+from identifier($base_tbl_nm) a  
+join identifier($base_ssdh_tbl_nm) b 
 on a.patid_acxiom = b.patid
 ;
 
-select count(distinct patid), count(distinct rowid) from WT_MU_EHR_ELIG_SDOH_S_ORIG
+select count(distinct patid), count(distinct rowid) from identifier($base_ssdh_orig_tbl_nm)
 where sdoh_var = 'ADI_NATRANK';
--- 56914	107170
+-- 44326	77812
 
-create or replace table WT_MU_EHR_ELIG_SDOH_S_SIMP as 
+create or replace table identifier($base_ssdh_simp_tbl_nm) as 
 with cte_n as (
     select count(distinct rowid) as N
-    from WT_MU_EHR_ELIG_SDOH_S_ORIG
+    from identifier($base_ssdh_orig_tbl_nm)
 ), cte_rt as (
     select a.sdoh_type, a.sdoh_var, 
         count(distinct a.rowid)/cte_n.N as rt,
-        sum(a.readmit30d_death_ind)/cte_n.N as crt 
-    from WT_MU_EHR_ELIG_SDOH_S_ORIG a 
+        sum(a.readmit30d_ind)/cte_n.N as crt 
+    from identifier($base_ssdh_orig_tbl_nm) a 
     natural full outer join cte_n
     group by a.sdoh_type,a.sdoh_var,cte_n.N  
 ), cte_imp as (
     select sdoh_var, median(sdoh_val) as imp_val 
-    from WT_MU_EHR_ELIG_SDOH_S_ORIG
+    from identifier($base_ssdh_orig_tbl_nm)
     where sdoh_type = 'N' and regexp_like(sdoh_val, '^[0-9]+$')
     group by sdoh_var
     union
     select sdoh_var, NULL as imp_val
-    from WT_MU_EHR_ELIG_SDOH_S_ORIG
+    from identifier($base_ssdh_orig_tbl_nm)
     where sdoh_type = 'C'
     group by sdoh_var
 )
@@ -219,103 +249,103 @@ join cte_imp
 on cte_rt.sdoh_var = cte_imp.sdoh_var    
 ;
 
-select * from WT_MU_EHR_ELIG_SDOH_S_SIMP 
+select * from identifier($base_ssdh_simp_tbl_nm) 
 order by rt;
 
-create or replace table WT_EHR_MU_ENC_BASE_SDOH_S_LONG as 
+create or replace table identifier($base_ssdh_long_tbl_nm) as 
 with cte_full as (
     select distinct
            a.rowid, 
            a.patid, 
            a.patid_acxiom,
            a.encounterid, 
-           a.readmit30d_death_ind, 
+           a.readmit30d_ind, 
            b.sdoh_var,
            b.imp_val
-    from WT_EHR_MU_ENC_BASE a 
-    natural full outer join WT_MU_EHR_ELIG_SDOH_S_SIMP b 
-    where b.rt >= 0.5 -- sparsity-based filtering
+    from identifier($base_tbl_nm) a 
+    natural full outer join identifier($base_ssdh_simp_tbl_nm) b 
+    where b.rt >= 0.01 -- sparsity-based filtering
 ), cte_sdoh_rep as (
     select a.rowid, 
            a.patid, 
            a.encounterid, 
-           a.readmit30d_death_ind, 
+           a.readmit30d_ind, 
            b.sdoh_var as var, 
            coalesce(b.sdoh_val,a.imp_val) as val 
     from cte_full a 
-    join WT_MU_EHR_ELIG_SDOH_S_NUM b 
+    join identifier($base_ssdh_num_tbl_nm) b 
     on a.patid_acxiom = b.patid
     where a.sdoh_var = b.sdoh_var_orig
 )
-select rowid, patid, encounterid, readmit30d_death_ind, var, val from WT_EHR_MU_ENC_BASE_LONG 
+select rowid, patid, encounterid, readmit30d_ind, var, val from identifier($base_long_tbl_nm)
 union 
-select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_rep
+select rowid, patid, encounterid, readmit30d_ind, var, val from cte_sdoh_rep
 where val is not null
 ;
 
 select count(distinct patid), count(distinct sdoh_var), count(*)
-from WT_MU_EHR_ELIG_SDOH_S_NUM;
--- 57046	356	10505587
+from identifier($base_ssdh_num_tbl_nm);
+-- 44438	298	6674528
 
 select count(distinct patid), count(distinct encounterid), count(distinct var), count(*)
-from WT_EHR_MU_ENC_BASE_SDOH_S_LONG;
--- 57133	107497	319	15066729
+from identifier($base_ssdh_long_tbl_nm);
+-- 44500	78077	272	8547529
 
-select * from WT_MU_EHR_ELIG_SDOH_I 
+select * from identifier($base_isdh_tbl_nm) 
 -- where sdoh_val is null
 limit 5;
 
-create or replace table WT_MU_EHR_ELIG_SDOH_I_ORIG as 
+create or replace table identifier($base_isdh_orig_tbl_nm) as 
 select distinct
        a.rowid,
        a.patid, 
        a.encounterid,
-       a.readmit30d_death_ind,
+       a.readmit30d_ind,
        b.sdoh_var,
        b.sdoh_val,
        b.sdoh_type
-from WT_EHR_MU_ENC_BASE a 
-join WT_MU_EHR_ELIG_SDOH_I b 
+from identifier($base_tbl_nm) a 
+join identifier($base_isdh_tbl_nm) b 
 on a.patid = b.patid
 ;
 
 select sdoh_var, count(distinct patid), count(distinct rowid)
-from WT_MU_EHR_ELIG_SDOH_I_ORIG
+from identifier($base_isdh_orig_tbl_nm)
 group by sdoh_var
 ;
 
 select count(distinct patid), count(distinct rowid) 
-from WT_MU_EHR_ELIG_SDOH_I_ORIG
+from identifier($base_isdh_orig_tbl_nm)
 where sdoh_var = 'H_ASSESSED_VALUE'
 ;
 -- 32392	55898
 
 select sdoh_val, count(distinct rowid) 
-from WT_MU_EHR_ELIG_SDOH_I_ORIG
+from identifier($base_isdh_orig_tbl_nm)
 where sdoh_var = 'H_HOME_BUILD_YR'
 group by sdoh_val
 order by sdoh_val desc
 ; 
 
-create or replace table WT_MU_EHR_ELIG_SDOH_I_SIMP as 
+create or replace table identifier($base_isdh_simp_tbl_nm) as 
 with cte_n as (
     select count(distinct rowid) as N
-    from WT_MU_EHR_ELIG_SDOH_I_ORIG
+    from identifier($base_isdh_orig_tbl_nm)
 ), cte_rt as (
     select a.sdoh_type, a.sdoh_var, 
            count(distinct a.rowid)/cte_n.N as rt,
-           sum(a.readmit30d_death_ind)/cte_n.N as crt 
-    from WT_MU_EHR_ELIG_SDOH_I_ORIG a 
+           sum(a.readmit30d_ind)/cte_n.N as crt 
+    from identifier($base_isdh_orig_tbl_nm) a 
     natural full outer join cte_n
     group by a.sdoh_type,a.sdoh_var,cte_n.N  
 ), cte_imp as (
     select sdoh_var, median(sdoh_val) as imp_val 
-    from WT_MU_EHR_ELIG_SDOH_I_ORIG
+    from identifier($base_isdh_orig_tbl_nm)
     where sdoh_type = 'N' and regexp_like(sdoh_val, '^[0-9]+$')
     group by sdoh_var
     union
     select sdoh_var, NULL as imp_val
-    from WT_MU_EHR_ELIG_SDOH_I_ORIG
+    from identifier($base_isdh_orig_tbl_nm)
     where sdoh_type = 'C'
     group by sdoh_var
 )
@@ -325,57 +355,58 @@ join cte_imp
 on cte_rt.sdoh_var = cte_imp.sdoh_var    
 ;
 
-select * from WT_MU_EHR_ELIG_SDOH_I_SIMP 
+select * from identifier($base_isdh_simp_tbl_nm) 
 order by rt;
 
 
-create or replace table WT_EHR_MU_ENC_BASE_SDOH_I_LONG as 
+create or replace table identifier($base_isdh_long_tbl_nm) as 
 with cte_full as (
     select distinct
            a.rowid, 
            a.patid, 
            a.patid_acxiom,
            a.encounterid, 
-           a.readmit30d_death_ind, 
+           a.readmit30d_ind, 
            b.sdoh_var,
            b.imp_val
-    from WT_EHR_MU_ENC_BASE a 
-    natural full outer join WT_MU_EHR_ELIG_SDOH_I_SIMP b 
+    from identifier($base_tbl_nm) a 
+    natural full outer join identifier($base_isdh_simp_tbl_nm) b 
     where b.rt >= 0.01 or b.sdoh_type = 'C' -- sparsity-based filtering
 ), cte_sdoh_rep as (
     select a.rowid, 
            a.patid, 
            a.encounterid, 
-           a.readmit30d_death_ind, 
+           a.readmit30d_ind, 
            b.sdoh_var as var, 
            coalesce(b.sdoh_val,a.imp_val) as val 
     from cte_full a 
-    join WT_MU_EHR_ELIG_SDOH_I_NUM b 
+    join identifier($base_isdh_num_tbl_nm) b 
     on a.patid = b.patid
     where a.sdoh_var = b.sdoh_var_orig
 )
-select rowid, patid, encounterid, readmit30d_death_ind, var, val from WT_EHR_MU_ENC_BASE_LONG 
+select rowid, patid, encounterid, readmit30d_ind, var, val from identifier($base_long_tbl_nm)
 union 
-select rowid, patid, encounterid, readmit30d_death_ind, var, val from cte_sdoh_rep
+select rowid, patid, encounterid, readmit30d_ind, var, val from cte_sdoh_rep
 where val is not null
 ;
 
 select count(distinct patid),count(distinct encounterid), count(distinct var), count(*)
-from WT_EHR_MU_ENC_BASE_SDOH_I_LONG;
--- 57133	107497	363	4779629
+from identifier($base_isdh_long_tbl_nm);
+-- 44500	78077	358	3577010
 
-create or replace table WT_EHR_MU_ENC_BASE_SDOH_SI_LONG as 
+create or replace table identifier($base_sisdh_long_tbl_nm) as 
 with cte_combine as (
-    select * from WT_EHR_MU_ENC_BASE_SDOH_S_LONG
+    select * from identifier($base_ssdh_long_tbl_nm)
     union 
-    select * from WT_EHR_MU_ENC_BASE_SDOH_I_LONG
+    select * from identifier($base_isdh_long_tbl_nm)
 )
 select distinct cte_combine.* 
 from cte_combine
 ;
 select count(distinct patid),count(distinct encounterid), count(distinct var), count(*)
-from WT_EHR_MU_ENC_BASE_SDOH_SI_LONG;
--- 57133	107497	639	18775481
+from identifier($base_sisdh_long_tbl_nm);
+-- 44500	78077	591	11349210
+-- 63502	135838	628	20201049
 
 create or replace table DATA_DICT(
     VAR varchar(50), 
@@ -437,7 +468,7 @@ order by var_domain;
 create or replace table SUBGRP as 
 with cte_dual_lis as(
     select distinct patid, 1 as ind
-    from WT_MU_EHR_ELIG_SDOH_I_NUM
+    from identifier($base_isdh_num_tbl_nm)
     where sdoh_var = 'DUAL_LIS_ELIG'
 )
 select a.patid, 
@@ -447,10 +478,10 @@ select a.patid,
        case when a.race <> 'WH' then 1 else 0 end as non_white,
        coalesce(a.obes,0) as obes,
        case when a.age_at_enc >=65 then 1 else 0 end as age_65up
-from WT_EHR_MU_ENC_BASE a  
+from identifier($base_tbl_nm) a  
 left join cte_dual_lis b on a.patid = b.patid
 ;
 
 select count(distinct encounterid), count(*) from SUBGRP;
--- 107497
+-- 78077
 select * from SUBGRP limit 5;
