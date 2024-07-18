@@ -8,17 +8,27 @@ pacman::p_load(
   PRROC,
   pROC,
   ResourceSelection,
-  ggpubr
+  ggpubr,
+  scales
 )
 
 source_url("https://raw.githubusercontent.com/sxinger/utils/master/analysis_util.R")
 
-# useful path to dir
-dir_data<-file.path(getwd(),"data")
+# cohort flag
+which_cohort<-"cms"
+# which_cohort<-"ehr"
+
+# directories
+data_dir<-file.path("./data",which_cohort)
+res_dir<-file.path("./res",which_cohort)
 
 # partition use
 part_type<-"leakprone"
 # part_type<-"noleak"
+
+# model
+model_type<-"xgb"
+# model_type<-"lasso"
 
 # training planner
 tr_plan<-data.frame(
@@ -29,30 +39,30 @@ tr_plan<-data.frame(
   bind_rows(data.frame(
     model = 'base',
     model_lbl = 'base',
-    path_to_data = file.path(dir_data,part_type,"xgb_base.rda")
+    path_to_data = file.path(data_dir,part_type,paste0(model_type,"_base.rda"))
   )) %>%
   bind_rows(data.frame(
     model = 'sdoh_i',
     model_lbl = 'i-sdh-aug',
-    path_to_data = file.path(dir_data,part_type,"xgb_sdoh_i.rda")
+    path_to_data = file.path(data_dir,part_type,paste0(model_type,"_sdoh_i.rda"))
   )) %>%
   bind_rows(data.frame(
     model = 'sdoh_s',
     model_lbl = 's-sdh-aug',
-    path_to_data = file.path(dir_data,part_type,"xgb_sdoh_s.rda")
+    path_to_data = file.path(data_dir,part_type,paste0(model_type,"_sdoh_s.rda"))
   )) %>%
   bind_rows(data.frame(
     model = 'sdoh_si',
     model_lbl = 'si-sdh-aug',
-    path_to_data = file.path(dir_data,part_type,"xgb_sdoh_si.rda")
+    path_to_data = file.path(data_dir,part_type,paste0(model_type,"_sdoh_si.rda"))
   ))
 
 # load var encoder
-var_encoder<-readRDS("./data/var_encoder.rda")
+var_encoder<-readRDS(file.path(data_dir,"var_encoder.rda"))
 
 # integrate results
 #==== all ====
-path_to_file<-file.path(dir_data,part_type,"xgb_results_all.rda")
+path_to_file<-file.path(data_dir,part_type,paste0(model_type,"_results_all.rda"))
 if(!file.exists(path_to_file)){
   pred<-c()
   perf_summ<-c()
@@ -67,17 +77,43 @@ if(!file.exists(path_to_file)){
     rslt<-readRDS(tr_plan$path_to_data[i])
 
     # feature importance
-    varimp %<>%
-      bind_rows(
-        rslt$feat_imp %>%
-          arrange(-Gain) %>%
-          mutate(
-            rank=rank(-Gain),  
-            model=tr_plan$model[i],
-            Gain_rescale=round(Gain/Gain[1]*100)
+    if(model_type=="xgb"){
+      varimp %<>%
+        bind_rows(
+          rslt$feat_imp %>%
+            arrange(-Gain) %>%
+            mutate(
+              rank=rank(-Gain),  
+              model=tr_plan$model[i],
+              Gain_rescale=round(Gain/Gain[1]*100)
+            ) %>%
+            # add common variable names for single plotting func
+            mutate(
+              vari = Feature,
+              score = Gain_rescale
+            )
+        )
+    }else if(model_type=="lasso"){
+      varimp %<>%
+        bind_rows(
+          rslt$feat_imp %>%
+            filter(!is.na(beta)) %>%
+            arrange(-abs(beta)) %>%
+            mutate(
+              rank = rank(-abs(beta)),
+              model=tr_plan$model[i],
+              abs_beta = abs(beta),
+              abs_beta_rescale = round(abs_beta/abs_beta[1]*100),
+              lambda_rescale = ,
+            ) %>%
+            # add common variable names for single plotting func
+            mutate(
+              vari = var,
+              score = abs_beta_rescale
+            )
           )
-      )
-
+    }
+    
     # test performance
     pred_ts<-rslt$pred_ts
   
@@ -106,7 +142,9 @@ if(!file.exists(path_to_file)){
     #-- roc
     roc[[paste0(tr_plan$model_lbl[i])]]<-pROC::roc(
       response = pred_ts$actual,
-      predictor = pred_ts$pred
+      predictor = pred_ts$pred,
+      levels = c(0, 1), direction = "<",
+      quite = TRUE
     )
     #-- calibration
     calib<-get_calibr(
@@ -238,12 +276,12 @@ p2<-ggplot(prc,aes(x=recall,y=meas_val_m,color=model))+
 ggarrange(p1,p2,ncol=2,common.legend = TRUE)
 
 ggsave(
-  "./res/auc.tiff",
+  file.path(res_dir,"auc.pdf"),
   dpi=100,
-  width=10,
+  width=12,
   height=5,
   units="in",
-  device = 'tiff'
+  device = 'pdf'
 )
 
 # calibration plot
@@ -272,17 +310,17 @@ ggplot(calibr_full,aes(x=y_p,y=pred_p))+
         strip.text = element_text(size = 15))
 
 ggsave(
-  "./res/calibration.tiff",
+  file.path(res_dir,"calibration.pdf"),
   dpi=100,
   width=8,
   height=6,
   units="in",
-  device = 'tiff'
+  device = 'pdf'
 )
 
 # importance plot 
 varimp<-out$varimp %>% 
-  inner_join(var_encoder,by=c("Feature"="VAR3")) %>%
+  inner_join(var_encoder,by=c("vari"="VAR3")) %>%
   mutate(
     rank_lpad= str_pad(rank,3,"left",'0'),
     feat_rank = paste0(rank_lpad,".",VAR_LBL)
@@ -291,28 +329,40 @@ varimp<-out$varimp %>%
   mutate(feat_rank=as.factor(feat_rank)) %>%
   mutate(feat_rank=factor(feat_rank,levels=rev(levels(feat_rank))))
 
-ggplot(varimp %>% filter(rank <= 15),
-       aes(x=feat_rank,y=Gain_rescale,fill=VAR_DOMAIN_TYPE))+
-  geom_bar(stat="identity")+
-  labs(x="Features",y="Normalized Scale",fill="Feature Domain")+
-  coord_flip()+scale_y_continuous(trans = "reverse")+
-  facet_wrap(~ model,scales = "free",ncol=2)+
-  theme(text = element_text(face="bold",size=13),
-        strip.text = element_text(size = 15))
+#--bar plot
+# ggplot(varimp %>% filter(rank <= 15),
+#        aes(x=feat_rank,y=score,fill=VAR_DOMAIN_TYPE))+
+#   geom_bar(stat="identity")+
+#   labs(x="Features",y="Normalized Scale",fill="Feature Domain")+
+#   coord_flip()+scale_y_continuous(trans = "reverse")+
+#   facet_wrap(~ model,scales = "free",ncol=2)+
+#   theme(text = element_text(face="bold",size=13),
+#         strip.text = element_text(size = 15))
 
-ggsave(
-  './res/feature_importance.tiff',
-  dpi=150,
-  width=20,
-  height=15,
-  units="in",
-  device = 'tiff'
-)
+# ggsave(
+#   file.path(res_dir,'featimp_bar.pdf'),
+#   dpi=150,
+#   width=20,
+#   height=15,
+#   units="in",
+#   device = 'pdf'
+# )
+
+#--web plot
+
+# ggsave(
+#   file.path(res_dir,'featimp_web.pdf'),
+#   dpi=150,
+#   width=20,
+#   height=15,
+#   units="in",
+#   device = 'pdf'
+# )
 
 # shap
 for(i in 1:nrow(tr_plan)){
   shap<-readRDS(file.path(
-    dir_data,part_type,
+    data_dir,part_type,
     paste0("xgb_shap_",tr_plan$model[i],".rda")
   ))
   k_sel<-length(unique(shap$var))
@@ -320,9 +370,22 @@ for(i in 1:nrow(tr_plan)){
     inner_join(
       varimp %>%
         filter(model==tr_plan$model[i]) %>%
-        filter(rank <= 20) %>%
+        filter(rank <= 21) %>%
         mutate(feat_rank=factor(feat_rank,levels=rev(levels(feat_rank)))),
       by = c('var' = "Feature")
+    ) %>%
+    # cap the extreme values
+    mutate(
+      val=case_when(
+        VAR=="ADI_NATRANK"&val>100 ~ 200-val,
+        VAR=="H_HOME_BUILD_YR"&val>2022 ~ 2022,
+        VAR=="H_HOME_BUILD_YR"&val<1800 ~ 1800,
+        # VAR=="H_ASSESSED_VALUE"&val<1 ~ 1,
+        VAR=="H_ASSESSED_VALUE"&val>750000 ~ 750000,
+        VAR=="H_ONLINE_SPEND"&val>6000 ~ 6000,
+        VAR=="H_TOTAL_SPEND_2YR"&val>6000 ~ 6000,
+        TRUE ~ val
+      )
     ) %>%
     group_by(var,VAR,val,VAR_DOMAIN_TYPE,feat_rank) %>%
     summarise(
@@ -330,17 +393,6 @@ for(i in 1:nrow(tr_plan)){
       eff_lb = exp(quantile(effect,0.025,na.rm=T)),
       eff_ub = exp(quantile(effect,0.975,na.rm=T)),
       .groups = "drop"
-    ) %>%
-    # manual filtering of extreme values
-    filter(
-      !(
-        (VAR=="H_HOME_BUILD_YR"&(val>2022|val<1800))|
-        (VAR=="H_ASSESSED_VALUE"&(val<1|val>750000)) |
-        (VAR=="H_ONLINE_SPEND"&val>6000) |
-        (VAR=="H_TOTAL_SPEND_2YR"&val>6000) |
-        (VAR=="H_HOME_EQUITY"&val>750000) |
-        (VAR=="ADI_NATRANK"&val>100)
-      )
     )
 
   ggplot(shap_sel,aes(x=val,y=eff_m))+
@@ -354,12 +406,12 @@ for(i in 1:nrow(tr_plan)){
             strip.text = element_text(size = 12))
   
   ggsave(
-    paste0('./res/xgb_shap_',tr_plan$model[i],".tiff"),
+    file.path(res_dir,paste0('xgb_shap_',tr_plan$model[i],".pdf")),
     dpi=150,
     width=15,
     height=12,
     units="in",
-    device = 'tiff'
+    device = 'pdf'
   )
 }
 

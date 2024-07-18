@@ -8,22 +8,28 @@ pacman::p_load(
   kableExtra
 )
 
+# install.packages("webshot2")
 # webshot::install_phantomjs() # needed for save_kabel()
 source_url("https://raw.githubusercontent.com/sxinger/utils/master/analysis_util.R")
 
+# cohort flag
+# which_cohort<-"cms"
+which_cohort<-"ehr"
+
+# directories
+data_dir<-file.path("./data",which_cohort)
+res_dir<-file.path("./res",which_cohort)
+
 ##==== base ==== 
-data_df<-readRDS("./data/mu_readmit_base.rds") %>%
-  replace_na(list(OBES = 0)) %>%
-  inner_join(readRDS("./data/subgrp_sel.rds") %>%
-               select(ROWID, DUAL_LIS),
-             by = "ROWID")
+data_df<-readRDS(file.path(data_dir,"mu_readmit_base.rds")) %>%
+  replace_na(list(OBES = 0))
 
 var_lst<-colnames(data_df)[
   !colnames(data_df) %in% c(
     "ROWID",
     "PATID",
     "ENCOUNTERID",
-    "PATID_ACXIOM"
+    "PATID2"
   )
 ]
 numvar_lst<-var_lst[
@@ -31,7 +37,10 @@ numvar_lst<-var_lst[
     "AGE_AT_ENC",
     "LOS",
     "CCI",
-    "IP_CUMCNT_12M"
+    "IP_CUMCNT_12M",
+    "DUAL_IND",
+    "ED_IND",
+    "OBES_IND"
   )
 ]
 facvar_lst<-var_lst[!var_lst %in% numvar_lst]
@@ -45,24 +54,24 @@ cohort_summ<-univar_analysis_mixed(
 )
 cohort_summ %>%
   save_kable(
-    paste0("./res/cohort_summ.pdf")
+    paste0(file.path(res_dir,"cohort_summ.html"))
 )
 
 cohort_summ<-univar_analysis_mixed(
   df = data_df,
   id_col ="ROWID",
-  var_lst = var_lst[!var_lst%in% c("READMIT30D_DEATH_IND")],
-  grp = data_df$READMIT30D_DEATH_IND,
-  facvar_lst  = facvar_lst[!facvar_lst%in% c("READMIT30D_DEATH_IND")],
+  var_lst = var_lst[!var_lst%in% c("READMIT30D_IND")],
+  grp = data_df$READMIT30D_IND,
+  facvar_lst  = facvar_lst[!facvar_lst%in% c("READMIT30D_IND")],
   pretty = T
 )
 cohort_summ %>%
   save_kable(
-    paste0("./res/cohort_readmit.pdf")
+    paste0(file.path(res_dir,"cohort_readmit.html"))
   )
 
 #==== s-sdh ====
-data_df<-readRDS("./data/mu_readmit_sdoh_s.rds") %>% select(-PATID,-ENCOUNTERID) 
+data_df<-readRDS(file.path(data_dir,"mu_readmit_sdoh_s.rds")) %>% select(-PATID,-ENCOUNTERID) 
 var_encoder<-data_df %>% select(SDOH_VAR,SDOH_TYPE,SDOH_TYPE) %>% unique
 var_lst<-var_encoder %>% select(SDOH_VAR) %>%
   filter(!SDOH_VAR %in% c(
@@ -107,28 +116,28 @@ for(i in seq_along(var_seq[-1])){
   )
   cohort_summ %>%
     save_kable(
-      paste0("./res/cohort_summ_s_sdh_",i,".pdf")
+      file.path(res_dir,paste0("cohort_summ_s_sdh_",i,".html"))
     )
   
   cohort_summ<-univar_analysis_mixed(
     df = sub_df,
     id_col ="ROWID",
-    var_lst = var_sub[!var_sub %in% c("READMIT30D_DEATH_IND")],
-    facvar_lst  = facvar_sub[!facvar_sub %in% c("READMIT30D_DEATH_IND")],
-    grp = sub_df$READMIT30D_DEATH_IND,
+    var_lst = var_sub[!var_sub %in% c("READMIT30D_IND")],
+    facvar_lst  = facvar_sub[!facvar_sub %in% c("READMIT30D_IND")],
+    grp = sub_df$READMIT30D_IND,
     pretty = T,
     var_lbl_df = var_lbl_df
   )
   cohort_summ %>%
     save_kable(
-      paste0("./res/cohort_readmit_summ_s_sdh_",i,".pdf")
+      file.path(res_dir,paste0("cohort_readmit_summ_s_sdh_",i,".html"))
     )
   
   print(paste0("completed summarization for variables: ",var_pos[1],"-",var_pos[2]))
 }
 
 #==== i-sdh ====
-data_df<-readRDS("./data/mu_readmit_sdoh_i.rds") %>% select(-PATID,-ENCOUNTERID) 
+data_df<-readRDS(file.path(data_dir,"mu_readmit_sdoh_i.rds")) %>% select(-PATID,-ENCOUNTERID) 
 var_encoder<-data_df %>% select(SDOH_VAR,SDOH_TYPE) %>% unique
 var_lst<-var_encoder %>% select(SDOH_VAR) %>% pull
 facvar_lst<-var_encoder %>% filter(SDOH_TYPE=="C") %>% select(SDOH_VAR) %>% pull
@@ -167,21 +176,21 @@ for(i in seq_along(var_seq[-1])){
   )
   cohort_summ %>%
     save_kable(
-      paste0("./res/cohort_summ_i_sdh_",i,".pdf")
+      file.path(res_dir,paste0("cohort_summ_i_sdh_",i,".html"))
     )
   
   cohort_summ<-univar_analysis_mixed(
     df = sub_df,
     id_col ="ROWID",
-    var_lst = var_sub[!var_sub %in% c("READMIT30D_DEATH_IND")],
-    facvar_lst  = facvar_sub[!facvar_sub %in% c("READMIT30D_DEATH_IND")],
-    grp = sub_df$READMIT30D_DEATH_IND,
+    var_lst = var_sub[!var_sub %in% c("READMIT30D_IND")],
+    facvar_lst  = facvar_sub[!facvar_sub %in% c("READMIT30D_IND")],
+    grp = sub_df$READMIT30D_IND,
     pretty = T,
     var_lbl_df = var_lbl_df
   )
   cohort_summ %>%
     save_kable(
-      paste0("./res/cohort_readmit_summ_i_sdh_",i,".pdf")
+      file.path(res_dir,paste0("cohort_readmit_summ_i_sdh_",i,".html"))
     )
   
   print(paste0("completed summarization for variables: ",var_pos[1],"-",var_pos[2]))
