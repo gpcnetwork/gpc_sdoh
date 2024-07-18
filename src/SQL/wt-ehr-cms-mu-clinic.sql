@@ -3,19 +3,22 @@
 # Author: Xing Song, xsm7f@umsystem.edu                            
 # File: wt-mu-clinic.sql                                            
 */
--- check availability of dependency tables
-select * from GROUSE_DB.CMS_PCORNET_CDM.LDS_DIAGNOSIS limit 5;
-select * from GROUSE_DB.PCORNET_CDM_MU.LDS_DIAGNOSIS limit 5;
-select * from GROUSE_DB.GROUPER_VALUESETS.ICD9DX_CCS limit 5;
-select * from GROUSE_DB.CMS_PCORNET_CDM.LDS_PROCEDURES limit 5;
-select * from GROUSE_DB.PCORNET_CDM_MU.LDS_PROCEDURES limit 5;
-select * from GROUSE_DB.CMS_PCORNET_CDM.LDS_DISPENSING limit 5;
-select * from GROUSE_DB.PCORNET_CDM_MU.LDS_VITAL limit 5;
-select * from Z_REF_CCI;
 
 -- paramatrize table names
 set tbl_flag = 'EHR_CMS';
--- set tbl_flag = 'EHR';
+
+-- set source database and schemas   
+set db_flag = 'GROUSE_DB';
+set cms_schema = 'CMS_PCORNET_CDM';
+set ehr_schema = 'PCORNET_CDM_MU';
+
+set dx_tbl_cms = $db_flag || '.' || $cms_schema || '.LDS_DIAGNOSIS';
+set dx_tbl_ehr = $db_flag || '.' || $ehr_schema || '.LDS_DIAGNOSIS';
+set px_tbl_cms = $db_flag || '.' || $cms_schema || '.LDS_PROCEDURES';
+set px_tbl_ehr = $db_flag || '.' || $ehr_schema || '.LDS_PROCEDURES';
+set vital_tbl = $db_flag || '.' || $ehr_schema || '.LDS_VITAL';
+set obsclin_tbl = $db_flag || '.' || $ehr_schema || '.LDS_OBS_CLIN';
+set lab_tbl = $db_flag || '.' || $ehr_schema || '.LDS_LAB_RESULT_CM';
 
 -- cohort table
 set cohort_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_TBL2';
@@ -29,6 +32,21 @@ set px_tbl_nm = 'WT_MU_' || $tbl_flag || '_PX';
 set px_ccs_tbl_nm = 'WT_MU_' || $tbl_flag || '_PX_CCS';
 set obs_tbl_nm = 'WT_MU_' || $tbl_flag || '_OBS';
 
+-- check availability of dependency tables
+
+select * from ONTOLOGY.GROUPER_VALUESETS.CPT_CCS limit 5;
+select * from ONTOLOGY.LOINC.LOINC_V2_17 limit 5;
+select * from GROUSE_DB.GROUPER_VALUESETS.ICD9DX_CCS limit 5;
+select * from GROUSE_DB.GROUPER_VALUESETS.ICD10CM_CCS limit 5;
+
+select * from identifier($dx_tbl_cms) limit 5;
+select * from identifier($dx_tbl_ehr) limit 5;
+select * from identifier($px_tbl_cms) limit 5;
+select * from identifier($px_tbl_ehr) limit 5;
+select * from identifier($vital_tbl) limit 5;
+select * from identifier($lab_tbl) limit 5;
+select * from identifier($obsclin_tbl) limit 5;
+select * from Z_REF_CCI;
 
 -- get clinical features each pat-enc
 create or replace table identifier($dx_tbl_nm) as 
@@ -39,7 +57,7 @@ select a.patid
       ,dx.dx_type
       ,dx.dx_date
 from identifier($cohort_tbl_nm) a 
-join GROUSE_DB.CMS_PCORNET_CDM.LDS_DIAGNOSIS dx 
+join identifier($dx_tbl_cms) dx 
 on a.patid = dx.patid
 union 
 select a.patid
@@ -49,12 +67,11 @@ select a.patid
       ,dx.dx_type
       ,dx.dx_date
 from identifier($cohort_tbl_nm) a 
-join GROUSE_DB.PCORNET_CDM_MU.LDS_DIAGNOSIS dx 
+join identifier($dx_tbl_ehr) dx 
 on a.patid = dx.patid
 ;
 select count(distinct patid) from identifier($dx_tbl_nm);
--- 44500
--- 65916
+-- 41225
 
 select * from identifier($dx_tbl_nm)
 where dx_type = '09'
@@ -73,8 +90,7 @@ on dx.dx like cci.code || '%' and
    dx.dx_type = lpad(cci.code_type,2,'0')
 ; 
 select count(distinct patid) from identifier($cci_tbl_nm);
--- 36366
--- 54845
+-- 32515
 
 create or replace table identifier($dx_ccs_tbl_nm) as 
 with cte_ccs as (
@@ -103,8 +119,7 @@ from cte_ccs
 ;
 
 select count(distinct patid) from identifier($dx_ccs_tbl_nm);
--- 46926
--- 65916
+-- 41225
 
 create or replace table identifier($px_tbl_nm) as
 select a.patid
@@ -114,7 +129,7 @@ select a.patid
       ,px.px_type
       ,px.px_date
 from identifier($cohort_tbl_nm) a 
-join GROUSE_DB.CMS_PCORNET_CDM.LDS_PROCEDURES px 
+join identifier($px_tbl_cms) px 
 on a.patid = px.patid
 union
 select a.patid
@@ -124,12 +139,11 @@ select a.patid
       ,px.px_type
       ,px.px_date
 from identifier($cohort_tbl_nm) a 
-join GROUSE_DB.PCORNET_CDM_MU.LDS_PROCEDURES px 
+join identifier($px_tbl_ehr) px 
 on a.patid = px.patid
 ;
 select count(distinct patid) from identifier($px_tbl_nm);
--- 46926
--- 65916
+-- 41225
 
 create or replace table identifier($px_ccs_tbl_nm) as
 with cte_ccs as (
@@ -169,8 +183,7 @@ select distinct
 from cte_ccs
 ;
 select count(distinct patid), count(*) from identifier($px_ccs_tbl_nm);
--- 46926	20037172
--- 65916	33170888
+-- 41225	18465590
 
 -- clinical observables from EHR
 create or replace table identifier($obs_tbl_nm) as
@@ -190,7 +203,7 @@ with cte_unpvt_num as (
                 round(ht) as ht, 
                 round(wt) as wt, 
                 round(original_bmi) as original_bmi
-        from GROUSE_DB.PCORNET_CDM_MU.LDS_VITAL
+        from identifier($vital_tbl)
     )
     unpivot (
         OBS_NUM
@@ -205,7 +218,7 @@ with cte_unpvt_num as (
     from (
         select patid, measure_date, measure_time,
         smoking, tobacco, tobacco_type
-        from GROUSE_DB.PCORNET_CDM_MU.LDS_VITAL
+        from identifier($vital_tbl)
     ) 
     unpivot (
         OBS_QUAL
@@ -216,6 +229,7 @@ with cte_unpvt_num as (
     where OBS_QUAL is not null and trim(OBS_QUAL) <> '' 
     and OBS_QUAL not in ('UN','NI','OT')
 )
+-- from vital table
 select  distinct
         a.PATID
         ,b.measure_date as OBS_DATE
@@ -233,6 +247,29 @@ join (
 ) b
 on a.patid = b.patid
 union 
+-- from lab table
+select  distinct
+        a.PATID
+        ,coalesce(b.specimen_date, b.lab_order_date, b.result_date) as OBS_DATE
+        ,'LC' as OBS_CODE_TYPE
+        ,b.lab_loinc as OBS_CODE
+        ,b.result_num as OBS_NUM
+        ,b.result_unit as OBS_UNIT
+        ,trim(b.result_qual) as OBS_QUAL
+        ,coalesce(c.component, b.raw_lab_name) as OBS_NAME
+from identifier($cohort_tbl_nm) a
+join identifier($lab_tbl) b
+    on a.patid = b.patid
+left join ONTOLOGY.LOINC.LOINC_V2_17 c
+    on b.lab_loinc = c.loinc_num
+where b.result_num is not null
+    or (
+        trim(b.result_qual) is not null 
+        and trim(b.result_qual) <> '' 
+        and trim(b.result_qual) not in ('UN','NI','OT')
+    )
+union 
+-- from obs_clin
 select  distinct
         a.PATID
         ,coalesce(b.obsclin_start_date, b.obsclin_stop_date) as OBS_DATE
@@ -241,13 +278,13 @@ select  distinct
         ,b.obsclin_result_num as OBS_NUM
         ,b.obsclin_result_unit as OBS_UNIT
         ,coalesce(trim(b.obsclin_result_qual),trim(b.obsclin_result_text)) as OBS_QUAL
-        ,coalesce(b.raw_obsclin_name, c.long_common_name) as OBS_NAME
+        ,coalesce(c.component, b.raw_obsclin_name) as OBS_NAME
 from identifier($cohort_tbl_nm) a
-join GROUSE_DB.PCORNET_CDM_MU.LDS_OBS_CLIN b
+join identifier($obsclin_tbl) b
     on a.patid = b.patid
 left join ONTOLOGY.LOINC.LOINC_V2_17 c
     on b.obsclin_code = c.loinc_num and b.obsclin_type = 'LC'
-where obsclin_result_num is not null
+where b.obsclin_result_num is not null
     or (
         coalesce(trim(b.obsclin_result_qual),trim(b.obsclin_result_text)) is not null 
         and coalesce(trim(b.obsclin_result_qual),trim(b.obsclin_result_text)) <> '' 
@@ -256,21 +293,10 @@ where obsclin_result_num is not null
 ;
 
 select count(distinct patid) from identifier($obs_tbl_nm);
--- 46926
--- 65882
+-- 41225
 
-select obs_name,count(distinct patid) from identifier($obs_tbl_nm)
+select obs_name,count(distinct patid) 
+from identifier($obs_tbl_nm)
 group by obs_name
 order by count(distinct patid) desc;
 
--- SYSTOLIC	44500
--- DIASTOLIC	44500
--- Weight (kg)	44498
--- SpO2	44494
--- Height (cm)	44487
--- BMI	44449
--- WT	42761
--- Braden Skin Score	42619
--- Mean NIBP	42404
--- HT	41591
--- Glasgow Coma Score Adult/Adoles/Peds	40925

@@ -5,60 +5,17 @@
 */
 -- check availability of dependency tables
 select * from SDOH_DB.ACXIOM.DEID_ACXIOM_DATA limit 5;
-select * from SDOH_DB.ADI.ADI_2020 limit 5;
-select * from SDOH_DB.FARA.FARA_2019 limit 5;
-select * from SDOH_DB.FARA.Z_REF_2019;
-select * from SDOH_DB.ACS.ACS_2019 limit 5;
-select * from SDOH_DB.ACS.Z_REF;
-select * from SDOH_DB.MUA.MUA_2024 limit 5;
-select * from SDOH_DB.RUCA.RUCA_2010 limit 5;
-select * from SDOH_DB.SLM.SLD_2021 limit 5;
-select * from SDOH_DB.SVI.SVI_CT_2020 limit 5;
+select * from SDOH_DB.ADI.ADI_BG_2020 limit 5;
+select * from SDOH_DB.FARA.FARA_TR_2019 limit 5;
+select * from SDOH_DB.ACS.ACS_TR_2015_2019 limit 5;
+select * from SDOH_DB.MUA.MUA_X_2024 limit 5;
+select * from SDOH_DB.RUCA.RUCA_TR_2010 limit 5;
+select * from SDOH_DB.SLM.SLD_BG_2021 limit 5;
+select * from SDOH_DB.SVI.SVI_TR_2020 limit 5;
 select * from S_SDH_SEL; 
-select * from I_SDH_SEL; 
-
-/* SDH data dictionary */
-create or replace table S_SDH_DD as 
-with all_var as (
-    select table_schema, table_name, column_name
-    from SDOH_DB.information_schema.columns 
-    where table_schema in (
-        'ACS',
-        'FARA',
-        'SLM',
-        'RUCA',
-        'SVI',
-        'ADI',
-        'MUA'
-    ) and 
-    table_name not like 'Z_REF%'
-), var_ref as (
-    select distinct upper(code) as var, description as var_label,'ACS' as var_domain
-    from SDOH_DB.ACS.Z_REF
-    union
-    select distinct upper(field),description,'FARA'
-    from SDOH_DB.FARA.Z_REF_2019
-    union
-    select upper(field_name),description,'SLM'
-    from SDOH_DB.SLM.Z_REF_2021
-    union
-    select upper(_VARIABLE_NAME),(_DESCRIPTION),'SVI'
-    from SDOH_DB.SVI.Z_REF_2020
-)
-select a.table_schema as VAR_DOMAIN, 
-       a.table_name as VAR_SUBDOMAIN,
-       a.column_name as VAR,
-       coalesce(b.var_label,a.column_name) as VAR_LABEL
-from all_var a 
-left join var_ref b 
-on a.table_schema = b.var_domain and a.column_name = b.var
-;
--- manual screening and upload S_SDH_SEL
-select * from S_SDH_SEL;
-
 
 -- paramatrize table names
-set tbl_flag = 'EHR';
+set tbl_flag = 'EHR_CMS';
 
 -- cohort table
 set cohort_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_GEOID';
@@ -207,9 +164,7 @@ call get_sdoh_s(
        FALSE, NULL
 );
 select count(distinct patid), count(*) from identifier($ssdh_tbl_nm);
--- 39642	7935059
-
-select * from identifier($ssdh_tbl_nm) limit 5;
+-- 41150	8260583
 
 create or replace table identifier($ssdh_num_tbl_nm) as
 select  PATID,
@@ -237,17 +192,16 @@ where SDOH_TYPE = 'N' and
 ;
 
 select count(distinct patid), count(*) from identifier($ssdh_num_tbl_nm);
---39642	7246808
+-- 41150	7543006
 
 select sdoh_var, count(distinct patid) as pat_cnt
 from identifier($ssdh_tbl_nm) 
 group by sdoh_var
 order by pat_cnt desc;
--- EP_AGE65	42794
--- EPL_SNGPNT	42794
--- EP_DISABL	42794
--- F_GROUPQ	42794
--- EPL_DISABL	42794
+-- EPL_NOHSDP	43121
+-- EPL_GROUPQ	43121
+-- F_THEME3	43121
+-- EP_UNEMP	43121
 
 -- get i-sdoh variables
 select * from I_SDH_SEL;
@@ -366,18 +320,18 @@ call get_sdoh_I(
        FALSE, NULL
 );
 
-select count(distinct patid),count(*), count(distinct sdoh_var) from identifier($isdh_tbl_nm);
--- 39702	1693675, 95
+select count(distinct patid),count(*) from identifier($isdh_tbl_nm);
+-- 41212	1752423
 
 select sdoh_var, count(distinct patid) as pat_cnt
 from identifier($isdh_tbl_nm) 
 group by sdoh_var
 order by pat_cnt desc;
--- H_OWN_RENT	42947
--- H_MARRITAL_STAT	42947
--- H_NUM_PEOPLE	42947
--- H_NUM_CHILD	42947
--- H_HOME_LENGTH	42947
+-- H_HOME_LENGTH	44627
+-- H_NUM_CHILD	44627
+-- H_NUM_PEOPLE	44627
+-- H_INCOME	44627
+-- H_OWN_RENT	44627
 
 create or replace table identifier($isdh_num_tbl_nm) as 
 select  PATID,
@@ -400,6 +354,6 @@ where SDOH_TYPE = 'N' and
       try_to_number(ltrim(SDOH_VAl,'0')) is not null
 ;
 
-select count(distinct patid),count(*), count(distinct sdoh_var_orig), count(distinct sdoh_var) from identifier($isdh_num_tbl_nm);
--- 39702	1506262	95	317
+select count(distinct patid),count(*) from identifier($isdh_num_tbl_nm);
+-- 41212	1561737
 

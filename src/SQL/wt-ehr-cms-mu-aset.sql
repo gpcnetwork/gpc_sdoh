@@ -5,7 +5,7 @@
 */
 
 -- paramatrize table names
-set tbl_flag = 'EHR';
+set tbl_flag = 'EHR_CMS';
 
 -- cohort table
 set cohort_tbl_nm = 'WT_MU_' || $tbl_flag || '_ELIG_TBL1';
@@ -103,15 +103,15 @@ select  distinct
         -- a.admit_date,
         round(datediff('day',b.birth_date,a.admit_date)/365.25) as age_at_enc,
         b.sex,
-        case when b.race = '05' then 'WH'
-             when b.race = '03' then 'AA'
-             when b.race = '02' then 'AS'
-             when b.race = '01' then 'AI'
-             when b.race in ('NI','UN') or b.race is null then 'NI'
+        case when b.race = '01' or cd.race = '01' then 'AI'
+             when b.race = '02' or cd.race = '02' then 'AS'
+             when b.race = '03' or cd.race = '03' then 'AA'
+             when b.race = '05' or cd.race = '05' then 'WH'            
+             when (b.race in ('NI','UN') or b.race is null) and (cd.race in ('NI','UN') or cd.race is null) then 'NI'
              else 'OT'
         end as race,
-        case when b.hispanic = 'Y' then 'Y'
-             when b.hispanic = 'N' then 'N'
+        case when b.hispanic = 'Y' or cd.hispanic = 'Y' then 'Y'
+             when b.hispanic = 'N' or cd.race = '05' then 'N'
              else 'NI'
         end as hispanic,
         case when o.obes_date <= a.admit_date then 1 else 0 end as obes_ind,
@@ -129,34 +129,35 @@ select  distinct
         a.dual_ind
 from identifier($readmit_tbl_nm) a 
 join identifier($cohort_tbl_nm2) b on a.patid = b.patid
+left join GROUSE_DB.CMS_PCORNET_CDM.LDS_DEMOGRAPHIC cd on a.patid = cd.patid
 left join cte_obes o on a.patid = o.patid
 left join cte_tot c on a.patid = c.patid and a.encounterid = c.encounterid
 left join cte_lowfreq e on a.drg = e.drg
 ;
 
 select count(distinct patid), count(distinct encounterid), count(*) from identifier($base_tbl_nm);
--- 39715	67765
+-- 41225	69919	69961
 
 select readmit30d_ind, count(distinct encounterid)
 from identifier($base_tbl_nm)
 group by readmit30d_ind;
--- 1	7155
--- 0	60610
+-- 1	8283
+-- 0	61640
 
 select drg_regrp, count(distinct patid) as pat_cnt
 from identifier($base_tbl_nm)
 group by drg_regrp 
 order by pat_cnt desc;
--- DRG_OT	30983
--- DRG_NI	3630
--- DRG_470	2333
+-- DRG_OT	32314
+-- DRG_NI	3757
+-- DRG_470	2343
 
 select hispanic, count(distinct encounterid) as pat_cnt
 from identifier($base_tbl_nm)
 group by hispanic;
--- N	61838
--- Y	1350
--- NI	4577
+-- N	67833
+-- Y	1630
+-- NI	456
 
 select race, count(distinct encounterid) as pat_cnt
 from identifier($base_tbl_nm)
@@ -225,10 +226,6 @@ union
 select rowid, patid, encounterid, readmit30d_ind, var, val from cte_num
 ;
 
-select * from identifier($base_long_tbl_nm) 
--- where val = 0
-limit 5;
-
 create or replace table identifier($base_ssdh_orig_tbl_nm) as 
 select distinct
        a.rowid,
@@ -246,7 +243,7 @@ on a.patid2 = b.patid
 select count(distinct patid), count(distinct rowid) 
 from identifier($base_ssdh_orig_tbl_nm)
 where sdoh_var = 'ADI_NATRANK';
--- 39562	67582
+-- 41063	69707
 
 create or replace table identifier($base_ssdh_simp_tbl_nm) as 
 with cte_n as (
@@ -313,11 +310,11 @@ where val is not null
 
 select count(distinct patid), count(distinct sdoh_var), count(*)
 from identifier($base_ssdh_num_tbl_nm);
--- 39642	355	7246808
+-- 41150	355	7543006
 
 select count(distinct patid), count(distinct encounterid), count(distinct var), count(*)
 from identifier($base_ssdh_long_tbl_nm);
--- 39715	67765	328	9902953
+-- 41225	69919	334	10243260
 
 select * from identifier($base_isdh_tbl_nm) 
 -- where sdoh_val is null
@@ -346,11 +343,11 @@ select count(distinct patid), count(distinct rowid)
 from identifier($base_isdh_orig_tbl_nm)
 where sdoh_var = 'H_ASSESSED_VALUE'
 ;
--- 23306	36965
+-- 24095	38022
 
 select sdoh_val, count(distinct rowid) 
 from identifier($base_isdh_orig_tbl_nm)
-where sdoh_var = 'H_INCOME'
+where sdoh_var = 'H_HOME_BUILD_YR'
 group by sdoh_val
 order by sdoh_val desc
 ; 
@@ -419,9 +416,13 @@ from cte_sdoh_rep
 where val is not null
 ;
 
+select count(distinct patid),count(distinct sdoh_var), count(*)
+from identifier($base_isdh_num_tbl_nm);
+-- 41212	319	1561737
+
 select count(distinct patid),count(distinct encounterid), count(distinct var), count(*)
 from identifier($base_isdh_long_tbl_nm);
--- 39715	67765	356	3432073
+-- 41225	69919	364	3539047
 
 create or replace table identifier($base_sisdh_long_tbl_nm) as 
 with cte_combine as (
@@ -434,4 +435,37 @@ from cte_combine
 ;
 select count(distinct patid),count(distinct encounterid), count(distinct var), count(*)
 from identifier($base_sisdh_long_tbl_nm);
--- 39715	67765	647	12385742
+-- 41225	69919	653	12802853
+
+--------------------------------------------------------------------------
+
+create or replace table DATA_DICT(
+    VAR varchar(50), 
+    VAR_LABEL varchar(5000), 
+    VAR_DOMAIN varchar(20)
+);
+-- cci
+insert into DATA_DICT
+select distinct upper(code_grp),full,'CCI'
+from Z_REF_CCI
+;
+-- drg
+insert into DATA_DICT
+select distinct lpad(code,3,'0'),lower(description),'DRG'
+from Z_REF_DRG
+;
+-- sdoh-s
+insert into DATA_DICT
+select VAR, VAR_LABEL, VAR_DOMAIN
+from S_SDH_SEL
+;
+-- sdoh-i
+insert into DATA_DICT
+select distinct VAR, VAR_LABEL, 'ACXIOM-' || VAR_DOMAIN
+from I_SDH_SEL
+;
+
+select var_domain, count(distinct var)
+from DATA_DICT
+group by var_domain
+order by var_domain;
