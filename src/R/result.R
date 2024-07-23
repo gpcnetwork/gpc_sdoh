@@ -360,12 +360,21 @@ varimp<-out$varimp %>%
 # )
 
 # shap
+var_sel<-c()
 for(i in 1:nrow(tr_plan)){
   shap<-readRDS(file.path(
     data_dir,part_type,
     paste0("xgb_shap_",tr_plan$model[i],".rda")
   ))
+  # selected var
   k_sel<-length(unique(shap$var))
+  var_sel %<>%
+    bind_rows(
+      cbind(
+        tr_plan[i,c("model","model_lbl")],
+        k_sel = k_sel
+      )
+    )
   shap_sel<-shap %>%
     inner_join(
       varimp %>%
@@ -405,14 +414,23 @@ for(i in 1:nrow(tr_plan)){
     theme(text = element_text(face="bold",size=15),
             strip.text = element_text(size = 12))
   
+  if(k_sel>=21){
+    height = 18
+  }else{
+    height = 12
+  }
   ggsave(
     file.path(res_dir,paste0('xgb_shap_',tr_plan$model[i],".pdf")),
     dpi=150,
     width=15,
-    height=12,
+    height=height,
     units="in",
     device = 'pdf'
   )
 }
 
+varimp_sel<-varimp %>%
+  inner_join(var_sel,by="model_lbl") %>%
+  filer(rank<=k_sel) %>%
+  replace_na(list())
 
