@@ -1,5 +1,6 @@
 # Social Determinants of Health (SDOH)
-This repo will host sharable resources on social determinants of health. 
+
+We are conducting a series of analysis to evaluate multiple resources that capturing social determinants of health, including but not limited to: publically available microtables (e.g., American Community Survey, Area Deprevation Index), electronic health records (e.g., ICD10 Z-codes), and 3rd-party consumer data at household and even individual level (e.g., Acxiom, LexisNexis). 
 
 
 

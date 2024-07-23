@@ -417,7 +417,6 @@ group by discharge_status;
 
 -- excld: primary psychiatric diagnoses 
 -- excld: medical treatment of cancer
--- excld: rehabilitation
 select * from EXCLD_INDEX;
 create or replace table EXCLD_INDEX_CCS_EHR_CMS as 
 with cte_ccs as (
