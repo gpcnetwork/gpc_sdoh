@@ -15,8 +15,8 @@ pacman::p_load(
 source_url("https://raw.githubusercontent.com/sxinger/utils/master/analysis_util.R")
 
 # cohort flag
-which_cohort<-"cms"
-# which_cohort<-"ehr"
+# which_cohort<-"cms"
+which_cohort<-"ehr"
 
 # directories
 data_dir<-file.path("./data",which_cohort)
@@ -104,7 +104,7 @@ if(!file.exists(path_to_file)){
               model=tr_plan$model[i],
               abs_beta = abs(beta),
               abs_beta_rescale = round(abs_beta/abs_beta[1]*100),
-              lambda_rescale = ,
+              lambda_rescale = round(lambda/lambda[1]*100),
             ) %>%
             # add common variable names for single plotting func
             mutate(
@@ -370,7 +370,7 @@ for(i in 1:nrow(tr_plan)){
     inner_join(
       varimp %>%
         filter(model==tr_plan$model[i]) %>%
-        filter(rank <= 21) %>%
+        filter(rank <= 30) %>%
         mutate(feat_rank=factor(feat_rank,levels=rev(levels(feat_rank)))),
       by = c('var' = "Feature")
     ) %>%

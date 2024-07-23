@@ -22,8 +22,8 @@ dir_data<-file.path(getwd(),"data/ehr")
 # dir_data<-file.path(getwd(),"data/cms")
 
 # partition use
-part_type<-"leakprone"
-# part_type<-"noleak"
+# part_type<-"leakprone"
+part_type<-"noleak"
 
 # manual exclusion
 exlcd<-c(
