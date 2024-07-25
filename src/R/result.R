@@ -104,7 +104,7 @@ if(!file.exists(path_to_file)){
               model=tr_plan$model[i],
               abs_beta = abs(beta),
               abs_beta_rescale = round(abs_beta/abs_beta[1]*100),
-              lambda_rescale = round(lambda/lambda[1]*100),
+              lambda_rescale = round(lambda/lambda[1]*100)
             ) %>%
             # add common variable names for single plotting func
             mutate(
@@ -329,36 +329,6 @@ varimp<-out$varimp %>%
   mutate(feat_rank=as.factor(feat_rank)) %>%
   mutate(feat_rank=factor(feat_rank,levels=rev(levels(feat_rank))))
 
-#--bar plot
-# ggplot(varimp %>% filter(rank <= 15),
-#        aes(x=feat_rank,y=score,fill=VAR_DOMAIN_TYPE))+
-#   geom_bar(stat="identity")+
-#   labs(x="Features",y="Normalized Scale",fill="Feature Domain")+
-#   coord_flip()+scale_y_continuous(trans = "reverse")+
-#   facet_wrap(~ model,scales = "free",ncol=2)+
-#   theme(text = element_text(face="bold",size=13),
-#         strip.text = element_text(size = 15))
-
-# ggsave(
-#   file.path(res_dir,'featimp_bar.pdf'),
-#   dpi=150,
-#   width=20,
-#   height=15,
-#   units="in",
-#   device = 'pdf'
-# )
-
-#--web plot
-
-# ggsave(
-#   file.path(res_dir,'featimp_web.pdf'),
-#   dpi=150,
-#   width=20,
-#   height=15,
-#   units="in",
-#   device = 'pdf'
-# )
-
 # shap
 var_sel<-c()
 for(i in 1:nrow(tr_plan)){
@@ -430,7 +400,37 @@ for(i in 1:nrow(tr_plan)){
 }
 
 varimp_sel<-varimp %>%
-  inner_join(var_sel,by="model_lbl") %>%
-  filer(rank<=k_sel) %>%
-  replace_na(list())
+  inner_join(var_sel,by=c("model")) %>%
+  group_by(model) %>%
+  filter(rank<=k_sel) %>%
+  ungroup %>%
+  replace_na(list(
+    VAR_DOMAIN = 'BASE',
+    VAR_SUBDOMAIN = 'EHR',
+    HP2023_DOMAIN = 'EHR'
+  ))
+
+
+#--bar plot
+ggplot(
+  varimp_sel %>% filter(
+    model!='base' & rank <= 10
+  ),
+  aes(x=feat_rank,y=score,fill=VAR_DOMAIN))+
+  geom_bar(stat="identity")+
+  labs(x="Features",y="Normalized Scale",fill="Feature Domain")+
+  coord_flip()+scale_y_continuous(trans = "reverse")+
+  facet_wrap(~ model,scales = "free",ncol=3)+
+  theme(text = element_text(face="bold",size=15),
+        strip.text = element_text(size = 15),
+        legend.position="bottom")
+
+ggsave(
+  file.path(res_dir,'featimp_bar.pdf'),
+  dpi=150,
+  width=20,
+  height=6,
+  units="in",
+  device = 'pdf'
+)
 
