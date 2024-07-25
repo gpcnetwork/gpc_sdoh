@@ -37,10 +37,7 @@ numvar_lst<-var_lst[
     "AGE_AT_ENC",
     "LOS",
     "CCI",
-    "IP_CUMCNT_12M",
-    "DUAL_IND",
-    "ED_IND",
-    "OBES_IND"
+    "IP_CUMCNT_12M"
   )
 ]
 facvar_lst<-var_lst[!var_lst %in% numvar_lst]
