@@ -18,8 +18,8 @@ source_url("https://raw.githubusercontent.com/sxinger/utils/master/preproc_util.
 source_url("https://raw.githubusercontent.com/sxinger/utils/master/model_util.R")
 
 # useful path to dir
-# dir_data<-file.path(getwd(),"data/ehr")
-dir_data<-file.path(getwd(),"data/cms")
+dir_data<-file.path(getwd(),"data/ehr")
+# dir_data<-file.path(getwd(),"data/cms")
 
 # partition use
 # part_type<-"leakprone"
@@ -35,7 +35,7 @@ exlcd<-c(
   ,"CCI_CLASS_CCI1"
   ,"CCI_CLASS_CCI2"
   ,"CCI_CLASS_CCI3"
-  # ,"IP_CUMCNT_12M"
+  ,"IP_CUMCNT_12M"
 )
 
 # training planner

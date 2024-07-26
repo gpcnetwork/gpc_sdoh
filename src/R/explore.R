@@ -13,8 +13,8 @@ pacman::p_load(
 source_url("https://raw.githubusercontent.com/sxinger/utils/master/analysis_util.R")
 
 # cohort flag
-which_cohort<-"cms"
-# which_cohort<-"ehr"
+# which_cohort<-"cms"
+which_cohort<-"ehr"
 
 # directories
 data_dir<-file.path("./data",which_cohort)
@@ -69,23 +69,26 @@ cohort_summ %>%
 
 #==== s-sdh ====
 data_df<-readRDS(file.path(data_dir,"mu_readmit_sdoh_s.rds")) %>% select(-PATID,-ENCOUNTERID) 
-var_encoder<-data_df %>% select(SDOH_VAR,SDOH_TYPE,SDOH_TYPE) %>% unique
+var_encoder<-data_df %>% 
+  select(SDOH_VAR,SDOH_TYPE,SDOH_TYPE) %>% unique %>%
+  left_join(
+    readRDS("./data/sdoh_dd.rds"),
+    by=c("SDOH_VAR"="VAR")) %>%
+  arrange(VAR_DOMAIN,VAR_SUBDOMAIN,SDOH_VAR)
+
 var_lst<-var_encoder %>% select(SDOH_VAR) %>%
   filter(!SDOH_VAR %in% c(
     "CBSA_NAME"
   )) %>% pull 
+
 facvar_lst<-var_encoder %>% filter(SDOH_TYPE=="C") %>% 
   filter(!SDOH_VAR %in% c(
     "CBSA_NAME"
   )) %>% pull
 
 var_lbl_df<-var_encoder %>% 
-  select(SDOH_VAR) %>% unique %>%
-  left_join(
-    readRDS("./data/sdoh_dd.rds") %>% 
-      select(VAR,VAR_LABEL),
-    by=c("SDOH_VAR"="VAR")) %>%
-  rename(var=SDOH_VAR,var_lbl=VAR_LABEL)
+  rename(var=SDOH_VAR,var_lbl=VAR_LABEL) %>%
+  select(var,var_lbl)
 
 # generate summary by chunks
 var_seq<-c(seq(1,length(var_lst),by=50),length(var_lst))

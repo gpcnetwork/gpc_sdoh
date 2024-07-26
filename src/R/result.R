@@ -366,7 +366,7 @@ for(i in 1:nrow(tr_plan)){
         TRUE ~ val
       )
     ) %>%
-    group_by(var,VAR,val,VAR_DOMAIN_TYPE,feat_rank) %>%
+    group_by(var,VAR,val,VAR_DOMAIN,feat_rank) %>%
     summarise(
       eff_m = exp(median(effect,na.rm=T)),
       eff_lb = exp(quantile(effect,0.025,na.rm=T)),
@@ -420,6 +420,7 @@ ggplot(
   geom_bar(stat="identity")+
   labs(x="Features",y="Normalized Scale",fill="Feature Domain")+
   coord_flip()+scale_y_continuous(trans = "reverse")+
+  annotate(var_sel,aes(x=1,y=1,label=paste0("10/",k_sel)))+
   facet_wrap(~ model,scales = "free",ncol=3)+
   theme(text = element_text(face="bold",size=15),
         strip.text = element_text(size = 15),
