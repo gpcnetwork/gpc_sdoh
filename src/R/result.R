@@ -413,15 +413,14 @@ varimp_sel<-varimp %>%
 
 #--bar plot
 ggplot(
-  varimp_sel %>% filter(
-    model!='base' & rank <= 10
-  ),
+  varimp_sel %>% 
+    filter(model!='base' & rank <= 10) %>%
+    mutate(model_anno = paste0(model," (",k_sel,")")),
   aes(x=feat_rank,y=score,fill=VAR_DOMAIN))+
   geom_bar(stat="identity")+
   labs(x="Features",y="Normalized Scale",fill="Feature Domain")+
   coord_flip()+scale_y_continuous(trans = "reverse")+
-  annotate(var_sel,aes(x=1,y=1,label=paste0("10/",k_sel)))+
-  facet_wrap(~ model,scales = "free",ncol=3)+
+  facet_wrap(~ model_anno,scales = "free",ncol=3)+
   theme(text = element_text(face="bold",size=15),
         strip.text = element_text(size = 15),
         legend.position="bottom")
