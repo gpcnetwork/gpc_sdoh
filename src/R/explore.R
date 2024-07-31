@@ -22,7 +22,11 @@ res_dir<-file.path("./res",which_cohort)
 
 ##==== base ==== 
 data_df<-readRDS(file.path(data_dir,"mu_readmit_base.rds")) %>%
-  replace_na(list(OBES = 0))
+  replace_na(list(OBES = 0)) %>%
+  mutate(AGE65IND = case_when(
+    AGE_AT_ENC >= 65 ~ 1,
+    TRUE ~ 0
+  ))
 
 var_lst<-colnames(data_df)[
   !colnames(data_df) %in% c(
