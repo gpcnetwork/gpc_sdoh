@@ -88,7 +88,7 @@ var_lst<-var_encoder %>% select(SDOH_VAR) %>%
 facvar_lst<-var_encoder %>% filter(SDOH_TYPE=="C") %>% 
   filter(!SDOH_VAR %in% c(
     "CBSA_NAME"
-  )) %>% pull
+  )) %>% select(SDOH_VAR) %>% pull
 
 var_lbl_df<-var_encoder %>% 
   rename(var=SDOH_VAR,var_lbl=VAR_LABEL) %>%
