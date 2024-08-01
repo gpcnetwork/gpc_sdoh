@@ -27,8 +27,8 @@ part_type<-"leakprone"
 # part_type<-"noleak"
 
 # model
-model_type<-"xgb"
-# model_type<-"lasso"
+# model_type<-"xgb"
+model_type<-"lasso"
 
 # training planner
 tr_plan<-data.frame(
@@ -100,16 +100,20 @@ if(!file.exists(path_to_file)){
             filter(!is.na(beta)) %>%
             arrange(-abs(beta)) %>%
             mutate(
-              rank = rank(-abs(beta)),
               model=tr_plan$model[i],
               abs_beta = abs(beta),
-              abs_beta_rescale = round(abs_beta/abs_beta[1]*100),
-              lambda_rescale = round(lambda/lambda[1]*100)
+              abs_beta_rescale = round(abs_beta/abs_beta[1]*100)
+            ) %>%
+            arrange(-lambda_enter) %>%
+            mutate(
+              lambda_rescale = round(lambda_enter/lambda_enter[1]*100)
             ) %>%
             # add common variable names for single plotting func
             mutate(
               vari = var,
-              score = abs_beta_rescale
+              # score = abs_beta_rescale, 
+              score = lambda_rescale, 
+              rank = rank(-score)
             )
           )
     }
@@ -329,74 +333,80 @@ varimp<-out$varimp %>%
   mutate(feat_rank=as.factor(feat_rank)) %>%
   mutate(feat_rank=factor(feat_rank,levels=rev(levels(feat_rank))))
 
-# shap
-var_sel<-c()
-for(i in 1:nrow(tr_plan)){
-  shap<-readRDS(file.path(
-    data_dir,part_type,
-    paste0("xgb_shap_",tr_plan$model[i],".rda")
-  ))
-  # selected var
-  k_sel<-length(unique(shap$var))
-  var_sel %<>%
-    bind_rows(
-      cbind(
-        tr_plan[i,c("model","model_lbl")],
-        k_sel = k_sel
+# marginal effect
+if(model_type=="xgb"){
+  var_sel<-c()
+  for(i in 1:nrow(tr_plan)){
+    shap<-readRDS(file.path(
+      data_dir,part_type,
+      paste0("xgb_shap_",tr_plan$model[i],".rda")
+    ))
+    # selected var
+    k_sel<-length(unique(shap$var))
+    var_sel %<>%
+      bind_rows(
+        cbind(
+          tr_plan[i,c("model","model_lbl")],
+          k_sel = k_sel
+        )
       )
-    )
-  shap_sel<-shap %>%
-    inner_join(
-      varimp %>%
-        filter(model==tr_plan$model[i]) %>%
-        filter(rank <= 30) %>%
-        mutate(feat_rank=factor(feat_rank,levels=rev(levels(feat_rank)))),
-      by = c('var' = "Feature")
-    ) %>%
-    # cap the extreme values
-    mutate(
-      val=case_when(
-        VAR=="ADI_NATRANK"&val>100 ~ 200-val,
-        VAR=="H_HOME_BUILD_YR"&val>2022 ~ 2022,
-        VAR=="H_HOME_BUILD_YR"&val<1800 ~ 1800,
-        # VAR=="H_ASSESSED_VALUE"&val<1 ~ 1,
-        VAR=="H_ASSESSED_VALUE"&val>750000 ~ 750000,
-        VAR=="H_ONLINE_SPEND"&val>6000 ~ 6000,
-        VAR=="H_TOTAL_SPEND_2YR"&val>6000 ~ 6000,
-        TRUE ~ val
+    shap_sel<-shap %>%
+      inner_join(
+        varimp %>%
+          filter(model==tr_plan$model[i]) %>%
+          filter(rank <= 30) %>%
+          mutate(feat_rank=factor(feat_rank,levels=rev(levels(feat_rank)))),
+        by = c('var' = "vari")
+      ) %>%
+      # cap the extreme values
+      mutate(
+        val=case_when(
+          VAR=="ADI_NATRANK"&val>100 ~ 200-val,
+          VAR=="H_HOME_BUILD_YR"&val>2022 ~ 2022,
+          VAR=="H_HOME_BUILD_YR"&val<1800 ~ 1800,
+          # VAR=="H_ASSESSED_VALUE"&val<1 ~ 1,
+          VAR=="H_ASSESSED_VALUE"&val>750000 ~ 750000,
+          VAR=="H_ONLINE_SPEND"&val>6000 ~ 6000,
+          VAR=="H_TOTAL_SPEND_2YR"&val>6000 ~ 6000,
+          TRUE ~ val
+        )
+      ) %>%
+      group_by(var,VAR,val,VAR_DOMAIN,feat_rank) %>%
+      summarise(
+        eff_m = exp(median(effect,na.rm=T)),
+        eff_lb = exp(quantile(effect,0.025,na.rm=T)),
+        eff_ub = exp(quantile(effect,0.975,na.rm=T)),
+        .groups = "drop"
       )
-    ) %>%
-    group_by(var,VAR,val,VAR_DOMAIN,feat_rank) %>%
-    summarise(
-      eff_m = exp(median(effect,na.rm=T)),
-      eff_lb = exp(quantile(effect,0.025,na.rm=T)),
-      eff_ub = exp(quantile(effect,0.975,na.rm=T)),
-      .groups = "drop"
-    )
-
-  ggplot(shap_sel,aes(x=val,y=eff_m))+
-    geom_point()+
-    geom_smooth(method="loess",formula=y~x)+
-    geom_errorbar(aes(ymin=eff_lb,ymax=eff_ub))+
-    geom_hline(aes(yintercept=1),linetype=2)+
-    labs(x="feature value", y="exp(shap); est.OR")+
-    facet_wrap(~feat_rank,scales = "free",ncol=3)+
-    theme(text = element_text(face="bold",size=15),
+    
+    ggplot(shap_sel,aes(x=val,y=eff_m))+
+      geom_point()+
+      geom_smooth(method="loess",formula=y~x)+
+      geom_errorbar(aes(ymin=eff_lb,ymax=eff_ub))+
+      geom_hline(aes(yintercept=1),linetype=2)+
+      labs(x="feature value", y="exp(shap); est.OR")+
+      facet_wrap(~feat_rank,scales = "free",ncol=3)+
+      theme(text = element_text(face="bold",size=15),
             strip.text = element_text(size = 12))
-  
-  if(k_sel>=21){
-    height = 18
-  }else{
-    height = 12
+    
+    if(k_sel>=21){
+      height = 18
+    }else{
+      height = 12
+    }
+    ggsave(
+      file.path(res_dir,paste0('xgb_shap_',tr_plan$model[i],".pdf")),
+      dpi=150,
+      width=15,
+      height=height,
+      units="in",
+      device = 'pdf'
+    )
   }
-  ggsave(
-    file.path(res_dir,paste0('xgb_shap_',tr_plan$model[i],".pdf")),
-    dpi=150,
-    width=15,
-    height=height,
-    units="in",
-    device = 'pdf'
-  )
+}else if(model_type=="lasso"){
+  var_sel<-varimp %>%
+    group_by(model) %>%
+    summarise(k_sel=length(unique(vari)),.groups="drop")
 }
 
 varimp_sel<-varimp %>%
