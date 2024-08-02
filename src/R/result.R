@@ -27,8 +27,8 @@ part_type<-"leakprone"
 # part_type<-"noleak"
 
 # model
-# model_type<-"xgb"
-model_type<-"lasso"
+model_type<-"xgb"
+# model_type<-"lasso"
 
 # training planner
 tr_plan<-data.frame(
