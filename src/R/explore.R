@@ -13,8 +13,8 @@ pacman::p_load(
 source_url("https://raw.githubusercontent.com/sxinger/utils/master/analysis_util.R")
 
 # cohort flag
-which_cohort<-"cms"
-# which_cohort<-"ehr"
+# which_cohort<-"cms"
+which_cohort<-"ehr"
 
 # directories
 data_dir<-file.path("./data",which_cohort)

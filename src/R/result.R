@@ -60,6 +60,14 @@ tr_plan<-data.frame(
 # load var encoder
 var_encoder<-readRDS(file.path(data_dir,"var_encoder.rda"))
 
+# subgroups
+subgrps<-c(
+  "AGE65_IND",
+  "NONWHITE_IND",
+  "OBES_IND",
+  "MEDICAID_IND"
+)
+
 # integrate results
 #==== all ====
 path_to_file<-file.path(data_dir,part_type,paste0(model_type,"_results_all.rda"))
@@ -71,12 +79,32 @@ if(!file.exists(path_to_file)){
   calibt<-c()
   varimp<-c()
   roc<-list()
+  
+  # load subgroup table
+  subgrp<-readRDS(file.path(data_dir,"mu_readmit_base.rds")) %>%
+    replace_na(list(OBES_IND = 0)) %>%
+    mutate(
+      AGE65_IND = case_when(
+        AGE_AT_ENC >= 65 ~ 1,
+        TRUE ~ 0
+      ),
+      NONWHITE_IND = case_when(
+        RACE == 'WH' ~ 0,
+        TRUE ~ 1
+      ),
+      MEDICAID_IND = case_when(
+        PAYER_TYPE_PRIMARY == '2' ~ 1,
+        TRUE ~ 0
+      )
+    ) %>%
+    select(ROWID,AGE65_IND,NONWHITE_IND,OBES_IND,MEDICAID_IND)
+  
   for (i in 1:nrow(tr_plan)){
     # i<-1 # for testing only
     # retrieve results
     rslt<-readRDS(tr_plan$path_to_data[i])
 
-    # feature importance
+    #- feature importance
     if(model_type=="xgb"){
       varimp %<>%
         bind_rows(
@@ -118,62 +146,11 @@ if(!file.exists(path_to_file)){
           )
     }
     
-    # test performance
-    pred_ts<-rslt$pred_ts
-  
-    #-- summary
-    perf<-get_perf_summ(
-      pred = pred_ts$pred,
-      real = pred_ts$actual,
-      keep_all_cutoffs = T
-    )
-    perf_summ %<>%
-      bind_rows(
-        perf$perf_summ %>%
-          mutate(
-            type='ts',
-            model=tr_plan$model_lbl[i]
-          )
-      )
-    perf_at %<>%
-      bind_rows(
-        perf$perf_at %>%
-          mutate(
-            type='ts',
-            model=tr_plan$model_lbl[i]
-          )
-      )
-    #-- roc
-    roc[[paste0(tr_plan$model_lbl[i])]]<-pROC::roc(
-      response = pred_ts$actual,
-      predictor = pred_ts$pred,
-      levels = c(0, 1), direction = "<",
-      quite = TRUE
-    )
-    #-- calibration
-    calib<-get_calibr(
-      pred = pred_ts$pred,
-      real = pred_ts$actual,
-      n_bin = 20,
-      test = TRUE
-    )
-    calibr %<>%
-      bind_rows(
-        calib$calib %>%
-          mutate(
-            type='ts',
-            model=tr_plan$model_lbl[i]
-          )
-      )
-    calibt %<>%
-      bind_rows(
-        calib$test %>%
-          mutate(
-            type='ts',
-            model=tr_plan$model_lbl[i]
-          )
-      )
-    # predictions
+    #- test performance
+    pred_ts<-rslt$pred_ts %>%
+      inner_join(subgrp,by=c("id"="ROWID"))
+    
+    #-- predictions
     pred %<>%
       # bind_rows(
       #   pred_tr %>%
@@ -186,6 +163,130 @@ if(!file.exists(path_to_file)){
             model=tr_plan$model_lbl[i]
           )
       )
+    
+    #-- summary
+    perf<-get_perf_summ(
+      pred = pred_ts$pred,
+      real = pred_ts$actual,
+      keep_all_cutoffs = T
+    )
+    perf_summ %<>%
+      bind_rows(
+        perf$perf_summ %>%
+          mutate(
+            type='ts',
+            model=tr_plan$model_lbl[i],
+            subgrp='#ALL'
+          )
+      )
+    perf_at %<>%
+      bind_rows(
+        perf$perf_at %>%
+          mutate(
+            type='ts',
+            model=tr_plan$model_lbl[i],
+            subgrp='#ALL'
+          )
+      )
+    
+    #--- summary:subgroups
+    for (grp in subgrps){
+      # grp<-subgrps[1] #-- test
+      perf<-get_perf_summ(
+        pred = pred_ts$pred[pred_ts[,grp]==1],
+        real = pred_ts$actual[pred_ts[,grp]==1],
+        keep_all_cutoffs = T
+      )
+      perf_summ %<>%
+        bind_rows(
+          perf$perf_summ %>%
+            mutate(
+              type='ts',
+              model=tr_plan$model_lbl[i],
+              subgrp=grp
+            )
+        )
+      perf_at %<>%
+        bind_rows(
+          perf$perf_at %>%
+            mutate(
+              type='ts',
+              model=tr_plan$model_lbl[i],
+              subgrp=grp
+            )
+        )
+    }
+
+    #-- roc
+    roc[["#ALL"]][[paste0(tr_plan$model_lbl[i])]]<-pROC::roc(
+      response = pred_ts$actual,
+      predictor = pred_ts$pred,
+      levels = c(0, 1), direction = "<",
+      quite = TRUE
+    )
+    for (grp in subgrps){
+      roc[[grp]][[paste0(tr_plan$model_lbl[i])]]<-pROC::roc(
+        response = pred_ts$actual[pred_ts[,grp]==1],
+        predictor = pred_ts$pred[pred_ts[,grp]==1],
+        levels = c(0, 1), direction = "<",
+        quite = TRUE
+      )
+    }
+    
+    #-- calibration
+    calib<-get_calibr(
+      pred = pred_ts$pred,
+      real = pred_ts$actual,
+      n_bin = 20,
+      test = TRUE
+    )
+    calibr %<>%
+      bind_rows(
+        calib$calib %>%
+          mutate(
+            type='ts',
+            model=tr_plan$model_lbl[i],
+            subgrp = "#ALL"
+          )
+      )
+    calibt %<>%
+      bind_rows(
+        calib$test %>%
+          mutate(
+            type='ts',
+            model=tr_plan$model_lbl[i],
+            subgrp = "#ALL"
+          )
+      )
+    
+    #--- summary:subgroups
+    for (grp in subgrps){
+      # grp<-subgrps[1] #-- test
+      calib<-get_calibr(
+        pred = pred_ts$pred[pred_ts[,grp]==1],
+        real = pred_ts$actual[pred_ts[,grp]==1],
+        n_bin = 20,
+        test = TRUE
+      )
+      calibr %<>%
+        bind_rows(
+          calib$calib %>%
+            mutate(
+              type='ts',
+              model=tr_plan$model_lbl[i],
+              subgrp=grp
+            )
+        )
+      calibt %<>%
+        bind_rows(
+          calib$test %>%
+            mutate(
+              type='ts',
+              model=tr_plan$model_lbl[i],
+              subgrp=grp
+            )
+        )
+    }
   }
   out<-list(
     pred = pred,
@@ -202,83 +303,104 @@ if(!file.exists(path_to_file)){
 }
 
 # performance plot
-label<-c()
-ci<-c()
-for(i in names(out$roc)){
-  roc_i<-round(ci.auc(out$roc[[i]]),3)
-  label<-c(
-    label,
-    paste0(i,":",paste0(roc_i[2],"(",roc_i[1],"-",roc_i[3],")"))
-  )
-  ci %<>% 
-    bind_rows(
-      as.data.frame(
-        ci.se(
-          out$roc[[i]],
-          boot.stratified=TRUE,
-          boot.n=500,
-          specificities = seq(0, 1, l = 25),
-          progress="none"
-        )
-      ) %>%
-        rownames_to_column("x") %>%
-        mutate(x=as.numeric(x),model=i)
+plt_lst<-list()
+subgrp_lst<-c(
+  "#ALL",
+  "AGE65_IND",
+  "NONWHITE_IND",
+  "OBES_IND",
+  "MEDICAID_IND"
+)
+for (grp in subgrp_lst){
+  # grp<-"#ALL"
+  label<-c()
+  ci<-c()
+  for(i in names(out$roc[[grp]])){
+    roc_i<-round(ci.auc(out$roc[[grp]][[i]]),3)
+    label<-c(
+      label,
+      paste0(i,":",paste0(roc_i[2],"(",roc_i[1],"-",roc_i[3],")"))
     )
+    ci %<>% 
+      bind_rows(
+        as.data.frame(
+          ci.se(
+            out$roc[[grp]][[i]],
+            boot.stratified=TRUE,
+            boot.n=500,
+            specificities = seq(0, 1, l = 25),
+            progress="none"
+          )
+        ) %>%
+          rownames_to_column("x") %>%
+          mutate(x=as.numeric(x),model=i)
+      )
+  }
+  colnames(ci)<-c("x","auc_lb","auc","auc_ub","model")
+  
+  p1<-pROC::ggroc(out$roc[[grp]])+
+    geom_abline(intercept=1,linetype=2)+
+    geom_ribbon(
+      data=ci,
+      aes(x=x,ymin=auc_lb,ymax=auc_ub,fill=model),alpha=0.5,
+      inherit.aes = F,
+      show.legend = FALSE
+    )+
+    geom_hline(aes(yintercept=1),linetype=2)+
+    geom_vline(aes(xintercept=1),linetype=2)+
+    annotate(
+      "text",x=0.5,y=0.25,
+      label=paste(label,collapse ="\n"),
+      fontface = 2,hjust = 0 
+    )+
+    labs(color = "model") +
+    theme(text=element_text(face="bold",size = 15))
+  
+  prc<-out$perf_at %>%
+    filter(subgrp == grp) %>%
+    filter(meas == "prec") %>%
+    inner_join(
+      out$perf_at %>%
+        filter(subgrp == grp) %>%
+        filter(meas == "rec_sens") %>%
+        select(cutoff,meas_val_m,model) %>%
+        rename(recall = meas_val_m),
+      by=c("cutoff","model")
+    )
+  prc_lbl<-out$perf_summ %>%
+    filter(subgrp == grp) %>%
+    filter(overall_meas == "prauc1") %>%
+    mutate(lab = paste0(
+      model,":",
+      round(meas_val_m,3),
+      "(",round(meas_val_lb,3),
+      "-",round(meas_val_ub,3),")"
+    )) %>% select(lab) %>% pull
+  
+  p2<-ggplot(prc,aes(x=recall,y=meas_val_m,color=model))+
+    geom_line()+
+    geom_ribbon(aes(ymin=meas_val_lb,ymax=meas_val_ub,fill=model),alpha=0.5)+
+    annotate(
+      "text",x=0.25,y=0.25,
+      label=paste(prc_lbl,collapse ="\n"),
+      fontface = 2,hjust = 0
+    )+
+    geom_hline(aes(yintercept=1),linetype=2)+
+    geom_vline(aes(xintercept=1),linetype=2)+
+    ylim(0,1)+xlim(0,1)+
+    labs(y="precision",color = "model") +
+    theme(text=element_text(face="bold",size = 15))
+  
+  plt_lst[[grp]]<-ggarrange(p1,p2,ncol=2,common.legend = TRUE)
 }
-colnames(ci)<-c("x","auc_lb","auc","auc_ub","model")
 
-p1<-pROC::ggroc(out$roc)+
-  geom_abline(intercept=1,linetype=2)+
-  geom_ribbon(
-    data=ci,
-    aes(x=x,ymin=auc_lb,ymax=auc_ub,fill=model),alpha=0.5,
-    inherit.aes = F,
-    show.legend = FALSE
-  )+
-  geom_hline(aes(yintercept=1),linetype=2)+
-  geom_vline(aes(xintercept=1),linetype=2)+
-  annotate(
-    "text",x=0.5,y=0.25,
-    label=paste(label,collapse ="\n"),
-    fontface = 2,hjust = 0 
-  )+
-  labs(color = "model") +
-  theme(text=element_text(face="bold",size = 15))
-
-prc<-out$perf_at %>%
-  filter(meas == "prec") %>%
-  inner_join(
-    out$perf_at %>%
-      filter(meas == "rec_sens") %>%
-      select(cutoff,meas_val_m,model) %>%
-      rename(recall = meas_val_m),
-    by=c("cutoff","model")
-  )
-prc_lbl<-out$perf_summ %>%
-  filter(overall_meas == "prauc1") %>%
-  mutate(lab = paste0(
-    model,":",
-    round(meas_val_m,3),
-    "(",round(meas_val_lb,3),
-    "-",round(meas_val_ub,3),")"
-  )) %>% select(lab) %>% pull
-
-p2<-ggplot(prc,aes(x=recall,y=meas_val_m,color=model))+
-  geom_line()+
-  geom_ribbon(aes(ymin=meas_val_lb,ymax=meas_val_ub,fill=model),alpha=0.5)+
-  annotate(
-    "text",x=0.25,y=0.25,
-    label=paste(prc_lbl,collapse ="\n"),
-    fontface = 2,hjust = 0
-  )+
-  geom_hline(aes(yintercept=1),linetype=2)+
-  geom_vline(aes(xintercept=1),linetype=2)+
-  ylim(0,1)+xlim(0,1)+
-  labs(y="precision",color = "model") +
-  theme(text=element_text(face="bold",size = 15))
-
-ggarrange(p1,p2,ncol=2,common.legend = TRUE)
-
+# ggarrange(
+#   plotlist = plt_lst,
+#   ncol=1,
+#   common.legend = TRUE,
+#   labels = subgrps
+# )
+plt_lst[["#ALL"]]
 ggsave(
   file.path(res_dir,"auc.pdf"),
   dpi=100,
@@ -292,26 +414,30 @@ ggsave(
 calibr_test<-out$calibt %>% 
   mutate(pval_print=case_when(pval<0.001~'<0.001',TRUE~as.character(round(pval,3)))) %>%
   mutate(lbl=paste0(test,":",round(statistics,2),"(",pval_print,")")) %>%
-  group_by(type,model) %>%
+  group_by(type,model,subgrp) %>%
   summarise(lab = paste(lbl,collapse = "\n"),.groups="drop")
 
 calibr_full<-out$calibr %>%
-  left_join(calibr_test,by=c("type","model")) %>%
-  group_by(type,model) %>%
+  left_join(calibr_test,by=c("type","model","subgrp")) %>%
+  group_by(type,model,subgrp) %>%
   mutate(lab=case_when(row_number()>1 ~ '',
                        TRUE ~ lab)) %>%
   ungroup
 
-ggplot(calibr_full,aes(x=y_p,y=pred_p))+
-  geom_point()+geom_abline(intercept=0,slope=1)+
+ggplot(
+  calibr_full %>% filter(subgrp == "#ALL"),
+  aes(x=y_p,y=pred_p)
+)+
+  geom_point()+geom_smooth(method = "lm",formula = 'y ~ x',linetype = 2)+
+  geom_abline(intercept=0,slope=1)+
   geom_errorbar(aes(ymin=binCI_lower,ymax=binCI_upper))+
   geom_text(aes(x=0.05,y=0.6,label=lab),hjust = 0,fontface="bold")+
   labs(x="Actual Probability",y="Predicted Probability",
        title='Calibration Plot')+
   ylim(0,0.8)+xlim(0,0.8)+
-  facet_wrap(~model,scales="free")+
-  theme(text=element_text(face="bold",size=15),
-        strip.text = element_text(size = 15))
+  facet_wrap(~model,scales="free",ncol=2)+
+  theme(text=element_text(face="bold",size=12),
+        strip.text = element_text(size = 12))
 
 ggsave(
   file.path(res_dir,"calibration.pdf"),
@@ -362,6 +488,7 @@ if(model_type=="xgb"){
       mutate(
         val=case_when(
           VAR=="ADI_NATRANK"&val>100 ~ 200-val,
+          VAR=="LOS"&val>100 ~ 180-val,
           VAR=="H_HOME_BUILD_YR"&val>2022 ~ 2022,
           VAR=="H_HOME_BUILD_YR"&val<1800 ~ 1800,
           # VAR=="H_ASSESSED_VALUE"&val<1 ~ 1,
@@ -420,6 +547,21 @@ varimp_sel<-varimp %>%
     HP2023_DOMAIN = 'EHR'
   ))
 
+#--12-feature plot
+ggplot(
+  shap_sel %>%
+    semi_join(varimp_sel %>% filter(rank<=12),
+              by=c("model","var")),
+  aes(x=val,y=eff_m)
+)+
+  geom_point()+
+  geom_smooth(method="loess",formula=y~x)+
+  geom_errorbar(aes(ymin=eff_lb,ymax=eff_ub))+
+  geom_hline(aes(yintercept=1),linetype=2)+
+  labs(x="feature value", y="exp(shap); est.OR")+
+  facet_wrap(~feat_rank,scales = "free",ncol=3)+
+  theme(text = element_text(face="bold",size=15),
+        strip.text = element_text(size = 12))
 
 #--bar plot
 ggplot(
