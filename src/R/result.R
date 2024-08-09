@@ -476,6 +476,7 @@ if(model_type=="xgb"){
           k_sel = k_sel
         )
       )
+    
     shap_sel<-shap %>%
       inner_join(
         varimp %>%
@@ -483,33 +484,47 @@ if(model_type=="xgb"){
           filter(rank <= 30) %>%
           mutate(feat_rank=factor(feat_rank,levels=rev(levels(feat_rank)))),
         by = c('var' = "vari")
-      ) %>%
-      # cap the extreme values
-      mutate(
-        val=case_when(
-          VAR=="ADI_NATRANK"&val>100 ~ 200-val,
-          VAR=="LOS"&val>100 ~ 180-val,
-          VAR=="H_HOME_BUILD_YR"&val>2022 ~ 2022,
-          VAR=="H_HOME_BUILD_YR"&val<1800 ~ 1800,
-          # VAR=="H_ASSESSED_VALUE"&val<1 ~ 1,
-          VAR=="H_ASSESSED_VALUE"&val>750000 ~ 750000,
-          VAR=="H_ONLINE_SPEND"&val>6000 ~ 6000,
-          VAR=="H_TOTAL_SPEND_2YR"&val>6000 ~ 6000,
-          TRUE ~ val
+      ) 
+  
+      # rescale ADI
+      shap_adi<-shap_sel %>% 
+        filter(VAR=="ADI_NATRANK") 
+      if(nrow(shap_adi)>0){
+        shap_adi %<>%
+          mutate(val = rescale(val,to=c(0,100)))
+        shap_sel2<-shap_sel %>% 
+          filter(VAR!="ADI_NATRANK") %>%
+          bind_rows(shap_adi)
+        shap_sel<-shap_sel2
+      }
+      
+      # post-process shap
+      shap_sel %<>%
+        # cap the extreme values
+        mutate(
+          val=case_when(
+            VAR=="LOS"&val>100 ~ 100,
+            VAR=="H_HOME_BUILD_YR"&val>2022 ~ 2022,
+            VAR=="H_HOME_BUILD_YR"&val<1800 ~ 1800,
+            # VAR=="H_ASSESSED_VALUE"&val<1 ~ 1,
+            VAR=="H_ASSESSED_VALUE"&val>750000 ~ 750000,
+            VAR=="H_ONLINE_SPEND"&val>6000 ~ 6000,
+            VAR=="H_TOTAL_SPEND_2YR"&val>6000 ~ 6000,
+            TRUE ~ val
+          )
+        ) %>%
+        group_by(var,VAR,val,VAR_DOMAIN,feat_rank,rank) %>%
+        summarise(
+          eff_m = exp(median(effect,na.rm=T)),
+          eff_lb = exp(quantile(effect,0.025,na.rm=T)),
+          eff_ub = exp(quantile(effect,0.975,na.rm=T)),
+          .groups = "drop"
         )
-      ) %>%
-      group_by(var,VAR,val,VAR_DOMAIN,feat_rank) %>%
-      summarise(
-        eff_m = exp(median(effect,na.rm=T)),
-        eff_lb = exp(quantile(effect,0.025,na.rm=T)),
-        eff_ub = exp(quantile(effect,0.975,na.rm=T)),
-        .groups = "drop"
-      )
     
     ggplot(shap_sel,aes(x=val,y=eff_m))+
       geom_point()+
       geom_smooth(method="loess",formula=y~x)+
-      geom_errorbar(aes(ymin=eff_lb,ymax=eff_ub))+
+      geom_errorbar(aes(ymin=eff_lb,ymax=eff_ub),width=0.8)+
       geom_hline(aes(yintercept=1),linetype=2)+
       labs(x="feature value", y="exp(shap); est.OR")+
       facet_wrap(~feat_rank,scales = "free",ncol=3)+
@@ -529,6 +544,31 @@ if(model_type=="xgb"){
       units="in",
       device = 'pdf'
     )
+    
+    #--12-feature plot
+    if(i==4){
+      ggplot(
+        shap_sel %>% filter(rank<=12),
+        aes(x=val,y=eff_m)
+      )+
+        geom_point()+
+        geom_smooth(method="loess",formula=y~x)+
+        geom_errorbar(aes(ymin=eff_lb,ymax=eff_ub),width=0.8)+
+        geom_hline(aes(yintercept=1),linetype=2)+
+        labs(x="feature value", y="exp(shap); est.OR")+
+        facet_wrap(~feat_rank,scales = "free",ncol=3)+
+        theme(text = element_text(face="bold",size=15),
+              strip.text = element_text(size = 12))
+      
+      ggsave(
+        file.path(res_dir,paste0('xgb_shap_',tr_plan$model[i],"_12ft.pdf")),
+        dpi=150,
+        width=15,
+        height=10,
+        units="in",
+        device = 'pdf'
+      )
+    }
   }
 }else if(model_type=="lasso"){
   var_sel<-varimp %>%
@@ -546,22 +586,6 @@ varimp_sel<-varimp %>%
     VAR_SUBDOMAIN = 'EHR',
     HP2023_DOMAIN = 'EHR'
   ))
-
-#--12-feature plot
-ggplot(
-  shap_sel %>%
-    semi_join(varimp_sel %>% filter(rank<=12),
-              by=c("model","var")),
-  aes(x=val,y=eff_m)
-)+
-  geom_point()+
-  geom_smooth(method="loess",formula=y~x)+
-  geom_errorbar(aes(ymin=eff_lb,ymax=eff_ub))+
-  geom_hline(aes(yintercept=1),linetype=2)+
-  labs(x="feature value", y="exp(shap); est.OR")+
-  facet_wrap(~feat_rank,scales = "free",ncol=3)+
-  theme(text = element_text(face="bold",size=15),
-        strip.text = element_text(size = 12))
 
 #--bar plot
 ggplot(
