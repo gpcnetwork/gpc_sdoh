@@ -302,6 +302,8 @@ if(!file.exists(path_to_file)){
   out<-readRDS(path_to_file)
 }
 
+saveRds(out$pred,file = file.path(res_dir,'pred_sub.rds'))
+
 # performance plot
 plt_lst<-list()
 subgrp_lst<-c(
