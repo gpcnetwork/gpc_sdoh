@@ -302,7 +302,7 @@ if(!file.exists(path_to_file)){
   out<-readRDS(path_to_file)
 }
 
-saveRds(out$pred,file = file.path(res_dir,'pred_sub.rds'))
+write.csv(out$pred,file = file.path(res_dir,'pred_sub.csv'),row.names = FALSE)
 
 # performance plot
 plt_lst<-list()
