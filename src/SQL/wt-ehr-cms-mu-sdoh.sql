@@ -188,11 +188,12 @@ select  PATID,
         SDOH_SRC
 from identifier($ssdh_tbl_nm)     
 where SDOH_TYPE = 'N' and 
-      try_to_number(ltrim(SDOH_VAl,'0')) is not null
+      try_to_number(ltrim(SDOH_VAl,'0')) is not null and 
+      try_to_number(ltrim(SDOH_VAl,'0')) >= 0
 ;
 
 select count(distinct patid), count(*) from identifier($ssdh_num_tbl_nm);
--- 41150	7543006
+-- 41150	7284198
 
 select sdoh_var, count(distinct patid) as pat_cnt
 from identifier($ssdh_tbl_nm) 

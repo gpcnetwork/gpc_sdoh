@@ -176,7 +176,7 @@ $$
 --        'CENSUS_BLOCK_GROUP_2020',
 --        array_construct(
 --               'RUCA_TR_2010'
---              ,'SVI_TR_2020'
+--              ,'ADI_BG_2020'
 --        ),
 --        True, 'TMP_SP_OUTPUT'
 -- );
@@ -211,6 +211,12 @@ select count(distinct patid), count(*) from identifier($ssdh_tbl_nm);
 
 select * from identifier($ssdh_tbl_nm) limit 5;
 
+select * from identifier($ssdh_tbl_nm) where sdoh_val = '-99999';
+
+select count(distinct patid)
+from identifier($ssdh_tbl_nm)
+where sdoh_var = 'ADI_NATRANK';
+
 create or replace table identifier($ssdh_num_tbl_nm) as
 select  PATID,
         GEOCODEID,
@@ -233,21 +239,21 @@ select  PATID,
         SDOH_SRC
 from identifier($ssdh_tbl_nm)     
 where SDOH_TYPE = 'N' and 
-      try_to_number(ltrim(SDOH_VAl,'0')) is not null
+      try_to_number(ltrim(SDOH_VAl,'0')) is not null and 
+      try_to_number(ltrim(SDOH_VAl,'0')) >= 0
 ;
 
 select count(distinct patid), count(*) from identifier($ssdh_num_tbl_nm);
---39642	7246808
+--39642	6998797
+
+select count(distinct patid)
+from identifier($ssdh_num_tbl_nm)
+where sdoh_var = 'ADI_NATRANK';
 
 select sdoh_var, count(distinct patid) as pat_cnt
-from identifier($ssdh_tbl_nm) 
+from identifier($ssdh_num_tbl_nm) 
 group by sdoh_var
 order by pat_cnt desc;
--- EP_AGE65	42794
--- EPL_SNGPNT	42794
--- EP_DISABL	42794
--- F_GROUPQ	42794
--- EPL_DISABL	42794
 
 -- get i-sdoh variables
 select * from I_SDH_SEL;
