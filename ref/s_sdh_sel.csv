@@ -185,7 +185,7 @@ NE,SLM,SLD_BG_2021,D3BMM4,N,Intersection density in terms of multi-modal interse
 NE,SLM,SLD_BG_2021,D3BPO3,N,Intersection density in terms of pedestrian-oriented intersections having three legs per square mile
 NE,SLM,SLD_BG_2021,D3BPO4,N,Intersection density in terms of pedestrian-oriented intersections having four or more legs per square mile
 NE,SLM,SLD_BG_2021,D4A,N,Distance from the population-weighted centroid to nearest transit stop (meters)
-NE,SLM,SLD_BG_2021,D4A_RANKED,N,Quantile ranked order (1
+NE,SLM,SLD_BG_2021,D4A_RANKED,N,Quantile ranked order (1-20) of [D4a] from lowest to highest
 NE,SLM,SLD_BG_2021,D4B025,N,Proportion of CBG employment within ¼ mile of fixed-guideway transit stop
 NE,SLM,SLD_BG_2021,D4B050,N,Proportion of CBG employment within ½ mile of fixed-guideway transit stop
 NE,SLM,SLD_BG_2021,D4C,N,Aggregate frequency of transit service within 0.25 miles of CBG boundary per hour during evening peak period
@@ -196,13 +196,13 @@ NE,SLM,SLD_BG_2021,D5AR,N,Jobs within 45 minutes auto travel time
 NE,SLM,SLD_BG_2021,D5BE,N,Working age population within 45-minute transit commute
 NE,SLM,SLD_BG_2021,D5BR,N,Jobs within 45-minute transit commute
 NE,SLM,SLD_BG_2021,D5CE,N,Proportional Accessibility to Regional Destinations - Auto: Working age population accessibility expressed as a ratio of total CBSA accessibility
-NE,SLM,SLD_BG_2021,D5CEI,N,Regional Centrality Index – Auto: CBG [D5ce] score relative to max CBSA [D5ce] score
+NE,SLM,SLD_BG_2021,D5CEI,N,Regional Centrality Index Auto: CBG [D5ce] score relative to max CBSA [D5ce] score
 NE,SLM,SLD_BG_2021,D5CR,N,Proportional Accessibility to Regional Destinations - Auto: Employment accessibility expressed as a ratio of total CBSA accessibility
-NE,SLM,SLD_BG_2021,D5CRI,N,Regional Centrality Index – Auto: CBG [D5cr] score relative to max CBSA [D5cr] score
+NE,SLM,SLD_BG_2021,D5CRI,N,Regional Centrality Index Auto: CBG [D5cr] score relative to max CBSA [D5cr] score
 NE,SLM,SLD_BG_2021,D5DE,N,Proportional Accessibility of Regional Destinations - Transit: Working age population accessibility expressed as a ratio of total MSA accessibility
-NE,SLM,SLD_BG_2021,D5DEI,N,Regional Centrality Index – Transit: CBG [D5de] score relative to max CBSA [D5de] score
+NE,SLM,SLD_BG_2021,D5DEI,N,Regional Centrality Index Transit: CBG [D5de] score relative to max CBSA [D5de] score
 NE,SLM,SLD_BG_2021,D5DR,N,Proportional Accessibility of Regional Destinations - Transit: Employment accessibility expressed as a ratio of total MSA accessibility
-NE,SLM,SLD_BG_2021,D5DRI,N,Regional Centrality Index – Transit: CBG [D5dr] score relative to max CBSA [D5dr] score
+NE,SLM,SLD_BG_2021,D5DRI,N,Regional Centrality Index Transit: CBG [D5dr] score relative to max CBSA [D5dr] score
 NE,SLM,SLD_BG_2021,E_HIWAGEWK,N,# of workers earning $3333/month or more (work location)
 NE,SLM,SLD_BG_2021,E_LOWWAGEWK,N,# of workers earning $1250/month or less (work location)
 NE,SLM,SLD_BG_2021,E_MEDWAGEWK,N,# of workers earning more than $1250/month but less than $3333/month (work location)

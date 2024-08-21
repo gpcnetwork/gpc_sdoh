@@ -434,4 +434,4 @@ from cte_combine
 ;
 select count(distinct patid),count(distinct encounterid), count(distinct var), count(*)
 from identifier($base_sisdh_long_tbl_nm);
--- 39715	67765	647	12385742
+-- 39715	67765	644	11962621

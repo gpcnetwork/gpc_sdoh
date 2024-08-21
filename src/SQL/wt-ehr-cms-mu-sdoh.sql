@@ -164,7 +164,7 @@ call get_sdoh_s(
        FALSE, NULL
 );
 select count(distinct patid), count(*) from identifier($ssdh_tbl_nm);
--- 41150	8260583
+-- 11008	2248080
 
 create or replace table identifier($ssdh_num_tbl_nm) as
 select  PATID,
@@ -188,11 +188,12 @@ select  PATID,
         SDOH_SRC
 from identifier($ssdh_tbl_nm)     
 where SDOH_TYPE = 'N' and 
-      try_to_number(ltrim(SDOH_VAl,'0')) is not null
+      try_to_number(ltrim(SDOH_VAl,'0')) is not null and 
+      try_to_number(ltrim(SDOH_VAl,'0')) >= 0
 ;
 
 select count(distinct patid), count(*) from identifier($ssdh_num_tbl_nm);
--- 41150	7543006
+-- 41150	7284198
 
 select sdoh_var, count(distinct patid) as pat_cnt
 from identifier($ssdh_tbl_nm) 
@@ -321,7 +322,7 @@ call get_sdoh_I(
 );
 
 select count(distinct patid),count(*) from identifier($isdh_tbl_nm);
--- 41212	1752423
+-- 11029	491980
 
 select sdoh_var, count(distinct patid) as pat_cnt
 from identifier($isdh_tbl_nm) 
@@ -355,5 +356,5 @@ where SDOH_TYPE = 'N' and
 ;
 
 select count(distinct patid),count(*) from identifier($isdh_num_tbl_nm);
--- 41212	1561737
+-- 11029	430907
 

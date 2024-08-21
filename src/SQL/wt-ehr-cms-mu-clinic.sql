@@ -293,7 +293,7 @@ where b.obsclin_result_num is not null
 ;
 
 select count(distinct patid) from identifier($obs_tbl_nm);
--- 41225
+-- 11031
 
 select obs_name,count(distinct patid) 
 from identifier($obs_tbl_nm)

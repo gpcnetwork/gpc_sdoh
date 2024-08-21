@@ -3,13 +3,15 @@ pacman::p_load(
   tidyverse,
   magrittr,
   broom,
+  rsample,
   devtools,
   ROCR,
   PRROC,
   pROC,
   ResourceSelection,
   ggpubr,
-  scales
+  scales,
+  ggrepel
 )
 
 source_url("https://raw.githubusercontent.com/sxinger/utils/master/analysis_util.R")
@@ -302,7 +304,7 @@ if(!file.exists(path_to_file)){
   out<-readRDS(path_to_file)
 }
 
-write.csv(out$pred,file = file.path(res_dir,'pred_sub.csv'),row.names = FALSE)
+# write.csv(out$pred,file = file.path(res_dir,'pred_sub.csv'),row.names = FALSE)
 
 # performance plot
 plt_lst<-list()
@@ -612,3 +614,126 @@ ggsave(
   device = 'pdf'
 )
 
+
+#==== disparity measures ====
+pred_sub<-read.csv(file.path("./res/ehr",'pred_sub.csv'))
+rslt_lst<-c()
+for(m in c("base","i-sdh-aug","s-sdh-aug","si-sdh-aug")){
+  pred_sub_m<-pred_sub %>% filter(model==m)
+  rslt<-get_parity_summ(
+    pred=pred_sub_m$pred,
+    real=pred_sub_m$actual,
+    strata=pred_sub_m$AGE65_IND,
+    n_bins = 20,
+    boots_n = 50
+  )
+  rslt_lst %<>%
+    bind_rows(
+      rslt %>%
+        mutate(model = m, by = 'AGE65')
+    )
+  
+  rslt<-get_parity_summ(
+    pred=pred_sub_m$pred,
+    real=pred_sub_m$actual,
+    strata=pred_sub_m$NONWHITE_IND,
+    n_bins = 20,
+    boots_n = 50
+  )
+  rslt_lst %<>%
+    bind_rows(
+      rslt %>%
+        mutate(model = m, by = 'NONWHITE')
+    )
+  
+  rslt<-get_parity_summ(
+    pred=pred_sub_m$pred,
+    real=pred_sub_m$actual,
+    strata=pred_sub_m$OBES_IND,
+    n_bins = 20,
+    boots_n = 50
+  )
+  rslt_lst %<>%
+    bind_rows(
+      rslt %>%
+        mutate(model = m, by = 'OBES')
+    )
+  
+  rslt<-get_parity_summ(
+    pred=pred_sub_m$pred,
+    real=pred_sub_m$actual,
+    strata=pred_sub_m$MEDICAID_IND,
+    n_bins = 20,
+    boots_n = 50
+  )
+  rslt_lst %<>%
+    bind_rows(
+      rslt %>%
+        mutate(model = m, by = 'MEDICAID')
+    )
+}
+
+rslt_lst %<>%
+  mutate(
+    summ_type_lbl = recode(
+      summ_type,
+      "disp_tpr" = "TPP",
+      "disp_tnr" = "TNP",
+      "disp_ppv" = "PPP",
+      "disp_npv" = "NPP"
+    ),
+    summ_val_lbl = case_when(
+      thresh == 18 ~ as.character(round(summ_val_m,3)),
+      TRUE ~ ""
+    )
+  )
+
+ggplot(
+  rslt_lst %>%
+    filter(summ_type %in% c(
+      "disp_tpr",
+      "disp_tnr"
+    )) %>%
+    filter(by %in% c(
+      "AGE65",
+      "MEDICAID",
+      "NONWHITE"
+    )),
+  aes(x=thresh,y=summ_val_m,color=model,fill=model)
+) +
+  geom_line(aes(group=model),linewidth=1) +
+  geom_ribbon(aes(ymin = summ_val_lb,ymax = summ_val_ub),alpha=0.2,linetype=2) +
+  # geom_vline(aes(xintercept = 15),linetype = 2) +
+  geom_vline(aes(xintercept = 18),linetype = 2) +
+  geom_label_repel(aes(label=summ_val_lbl),
+                   label.size = NA,
+                   alpha = 0.6,
+                   label.padding=.1,
+                   na.rm=TRUE,
+                   max.overlaps =Inf,
+                   seed = 1234) +
+  geom_label_repel(aes(label=summ_val_lbl),
+                   color = "black",
+                   fontface = "bold",
+                   label.size = NA, 
+                   alpha = 1, 
+                   label.padding=.1, 
+                   na.rm=TRUE,
+                   max.overlaps =Inf,
+                   fill = NA,
+                   seed = 1234) +
+  labs(x="Threshold Tier",y="Parity Value")+
+  theme(text = element_text(face="bold",size=10),
+        strip.text = element_text(size = 10),
+        legend.position="bottom")+
+  facet_wrap(~summ_type_lbl+by,ncol = 3,scales = "free")
+
+
+ggsave(
+  file.path(res_dir,'model_faireness.pdf'),
+  dpi=150,
+  width=10,
+  height=6,
+  units="in",
+  device = 'pdf'
+)
