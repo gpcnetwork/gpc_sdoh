@@ -18,8 +18,8 @@ source_url("https://raw.githubusercontent.com/sxinger/utils/master/extract_util.
 dir_data<-file.path(getwd(),"data")
 
 # cms or ehr dir
-# subdir<-"cms"
-subdir<-"ehr"
+subdir<-"cms"
+# subdir<-"ehr"
 
 #====base set
 base_df<-readRDS(file.path(dir_data,subdir,"mu_readmit_base.rds"))

@@ -13,8 +13,8 @@ pacman::p_load(
 source_url("https://raw.githubusercontent.com/sxinger/utils/master/analysis_util.R")
 
 # cohort flag
-# which_cohort<-"cms"
-which_cohort<-"ehr"
+which_cohort<-"cms"
+# which_cohort<-"ehr"
 
 # directories
 data_dir<-file.path("./data",which_cohort)
@@ -82,7 +82,8 @@ var_encoder<-data_df %>%
 
 var_lst<-var_encoder %>% select(SDOH_VAR) %>%
   filter(!SDOH_VAR %in% c(
-    "CBSA_NAME"
+    "CBSA_NAME",
+    "D1_FLAG"
   )) %>% pull 
 
 facvar_lst<-var_encoder %>% filter(SDOH_TYPE=="C") %>% 
