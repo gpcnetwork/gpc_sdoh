@@ -42,17 +42,20 @@ with cte_obes as (
 ), cte_obes_1st as (
     select * from cte_obes
     where rn = 1
+), cte_cms as (
+    select patid, 
+           min(enr_start_date) as enr_start_date, 
+           max(enr_end_date) as enr_end_date 
+    from GROUSE_DB.CMS_PCORNET_CDM.LDS_ENROLLMENT
+    where enr_end_date between '2011-01-01' and '2019-12-31' -- administrative censor (before covid)
+    group by patid
 ), cte_obswin as (
     select patid, 
            min(enr_start_date) as enr_start,
            max(enr_end_date) as enr_end
     from (
-        select patid, 
-               min(enr_start_date) as enr_start_date, 
-               max(enr_end_date) as enr_end_date 
-        from GROUSE_DB.CMS_PCORNET_CDM.LDS_ENROLLMENT
-        where enr_end_date between '2011-01-01' and '2019-12-31' -- administrative censor (before covid)
-        group by patid
+        select * 
+        from cte_cms
         union 
         select patid, 
                min(coalesce(discharge_date,admit_date)) as enr_start_date, 
@@ -82,10 +85,13 @@ with cte_obes as (
             b.bmi as BMI_OBES1,
             b.bmi_date as BMI_OBES1_DATE,
             d.patid as PATID2,
+            cms.enr_start_date as CMS_ENR_START,
+            cms.enr_end_date as CMS_ENR_END,
             row_number() over (partition by a.patid order by datediff('day',o.ENR_START,o.ENR_END)) as rn
     from WT_TABLE1 a 
     join GROUSE_DB_BLUE.patid_mapping.patid_xwalk_mu d on a.patid = d.patid_hash
     join SDOH_DB.ACXIOM.MU_GEOID_DEID x on d.patid = x.patid
+    join cte_cms cms on cms.patid = a.patid
     join cte_obswin o on d.patid_hash = o.patid
     left join cte_obes_1st b on a.patid = b.patid
     where a.AGE_AT_INDEX >= 18
@@ -110,7 +116,7 @@ where rn = 1
 ;
 
 select count(distinct patid), count(*) from WT_MU_EHR_CMS_TBL1;
--- 343,645
+-- 73,967
 
 create or replace table WT_MU_EHR_CMS_ADMIT as 
 with cte_death as (
@@ -230,13 +236,13 @@ where not exists (
 
 select count(distinct patid), count(distinct encounterid), max(enr_start)
 from WT_MU_EHR_CMS_ADMIT;
--- 84439	204553	2019-12-31
+-- 28065	94067	2019-11-02
 
 select ehr_ind, count(distinct patid), count(distinct encounterid), max(enr_start)
 from WT_MU_EHR_CMS_ADMIT
 group by ehr_ind;
--- 1	66261	124238	2019-12-31
--- 0	29587	80315	2019-12-30
+-- 1	15902	35789	2019-11-02
+-- 0	19791	58278	2019-11-01
 
 create or replace table WT_MU_EHR_CMS_READMIT as
 with cte_lag as (
@@ -318,16 +324,16 @@ limit 50;
 select count(distinct patid), count(distinct encounterid) 
 from WT_MU_EHR_CMS_READMIT
 ;
--- 66261	124238
+-- 15902	35789
 
 
 select ehr_ind,ehr_ind_lead, count(distinct patid), count(distinct encounterid) 
 from WT_MU_EHR_CMS_READMIT
 group by ehr_ind,ehr_ind_lead 
 ;
--- 1	1	   23018	53830
--- 1	0	    7959	10017
--- 1	null	60420	60402
+-- 1	1	6343	17134
+-- 1	0	5259	6688
+-- 1	null	11984	11971
 
 -- patient-centric table
 create or replace table WT_MU_EHR_CMS_ELIG_TBL1 as
@@ -339,7 +345,7 @@ where exists (
 )
 ;
 select count(distinct patid), count(*) from WT_MU_EHR_CMS_ELIG_TBL1;
--- 66261
+-- 15902
 
 select * from WT_MU_EHR_CMS_ELIG_TBL1 limit 5;
 
@@ -396,12 +402,12 @@ select * from WT_MU_EHR_CMS_PPX limit 5;
 -- excld: <= 30 days
 select count(distinct patid), count(distinct encounterid) from WT_MU_EHR_CMS_READMIT
 where least(days_disch_to_censor) <= 30;
--- 12185	13156
+-- 1849	1998
 
 -- excld: against medical advice
 select count(distinct patid), count(distinct encounterid) from WT_MU_EHR_CMS_READMIT
 where discharge_status in ('AM','AW');
--- 995	1333
+-- 235	318
 
 -- excld: still in hospital or discharge to another acute care hospital or rehap or hospice
 select 'ANY', count(distinct patid), count(distinct encounterid) from WT_MU_EHR_CMS_READMIT
@@ -410,10 +416,10 @@ union
 select discharge_status, count(distinct patid), count(distinct encounterid) from WT_MU_EHR_CMS_READMIT
 where discharge_status in ('SH','IP','RH','HS')
 group by discharge_status;
--- SH	1771	2317
--- RH	3347	3940
--- HS	213	227
--- ANY	5222	6484
+-- RH	1367	1649
+-- HS	64	68
+-- SH	604	811
+-- ANY	1988	2528
 
 -- excld: primary psychiatric diagnoses 
 -- excld: medical treatment of cancer
@@ -458,8 +464,8 @@ where facility_type in (
 ;
 select excld_type, count(distinct patid), count(distinct encounterid) from EXCLD_INDEX_CCS_EHR_CMS
 group by excld_type;
--- cancer	20561	27320
--- psychiatric	7672	13696
+-- cancer	4916	7169
+-- psychiatric	7221	12690
 
 -- excld: planned readmission
 select * from EXCLD_PLANNED;
@@ -524,7 +530,7 @@ join EXCLD_PLANNED c on b.ccs_dxgrpcd = c.ccs
 where c.ccs_type = 'dx'
 ;
 select count(distinct patid), count(distinct encounterid) from EXCLD_PLANNED_CCS_EHR_CMS;
--- 39001	52374
+-- 8801	12679
 
 create or replace table WT_MU_EHR_CMS_READMIT_ELIG as 
 select a.*, 
@@ -558,7 +564,7 @@ where (
     -- )
 ;
 select count(distinct patid), count(distinct encounterid), count(*) from WT_MU_EHR_CMS_READMIT_ELIG;
--- 41225	69919	71588
+-- 11031	21986	22437
 
 with denom(N) as (
     select count(distinct encounterid) as N 
@@ -569,8 +575,8 @@ select a.readmit30d_ind,
        count(distinct a.encounterid)/denom.N
 from WT_MU_EHR_CMS_READMIT_ELIG a, denom
 group by a.readmit30d_ind, denom.N;
--- 0	61640	0.881592
--- 1	8283	0.118466
+-- 1	3379	0.153689
+-- 0	18609	0.846402
 
 select * from WT_MU_EHR_CMS_READMIT_ELIG 
 -- where days_disch_to_death is not null
@@ -586,7 +592,7 @@ where exists (
 )
 ;
 select count(distinct patid), count(*) from WT_MU_EHR_CMS_ELIG_TBL2;
--- 41225
+-- 11031
 
 select * from WT_MU_EHR_CMS_ELIG_TBL2 limit 5;
 
@@ -599,4 +605,4 @@ where exists (
 ) 
 ;
 select count(distinct patid), count(*) from WT_MU_EHR_CMS_ELIG_GEOID;
--- 41209
+-- 11021
