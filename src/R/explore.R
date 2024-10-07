@@ -13,8 +13,8 @@ pacman::p_load(
 source_url("https://raw.githubusercontent.com/sxinger/utils/master/analysis_util.R")
 
 # cohort flag
-which_cohort<-"cms"
-# which_cohort<-"ehr"
+# which_cohort<-"cms"
+which_cohort<-"ehr"
 
 # directories
 data_dir<-file.path("./data",which_cohort)
@@ -72,6 +72,7 @@ cohort_summ %>%
   )
 
 #==== s-sdh ====
+denom_chk<-data_df %>% select(ROWID,READMIT30D_IND)
 data_df<-readRDS(file.path(data_dir,"mu_readmit_sdoh_s.rds")) %>% select(-PATID,-ENCOUNTERID) 
 var_encoder<-data_df %>% 
   select(SDOH_VAR,SDOH_TYPE,SDOH_TYPE) %>% unique %>%
@@ -105,11 +106,12 @@ for(i in seq_along(var_seq[-1])){
   sub_df<-data_df %>%
     filter(SDOH_VAR %in% var_sub) %>%
     group_by(ROWID,SDOH_VAR) %>% dplyr::slice(1:1) %>% 
-    ungroup %>% select(-SDOH_TYPE) %>%
+    ungroup %>% select(-SDOH_TYPE,-READMIT30D_IND) %>%
     pivot_wider(
       names_from = SDOH_VAR, values_from = SDOH_VAL,
       values_fill = "NI"
-    )
+    ) %>%
+    right_join(denom_chk,by="ROWID")
   
   cohort_summ<-univar_analysis_mixed(
     df = sub_df,
@@ -165,11 +167,12 @@ for(i in seq_along(var_seq[-1])){
   sub_df<-data_df %>%
     filter(SDOH_VAR %in% var_sub) %>%
     group_by(ROWID,SDOH_VAR) %>% dplyr::slice(1:1) %>% 
-    ungroup %>% select(-SDOH_TYPE) %>%
+    ungroup %>% select(-SDOH_TYPE,-READMIT30D_IND) %>%
     pivot_wider(
       names_from = SDOH_VAR, values_from = SDOH_VAL,
       values_fill = "NI"
-    )
+    ) %>%
+    right_join(denom_chk,by="ROWID")
   
   cohort_summ<-univar_analysis_mixed(
     df = sub_df,
