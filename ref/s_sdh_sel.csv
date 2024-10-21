@@ -1,61 +1,61 @@
 HP2023_DOMAIN,VAR_DOMAIN,VAR_SUBDOMAIN,VAR,VAR_TYPE,VAR_LABEL
-NE,ACS,ACS_TR_2015_2019,BIRD_INDEX,N,Bird Index [Scale Score] for Community Stress in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_1,N,[Number fraction] of households in community where patient resides receiving public  assistance income or FOOD STAMPS/SNAP in past 12 months from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_10,N,[Number Fraction] of workers over 16 years whose means of transportation is public transportation excluding taxicab in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_11,N,[Number Fraction] of workers over 16 years whose means of transportation is motorcycle in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_12,N,[Number Fraction] of workers over 16 years whose means of transportation is bicycle in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_13,N,[Number Fraction] of workers over 16 years whose means of transportation is walking in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_14,N,"[Number Fraction] of workers over 16 years who work in agriculture, forestry,fishing, hunting or mining in community where patient resides from DoC ACS data?"
-NE,ACS,ACS_TR_2015_2019,CRANE_15,N,[Number Fraction] of workers over 16 years who work in construction in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_16,N,[Number Fraction] of workers over 16 years who work in manufacturing in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_17,N,[Number Fraction] of workers over 16 years who work in wholesale trade in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_18,N,[Number Fraction] of workers over 16 years who work retail trade in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_19,N,"[Number Fraction] of workers over 16 years who work in transportation, warehousing or utilities in community where patient resides from DoC ACS data?"
-NE,ACS,ACS_TR_2015_2019,CRANE_2,N,[Number fraction] of workers 16 years and older in community where patient resides whose income is below 100 % of poverty level from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_20,N,[Number Fraction] of workers over 16 years who work in information in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_21,N,"[Number Fraction] of workers over 16 years who work in real estate, rental or leasing in community where patient resides from DoC ACS data?"
-NE,ACS,ACS_TR_2015_2019,CRANE_22,N,"[Number Fraction] of workers over 16 years who work in professional scientific, management, administrative or waste management in community where patient resides from DoC ACS data?"
-NE,ACS,ACS_TR_2015_2019,CRANE_23,N,"[Number Fraction] of workers over 16 years who work in educational services, health care or social assistance in community where patient resides from DoC ACS data?"
-NE,ACS,ACS_TR_2015_2019,CRANE_24,N,"[Number Fraction] of workers over 16 years who work in arts, entertainment, recreation, accomodation or food servicesin community where patient resides from DoC ACS data?"
-NE,ACS,ACS_TR_2015_2019,CRANE_25,N,[Number Fraction] of workers over 16 years who work in other services excluding public administration in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_26,N,[Number Fraction] of workers over 16 years who work in public administration in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_27,N,[Number Fraction] of workers over 16 years who work in armed forces in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_28,N,[Number Fraction] of workers 18 to 64 years who are employed in the labor force in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_29,N,[Number Fraction] of residents who are male in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_3,N,[Number fraction] of workers 16 years and older in community where patient resides whose income is between 100 % and 150% of poverty level from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_30,N,[Number Fraction] of residents who are female in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_31,N,[Number Fraction] of residents who report having two or more racial origins in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_32,N,[Number Fraction] of residents who report being white alone and not Hispanic or Latino in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_33,N,[Number Fraction] of residents who report being Hispanic or Latino in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_34,N,[Number Fraction] of residents who report being black or african american alone in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_35,N,[Number Fraction] of residents who report being american indian or alaska native alone in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_36,N,[Number Fraction] of residents who report being asian alone in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_37,N,[Number Fraction] of residents who report being native Hawaiian or Pacific Islander alone in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_38,N,[Number Fraction] of residents who report being solely some other race in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_39,N,[Number Fraction] of residents who are under 18 years of age in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_4,N,[Number fraction] of workers 16 years and older in community where patient resides whose income is greater than or equal to 150% of poverty level from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_40,N,[Number Fraction] of residents who are 18 to 24 years of age in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_41,N,[Number Fraction] of residents who are 25 to 64 years of age in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_42,N,[Number Fraction] of residents who are 65 to 79 years of age in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_43,N,[Number Fraction] of residents who are 80 years of age or older in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_44,N,[Number Fraction] of residents 25 years and older who completed 5th grade or less schooling in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_45,N,[Number Fraction] of residents 25 years and older who completed 5th grade but did not complete high school or GED in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_46,N,[Number Fraction] of residents 25 years and older who completed high school or GED in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_47,N,[Number Fraction] of residents 25 years and older who completed some college but did not get a degree in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_48,N,[Number Fraction] of residents 25 years and older who completed and associates or higher college degree in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_49,N,[Number fraction] of households with one or more types of computing devices in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_5,N,[Number fraction] of workers 16 years and older in community where patient resides who are in labor force from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_50,N,[Number fraction] of households with no computer in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_51,N,[Number fraction] of households with broadband internet in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_52,N,[Number fraction] of households without allocation of telephone service available in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_53,N,[Number fraction] of households with housing units built prior to 1970 in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_54,N,[Number fraction] of households without kitchen facilities in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_55,N,[Number fraction] of households without complete plumbing facilities in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_56,N,Patient resides [Ordinal] more than 1/2 mile from grocery store if urban or more than 10 miles if rural  from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_6,N,[Number fraction] of renter-occupied housing units in community where patient resides with gross rent >= 30% of household income in past 12 months from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_7,N,Average Number [Number concentration] of persons occupying a single household in community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_8,N,Travel [Time] to work of workers over 16 years who do not work at home in the community where patient resides from DoC ACS data?
-NE,ACS,ACS_TR_2015_2019,CRANE_9,N,"[Number Fraction] of workers over 16 years whose means of transportation is car, truck or van in community where patient resides from DoC ACS data?"
+NE,ACS,ACS_TR_2015_2019,ACS1,N,Bird Index [Scale Score] for Community Stress in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS2,N,[Number fraction] of households in community where patient resides receiving public  assistance income or FOOD STAMPS/SNAP in past 12 months from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS3,N,[Number fraction] of workers 16 years and older in community where patient resides whose income is below 100 % of poverty level from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS4,N,[Number fraction] of workers 16 years and older in community where patient resides whose income is between 100 % and 150% of poverty level from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS5,N,[Number fraction] of workers 16 years and older in community where patient resides whose income is greater than or equal to 150% of poverty level from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS6,N,[Number fraction] of workers 16 years and older in community where patient resides who are in labor force from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS7,N,[Number fraction] of renter-occupied housing units in community where patient resides with gross rent >= 30% of household income in past 12 months from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS8,N,Average Number [Number concentration] of persons occupying a single household in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS9,N,Travel [Time] to work of workers over 16 years who do not work at home in the community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS10,N,"[Number Fraction] of workers over 16 years whose means of transportation is car, truck or van in community where patient resides from DoC ACS data?"
+NE,ACS,ACS_TR_2015_2019,ACS11,N,[Number Fraction] of workers over 16 years whose means of transportation is public transportation excluding taxicab in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS12,N,[Number Fraction] of workers over 16 years whose means of transportation is motorcycle in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS13,N,[Number Fraction] of workers over 16 years whose means of transportation is bicycle in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS14,N,[Number Fraction] of workers over 16 years whose means of transportation is walking in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS15,N,"[Number Fraction] of workers over 16 years who work in agriculture, forestry,fishing, hunting or mining in community where patient resides from DoC ACS data?"
+NE,ACS,ACS_TR_2015_2019,ACS16,N,[Number Fraction] of workers over 16 years who work in construction in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS17,N,[Number Fraction] of workers over 16 years who work in manufacturing in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS18,N,[Number Fraction] of workers over 16 years who work in wholesale trade in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS19,N,[Number Fraction] of workers over 16 years who work retail trade in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS20,N,"[Number Fraction] of workers over 16 years who work in transportation, warehousing or utilities in community where patient resides from DoC ACS data?"
+NE,ACS,ACS_TR_2015_2019,ACS21,N,[Number Fraction] of workers over 16 years who work in information in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS22,N,"[Number Fraction] of workers over 16 years who work in real estate, rental or leasing in community where patient resides from DoC ACS data?"
+NE,ACS,ACS_TR_2015_2019,ACS23,N,"[Number Fraction] of workers over 16 years who work in professional scientific, management, administrative or waste management in community where patient resides from DoC ACS data?"
+NE,ACS,ACS_TR_2015_2019,ACS24,N,"[Number Fraction] of workers over 16 years who work in educational services, health care or social assistance in community where patient resides from DoC ACS data?"
+NE,ACS,ACS_TR_2015_2019,ACS25,N,"[Number Fraction] of workers over 16 years who work in arts, entertainment, recreation, accomodation or food servicesin community where patient resides from DoC ACS data?"
+NE,ACS,ACS_TR_2015_2019,ACS26,N,[Number Fraction] of workers over 16 years who work in other services excluding public administration in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS27,N,[Number Fraction] of workers over 16 years who work in public administration in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS28,N,[Number Fraction] of workers over 16 years who work in armed forces in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS29,N,[Number Fraction] of workers 18 to 64 years who are employed in the labor force in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS30,N,[Number Fraction] of residents who are male in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS31,N,[Number Fraction] of residents who are female in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS32,N,[Number Fraction] of residents who report having two or more racial origins in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS33,N,[Number Fraction] of residents who report being white alone and not Hispanic or Latino in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS34,N,[Number Fraction] of residents who report being Hispanic or Latino in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS35,N,[Number Fraction] of residents who report being black or african american alone in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS36,N,[Number Fraction] of residents who report being american indian or alaska native alone in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS37,N,[Number Fraction] of residents who report being asian alone in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS38,N,[Number Fraction] of residents who report being native Hawaiian or Pacific Islander alone in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS39,N,[Number Fraction] of residents who report being solely some other race in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS40,N,[Number Fraction] of residents who are under 18 years of age in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS41,N,[Number Fraction] of residents who are 18 to 24 years of age in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS42,N,[Number Fraction] of residents who are 25 to 64 years of age in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS43,N,[Number Fraction] of residents who are 65 to 79 years of age in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS44,N,[Number Fraction] of residents who are 80 years of age or older in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS45,N,[Number Fraction] of residents 25 years and older who completed 5th grade or less schooling in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS46,N,[Number Fraction] of residents 25 years and older who completed 5th grade but did not complete high school or GED in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS47,N,[Number Fraction] of residents 25 years and older who completed high school or GED in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS48,N,[Number Fraction] of residents 25 years and older who completed some college but did not get a degree in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS49,N,[Number Fraction] of residents 25 years and older who completed and associates or higher college degree in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS50,N,[Number fraction] of households with one or more types of computing devices in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS51,N,[Number fraction] of households with no computer in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS52,N,[Number fraction] of households with broadband internet in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS53,N,[Number fraction] of households without allocation of telephone service available in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS54,N,[Number fraction] of households with housing units built prior to 1970 in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS55,N,[Number fraction] of households without kitchen facilities in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS56,N,[Number fraction] of households without complete plumbing facilities in community where patient resides from DoC ACS data?
+NE,ACS,ACS_TR_2015_2019,ACS57,N,Patient resides [Ordinal] more than 1/2 mile from grocery store if urban or more than 10 miles if rural  from DoC ACS data?
 NE,ADI,ADI_BG_2020,ADI_NATRANK,N,ADI_NATRANK
 NE,ADI,ADI_BG_2020,ADI_STATERANK,N,ADI_STATERANK
 SC,FARA,FARA_TR_2019,GROUPQUARTERSFLAG,C,Flag for tract where >=67%
