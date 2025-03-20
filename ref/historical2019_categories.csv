@@ -1,0 +1,2486 @@
+﻿COLUMN_NAME,UNIQUE_VALUES
+INPUT_NUMBER_OF_SOURCES_NAME_ADDRESS_3027,"[
+  ""S"",
+  ""M""
+]"
+INPUT_PREFIX_TITLE_8093,"[
+  ""0"",
+  ""8"",
+  ""I"",
+  ""5"",
+  ""9"",
+  ""7"",
+  """",
+  ""6"",
+  ""4"",
+  ""3"",
+  ""1"",
+  ""2""
+]"
+INPUT_ADDRESS_TYPE_INDICATOR_3001,"[
+  ""0"",
+  ""5"",
+  ""4"",
+  ""3"",
+  ""1"",
+  ""2""
+]"
+INPUT_ADDRESS_LINE_3002,"[
+  ""4"",
+  ""3""
+]"
+INPUT_USE_CODE_3048,"[
+  ""3"",
+  ""1"",
+  ""2""
+]"
+INPUT_GEO_MATCH_LEVEL_CODE_3018,"[
+  ""0"",
+  ""5"",
+  ""A"",
+  ""4"",
+  ""3"",
+  ""1"",
+  ""2""
+]"
+INPUT_CENSUS_BLOCK_GROUP_3004,"[
+  ""0"",
+  ""8"",
+  ""5"",
+  ""7"",
+  ""9"",
+  ""6"",
+  """",
+  ""4"",
+  ""3"",
+  ""1"",
+  ""2""
+]"
+INPUT_TIME_ZONE_3041,"[
+  ""P"",
+  ""H"",
+  ""U"",
+  ""A"",
+  """",
+  ""E"",
+  ""M"",
+  ""C""
+]"
+INPUT_PRESENCE_OF_PHONE_FLAG_3031,"[
+  ""N"",
+  ""U"",
+  ""Y""
+]"
+INPUT_ZIP4_RECORD_TYPE_3045,"[
+  ""S"",
+  ""P"",
+  ""H"",
+  ""R""
+]"
+INPUT_DSF_DELIVERABILITY_INDICATOR_3037,"[
+  ""3"",
+  ""1"",
+  ""2""
+]"
+INPUT_DELIVERY_POINT_DROP_INDICATOR_8094,"[
+  ""N"",
+  ""C"",
+  ""Y""
+]"
+INPUT_GENDER_CODE_3017,"[
+  ""U"",
+  ""F"",
+  ""M""
+]"
+INPUT_VACANT_3049,"[
+  ""N""
+]"
+INPUT_INDIVIDUAL_ID_4117,"[
+  ""00006"",
+  ""00008"",
+  ""00001"",
+  ""00002"",
+  ""00009"",
+  ""00003"",
+  ""00004"",
+  ""00007"",
+  ""00005""
+]"
+INPUT_NEILSON_CODE_3028,"[
+  ""B"",
+  ""A"",
+  """",
+  ""D"",
+  ""C""
+]"
+INPUT_STREET_DIRECTIONAL_3133,"[
+  ""S"",
+  ""NW"",
+  ""N"",
+  ""NE"",
+  """",
+  ""SE"",
+  ""W"",
+  ""E"",
+  ""SW""
+]"
+INPUT_SOHO_INDICATOR_8082,"[
+  """",
+  ""1""
+]"
+INPUT_IBE8165_VEHICLE_TRUCK_MOTORCYCLE_RV_OWNER,"[
+  ""000"",
+  ""001"",
+  ""111"",
+  ""011"",
+  ""101"",
+  ""010"",
+  ""110"",
+  ""100""
+]"
+INPUT_IBE8646_VEHICLE_NEW_CAR_BUYER,"[
+  """",
+  ""Y""
+]"
+INPUT_IBE8647_VEHICLE_KNOWN_OWNED_NUMBER,"[
+  """",
+  ""3"",
+  ""1"",
+  ""2""
+]"
+INPUT_IBE8648_VEHICLE_DOMINANT_LIFESTYLE_INDICATOR,"[
+  ""B"",
+  ""A"",
+  """",
+  ""D"",
+  ""F"",
+  ""E"",
+  ""G"",
+  ""C""
+]"
+INPUT_IBE8653_ONLINE_PURCHASING_INDICATOR,"[
+  """",
+  ""Y""
+]"
+INPUT_IBE8654_PC_DSL_HIGH_SPEED_USER,"[
+  """",
+  ""Y""
+]"
+INPUT_IBE2300_PC_INTERNET_CONNECTION_TYPE,"[
+  """",
+  ""3"",
+  ""1"",
+  ""2""
+]"
+INPUT_IBE7719_WIRELESS_PRODUCT_BUYER,"[
+  """",
+  ""1""
+]"
+INPUT_IBE8639_INFOBASE_POSITIVE_MATCH_INDICATOR,"[
+  """",
+  ""M""
+]"
+INPUT_IBE8337_INVESTORS_HIGHLY_LIKELY,"[
+  """",
+  ""Y""
+]"
+INPUT_IBE8339_INVESTORS_LIKELY,"[
+  """",
+  ""Y""
+]"
+INPUT_IBE8614_BASE_RECORD_VERIFICATION_DATE,"[
+  ""20184"",
+  ""20182"",
+  ""20192"",
+  """",
+  ""20174"",
+  ""20172"",
+  ""20191"",
+  ""20183"",
+  ""20171"",
+  ""20193"",
+  ""20173"",
+  ""20181""
+]"
+INPUT_IBE8177_MAIL_ORDER_DONOR,"[
+  """",
+  ""D""
+]"
+INPUT_IBE8615_MAIL_ORDER_BUYER,"[
+  ""B"",
+  """"
+]"
+INPUT_IBE8620_MAIL_ORDER_RESPONDER,"[
+  """",
+  ""R""
+]"
+INPUT_IBE9509_EDUCATION_1ST_INDIVIDUAL,"[
+  """",
+  ""4"",
+  ""3"",
+  ""1"",
+  ""2""
+]"
+INPUT_IBE9514_EDUCATION_INPUT_INDIVIDUAL,"[
+  """",
+  ""4"",
+  ""3"",
+  ""1"",
+  ""2""
+]"
+INPUT_IBE8628_NUMBER_OF_ADULTS,"[
+  ""5"",
+  """",
+  ""6"",
+  ""4"",
+  ""3"",
+  ""1"",
+  ""2""
+]"
+INPUT_IBE8692_SENIOR_ADULT_IN_HOUSEHOLD,"[
+  """",
+  ""Y""
+]"
+INPUT_IBE8680_YOUNG_ADULT_IN_HOUSEHOLD,"[
+  """",
+  ""Y""
+]"
+INPUT_IBE2350_BUSINESS_OWNER,"[
+  ""S"",
+  ""P"",
+  ""O"",
+  ""B"",
+  ""A"",
+  """",
+  ""D"",
+  ""E"",
+  ""F"",
+  ""M"",
+  ""C""
+]"
+INPUT_IBE2351_SINGLE_PARENT,"[
+  """",
+  ""1""
+]"
+INPUT_IBE2354_LIFE_INSURANCE_POLICY_OWNER,"[
+  """",
+  ""1""
+]"
+INPUT_IBE2356_VETERAN,"[
+  """",
+  ""1""
+]"
+INPUT_IBE8656_RETAIL_IN_STORE_ONLY,"[
+  """",
+  ""1""
+]"
+INPUT_IBE8657_RFM_CATALOG_BUYER_FREQUENCY_INPUT_IND,"[
+  ""B"",
+  ""A"",
+  """",
+  ""D"",
+  ""E"",
+  ""C""
+]"
+INPUT_IBE8658_RFM_CATALOG_RECENCY_INPUT_IND,"[
+  ""B"",
+  ""A"",
+  """",
+  ""D"",
+  ""E"",
+  ""C""
+]"
+INPUT_FIRST_NAME_INITIAL_FLAG,"[
+  """",
+  ""Y""
+]"
+INPUT_IBE8531_POLITICAL_PARTY_INPUT_INDIVIDUAL,"[
+  ""I"",
+  """",
+  ""D"",
+  ""R"",
+  ""V""
+]"
+INPUT_IBE8487_POLITICAL_PARTY_1ST_INDIVIDUAL,"[
+  ""I"",
+  """",
+  ""D"",
+  ""R"",
+  ""V""
+]"
+INPUT_IBE8619_WORKING_WOMAN,"[
+  """",
+  ""Y""
+]"
+INPUT_KEPT_8606_PREM_HO_RENT,"[
+  ""O"",
+  """",
+  ""R""
+]"
+INPUT_HOME_OWNER_SOURCE_FLAG_3019,"[
+  ""P"",
+  ""H"",
+  """",
+  ""V""
+]"
+INPUT_KEPT_8607_PREM_LOR,"[
+  ""02"",
+  ""06"",
+  ""05"",
+  """",
+  ""12"",
+  ""01"",
+  ""04"",
+  ""03"",
+  ""15"",
+  ""00"",
+  ""07"",
+  ""14"",
+  ""09"",
+  ""08"",
+  ""13"",
+  ""10"",
+  ""11""
+]"
+INPUT_KEPT_8608_PREM_DWELL,"[
+  ""S"",
+  """",
+  ""M""
+]"
+INPUT_IBE8609_MARITAL_STATUS_IN_THE_HOUSEHOLD,"[
+  ""S"",
+  ""B"",
+  ""A"",
+  """",
+  ""M""
+]"
+INPUT_IBE8693_CREDIT_CARD_USER,"[
+  """",
+  ""Y""
+]"
+INPUT_IBE2058_CREDIT_CARD_USE_AMERICAN_EXPRESS,"[
+  ""01"",
+  ""00"",
+  ""11"",
+  ""10""
+]"
+INPUT_IBE2059_CREDIT_CARD_USE_DISCOVER,"[
+  ""01"",
+  ""00"",
+  ""11"",
+  ""10""
+]"
+INPUT_IBE2060_CREDIT_CARD_USE_GASOLINE_OR_RETAIL_CARD,"[
+  ""01"",
+  ""00"",
+  ""10"",
+  ""11""
+]"
+INPUT_IBE2061_CREDIT_CARD_USE_MASTERCARD,"[
+  ""01"",
+  ""00"",
+  ""10"",
+  ""11""
+]"
+INPUT_IBE2062_CREDIT_CARD_USE_VISA,"[
+  ""01"",
+  ""00"",
+  ""10"",
+  ""11""
+]"
+INPUT_IBE8671_INCOME_ESTIMATED_HOUSEHOLD_NARROW_RANGES,"[
+  ""B"",
+  ""8"",
+  ""5"",
+  ""7"",
+  ""9"",
+  ""A"",
+  """",
+  ""6"",
+  ""4"",
+  ""3"",
+  ""D"",
+  ""1"",
+  ""2"",
+  ""C""
+]"
+INPUT_IBE8641_INCOME_ESTIMATED_HOUSEHOLD,"[
+  ""8"",
+  ""5"",
+  ""7"",
+  ""9"",
+  ""6"",
+  """",
+  ""4"",
+  ""3"",
+  ""1"",
+  ""2""
+]"
+INPUT_IBE2526_INFERRED_HOUSEHOLD_RANK,"[
+  ""8"",
+  ""5"",
+  ""7"",
+  ""9"",
+  """",
+  ""6"",
+  ""4"",
+  ""3"",
+  ""1"",
+  ""2""
+]"
+INPUT_KEPT_8663_PREM_HOME_EQ,"[
+  ""B"",
+  ""H"",
+  ""N"",
+  ""O"",
+  ""I"",
+  ""A"",
+  """",
+  ""J"",
+  ""L"",
+  ""D"",
+  ""G"",
+  ""F"",
+  ""E"",
+  ""K"",
+  ""M"",
+  ""C""
+]"
+INPUT_IBE8808_CREDIT_CARD_NEW_ISSUE,"[
+  ""B"",
+  """"
+]"
+INPUT_IBE8815_BANK_CARD_PRESENCE_IN_HOUSEHOLD,"[
+  """",
+  ""Y""
+]"
+INPUT_IBE8836_CREDIT_RANGE_OF_NEW_CREDIT,"[
+  ""0"",
+  ""5"",
+  ""7"",
+  """",
+  ""6"",
+  ""4"",
+  ""3"",
+  ""1"",
+  ""2""
+]"
+INPUT_IBE8717_INFOBASE_TRENDS_FOR_TELECOM_INTERNET_USER,"[
+  ""02"",
+  ""05"",
+  ""06"",
+  """",
+  ""04"",
+  ""01"",
+  ""03"",
+  ""07"",
+  ""08"",
+  ""09"",
+  ""10""
+]"
+INPUT_IBE8718_INFOBASE_TRENDS_FOR_TELECOM_CELLULAR_USER,"[
+  ""02"",
+  ""06"",
+  ""05"",
+  """",
+  ""01"",
+  ""04"",
+  ""03"",
+  ""07"",
+  ""08"",
+  ""09"",
+  ""10""
+]"
+INPUT_IBE8729_INFOBASE_TRENDS_FOR_TELECOM_TOP_20_LONG_DISTANCE_USER,"[
+  ""02"",
+  ""05"",
+  ""06"",
+  """",
+  ""04"",
+  ""01"",
+  ""03"",
+  ""07"",
+  ""08"",
+  ""09"",
+  ""10""
+]"
+INPUT_IBE8630_PC_OWNER,"[
+  """",
+  ""Y""
+]"
+INPUT_IBE8666_PC_OPERATING_SYSTEM,"[
+  """",
+  ""4"",
+  ""3"",
+  ""2""
+]"
+INPUT_IBE8670_PC_SOFTWARE_BUYER,"[
+  """",
+  ""Y""
+]"
+INPUT_IBE8652_GENERATIONS_IN_HOUSEHOLD,"[
+  """",
+  ""3"",
+  ""1"",
+  ""2""
+]"
+INPUT_IBE8629_HOUSEHOLD_SIZE,"[
+  ""8"",
+  ""5"",
+  ""7"",
+  ""9"",
+  """",
+  ""6"",
+  ""4"",
+  ""3"",
+  ""1"",
+  ""2""
+]"
+INPUT_IBE8816_NUMBER_OF_LINES_OF_CREDIT_TRADE_COUNTER,"[
+  ""8"",
+  ""5"",
+  ""7"",
+  ""9"",
+  """",
+  ""6"",
+  ""4"",
+  ""3"",
+  ""1"",
+  ""2""
+]"
+INPUT_IBE7467_RECENT_HOME_BUYER,"[
+  """",
+  ""Y""
+]"
+INPUT_IBE7468_RECENT_MORTGAGE_BORROWER,"[
+  """",
+  ""Y""
+]"
+INPUT_IBE7469_NEW_PARENT,"[
+  ""B"",
+  ""A"",
+  """",
+  ""C""
+]"
+INPUT_IBE7470_CHILD_NEAR_HIGH_SCHOOL_GRADUATION_IN_HH,"[
+  """",
+  ""Y""
+]"
+INPUT_IBE7471_COLLEGE_GRADUATE,"[
+  """",
+  ""Y""
+]"
+INPUT_IBE7475_VEHICLE_INTEND_TO_PURCHASE,"[
+  """",
+  ""Y""
+]"
+INPUT_IBE7476_RECENT_DIVORCE,"[
+  """",
+  ""Y""
+]"
+INPUT_IBE7477_NEWLYWED,"[
+  """",
+  ""Y""
+]"
+INPUT_HOME_MARKET_VALUE_QUALITY_INDICATOR_8851,"[
+  ""8"",
+  ""5"",
+  ""9"",
+  ""7"",
+  ""6"",
+  """",
+  ""4"",
+  ""1"",
+  ""2""
+]"
+INPUT_KEPT_8591_POOL,"[
+  """",
+  ""Y""
+]"
+INPUT_KEPT_8463_MKT_VAL_DEC,"[
+  ""02"",
+  ""06"",
+  ""05"",
+  """",
+  ""04"",
+  ""01"",
+  ""03"",
+  ""07"",
+  ""08"",
+  ""09"",
+  ""10""
+]"
+INPUT_KEPT_8555_OWN_TYP_DET,"[
+  ""O"",
+  ""H"",
+  """"
+]"
+INPUT_KEPT_8581_PROP_TYP_DET,"[
+  ""B"",
+  ""A"",
+  """",
+  ""D"",
+  ""G"",
+  ""E"",
+  ""M""
+]"
+INPUT_KEPT_8439_LOT_SIZE_RNG,"[
+  ""H"",
+  ""B"",
+  ""I"",
+  ""A"",
+  """",
+  ""D"",
+  ""E"",
+  ""F"",
+  ""G"",
+  ""C""
+]"
+INPUT_KEPT_8440_YR_BLT_RNG,"[
+  ""H"",
+  ""B"",
+  ""I"",
+  ""A"",
+  """",
+  ""J"",
+  ""D"",
+  ""E"",
+  ""G"",
+  ""F"",
+  ""K"",
+  ""C""
+]"
+INPUT_KEPT_8441_HOME_SQ_FT_RNG,"[
+  ""H"",
+  ""B"",
+  ""N"",
+  ""I"",
+  ""A"",
+  """",
+  ""J"",
+  ""D"",
+  ""L"",
+  ""G"",
+  ""F"",
+  ""E"",
+  ""K"",
+  ""M"",
+  ""C""
+]"
+INPUT_KEPT_8843_LENDER_TYPE1,"[
+  ""S"",
+  ""P"",
+  ""B"",
+  ""O"",
+  ""H"",
+  ""N"",
+  ""Z"",
+  ""I"",
+  """",
+  ""D"",
+  ""F"",
+  ""G"",
+  ""M"",
+  ""C""
+]"
+INPUT_KEPT_8844_LENDER_TYPE2,"[
+  ""S"",
+  ""B"",
+  ""O"",
+  ""H"",
+  ""N"",
+  ""Z"",
+  ""I"",
+  """",
+  ""T"",
+  ""D"",
+  ""F"",
+  ""G"",
+  ""M"",
+  ""C""
+]"
+INPUT_KEPT_8845_LENDER_TYPE3,"[
+  ""S"",
+  ""B"",
+  ""O"",
+  ""H"",
+  ""N"",
+  ""Z"",
+  ""I"",
+  """",
+  ""T"",
+  ""D"",
+  ""F"",
+  ""G"",
+  ""M"",
+  ""C""
+]"
+INPUT_KEPT_8557_ASSD_VAL_RNG,"[
+  ""P"",
+  ""B"",
+  ""H"",
+  ""O"",
+  ""N"",
+  ""I"",
+  ""A"",
+  """",
+  ""D"",
+  ""J"",
+  ""L"",
+  ""F"",
+  ""G"",
+  ""E"",
+  ""K"",
+  ""M"",
+  ""C"",
+  ""Q""
+]"
+INPUT_KEPT_8561_PUR_AMT_RNG,"[
+  ""P"",
+  ""H"",
+  ""B"",
+  ""N"",
+  ""O"",
+  ""I"",
+  ""A"",
+  """",
+  ""L"",
+  ""J"",
+  ""D"",
+  ""G"",
+  ""F"",
+  ""E"",
+  ""K"",
+  ""M"",
+  ""C"",
+  ""Q""
+]"
+INPUT_KEPT_8567_LOAN_AMT1,"[
+  ""P"",
+  ""H"",
+  ""N"",
+  ""O"",
+  ""B"",
+  ""I"",
+  ""A"",
+  """",
+  ""L"",
+  ""J"",
+  ""D"",
+  ""F"",
+  ""G"",
+  ""E"",
+  ""R"",
+  ""K"",
+  ""M"",
+  ""Q"",
+  ""C""
+]"
+INPUT_KEPT_8568_LOAN_AMT2,"[
+  ""P"",
+  ""H"",
+  ""B"",
+  ""N"",
+  ""O"",
+  ""I"",
+  ""A"",
+  """",
+  ""D"",
+  ""J"",
+  ""L"",
+  ""F"",
+  ""G"",
+  ""E"",
+  ""R"",
+  ""K"",
+  ""M"",
+  ""Q"",
+  ""C""
+]"
+INPUT_KEPT_8569_LOAN_AMT3,"[
+  ""P"",
+  ""H"",
+  ""B"",
+  ""N"",
+  ""O"",
+  ""I"",
+  ""A"",
+  """",
+  ""D"",
+  ""J"",
+  ""L"",
+  ""F"",
+  ""E"",
+  ""G"",
+  ""R"",
+  ""K"",
+  ""M"",
+  ""C"",
+  ""Q""
+]"
+INPUT_KEPT_8437_TOTAL_LOAN_RNG,"[
+  ""P"",
+  ""O"",
+  ""H"",
+  ""N"",
+  ""B"",
+  ""I"",
+  ""A"",
+  """",
+  ""J"",
+  ""L"",
+  ""D"",
+  ""G"",
+  ""F"",
+  ""R"",
+  ""E"",
+  ""K"",
+  ""M"",
+  ""C"",
+  ""Q""
+]"
+INPUT_KEPT_8570_LOAN_TYP1,"[
+  """",
+  ""F"",
+  ""R"",
+  ""V"",
+  ""C""
+]"
+INPUT_KEPT_8571_LOAN_TYP2,"[
+  """",
+  ""R"",
+  ""F"",
+  ""V"",
+  ""C""
+]"
+INPUT_KEPT_8572_INT_RATE1,"[
+  """",
+  ""F"",
+  ""G"",
+  ""V""
+]"
+INPUT_KEPT_8573_INT_RATE2,"[
+  """",
+  ""F"",
+  ""G"",
+  ""V""
+]"
+INPUT_KEPT_8574_INT_RATE3,"[
+  """",
+  ""F"",
+  ""G"",
+  ""V""
+]"
+INPUT_KEPT_8575_LOAN_TRAN1,"[
+  ""S"",
+  """",
+  ""L"",
+  ""R"",
+  ""C""
+]"
+INPUT_KEPT_8576_LOAN_TRAN2,"[
+  """",
+  ""E""
+]"
+INPUT_KEPT_8584_LTV_RNG,"[
+  ""H"",
+  ""B"",
+  ""I"",
+  ""A"",
+  """",
+  ""J"",
+  ""D"",
+  ""E"",
+  ""G"",
+  ""F"",
+  ""K"",
+  ""C""
+]"
+INPUT_IBE8587_INVESTOR_REAL_ESTATE,"[
+  ""I"",
+  """"
+]"
+INPUT_KEPT_8701_PROP_TYP,"[
+  """",
+  ""R"",
+  ""G"",
+  ""M""
+]"
+INPUT_IBE8727_INFOBASE_TRENDS_FOR_TELECOM_INTERNATIONAL_LONG_DISTANCE_USER,"[
+  ""02"",
+  ""05"",
+  ""06"",
+  """",
+  ""04"",
+  ""01"",
+  ""03"",
+  ""07"",
+  ""08"",
+  ""09"",
+  ""10""
+]"
+INPUT_IBE8728_INFOBASE_TRENDS_FOR_TELECOM_OPTIONAL_CALLING_SERVICES,"[
+  ""02"",
+  ""06"",
+  ""05"",
+  """",
+  ""01"",
+  ""04"",
+  ""03"",
+  ""07"",
+  ""09"",
+  ""08"",
+  ""10""
+]"
+INPUT_IBE2067_INVESTING_ACTIVE,"[
+  """",
+  ""1""
+]"
+INPUT_IBE2200_HEALTH_ALLERGY_RELATED,"[
+  """",
+  ""1""
+]"
+INPUT_IBE2201_HEALTH_ARTHRITIS_MOBILITY,"[
+  """",
+  ""1""
+]"
+INPUT_IBE2202_HEALTH_CHOLESTEROL_FOCUS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE2203_HEALTH_DIABETIC,"[
+  """",
+  ""1""
+]"
+INPUT_IBE2204_HEALTH_DISABLED,"[
+  """",
+  ""Y""
+]"
+INPUT_IBE2205_HEALTH_HOMEOPATHIC,"[
+  """",
+  ""1""
+]"
+INPUT_IBE2206_HEALTH_ORGANIC_FOCUS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE2207_HEALTH_ORTHOPEDIC,"[
+  """",
+  ""1""
+]"
+INPUT_IBE2208_HEALTH_SENIOR_NEEDS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE2507_BUSINESS_TRAVEL_DOMESTIC,"[
+  ""01"",
+  ""00"",
+  ""10"",
+  ""11""
+]"
+INPUT_IBE2511_TRAVEL_AIRLINE,"[
+  """",
+  ""1""
+]"
+INPUT_IBE2537_VACATION_TRAVEL_INTERNATIONAL,"[
+  ""01"",
+  ""00"",
+  ""10"",
+  ""11""
+]"
+INPUT_IBE2529_VACATION_TRAVEL_RV,"[
+  """",
+  ""1""
+]"
+INPUT_IBE2532_VACATION_TRAVEL_UNITED_STATES,"[
+  ""00"",
+  ""10""
+]"
+INPUT_IBE6136_APPAREL_MEN_S_BIG_AND_TALL,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6137_APPAREL_CHILDREN_S_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6139_APPAREL_MEN_S_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6141_APPAREL_WOMEN_S_PETITE_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6142_APPAREL_WOMEN_S_PLUS_SIZES_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE2022_APPAREL_WOMEN_S_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6150_ARTS_AND_ANTIQUES_ANTIQUES_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6151_ARTS_AND_ANTIQUES_ART_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE2025_AUTOMOTIVE_AUTO_PARTS_AND_ACCESSORIES_SC,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6199_BOOKS_AND_MAGAZINES_MAGAZINES_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6200_BOOKS_AND_MUSIC_BOOKS_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6201_BOOKS_AND_MUSIC_BOOKS_AUDIO_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6249_CHILDREN_S_APPAREL_INFANTS_AND_TODDLERS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6252_CHILDREN_S_LEARNING_AND_ACTIVITY_TOYS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6456_CHILDREN_S_PRODUCTS_GENERAL_SC,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6254_CHILDREN_S_PRODUCTS_GENERAL_BABY_CARE_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6255_CHILDREN_S_PRODUCTS_GENERAL_BACK_TO_SCHOOL_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6281_COMPUTING_HOME_OFFICE_GENERAL,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6313_DONATION_CONTRIBUTION_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6314_DVDS_VIDEOS_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6330_ELECTRONICS_AND_COMPUTING_TV_VIDEO_MOVIE_WATCHER_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6331_ELECTRONICS_COMPUTING_AND_HOME_OFFICE_SC,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6380_GARDENING_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6425_HEALTH_AND_BEAUTY,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6484_HOME_AND_GARDEN,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6518_HUNTING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE2032_JEWELRY_SC,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6537_LIFESTYLES_INTERESTS_AND_PASSIONS_COLLECTIBLES_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6538_LIFESTYLES_INTERESTS_AND_PASSIONS_CRAFTS_HOBBIES_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6555_LUGGAGE,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6556_MAGAZINES,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6579_MEMBERSHIP_CLUBS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6612_MILITARY_MEMORABILIA_WEAPONRY,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6620_MUSICAL_INSTRUMENTS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6703_OFF_ROAD_RECREATIONAL_VEHICLES,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6740_PETS_SC,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6742_PHOTOGRAPHY_AND_VIDEO_EQUIPMENT_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6793_SPORTS_AND_LEISURE_SC,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6805_TELECOMMUNICATIONS_SC,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6819_TRAVEL_C,"[
+  """",
+  ""1""
+]"
+INPUT_IBE6827_VALUE_PRICED_GENERAL_MERCHANDISE_SC,"[
+  """",
+  ""1""
+]"
+INPUT_IBE2019_YOUNG_MEN_S_APPAREL,"[
+  """",
+  ""1""
+]"
+INPUT_IBE2021_YOUNG_WOMEN_S_APPAREL,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7732_ARTS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7756_AUTO_WORK,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7755_AVIATION,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7849_BEAUTY_COSMETICS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7840_BOAT_OWNER,"[
+  """",
+  ""1""
+]"
+INPUT_IBE8326_BROADER_LIVING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7730_CAREER_IMPROVEMENT,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7841_CAREER,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7723_CELEBRITIES,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7779_CHILDREN_S_INTERESTS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7842_CHRISTIAN_FAMILIES,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7792_COLLECTIBLES_ANTIQUES,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7791_COLLECTIBLES_ARTS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7790_COLLECTIBLES_COINS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7788_COLLECTIBLES_GENERAL,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7843_COLLECTIBLES_SPORTS_MEMORABILIA,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7789_COLLECTIBLES_STAMPS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7832_COLLECTIBLES_AND_ANTIQUES_GROUPING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE8263_COLLECTOR_AVID,"[
+  """",
+  ""1""
+]"
+INPUT_IBE8321_COMMON_LIVING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7726_COMMUNITY_CHARITIES,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7739_COOKING_GENERAL,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7740_COOKING_GOURMET,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7741_COOKING_LOW_FAT,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7826_COOKING_FOOD_GROUPING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7753_CRAFTS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE8277_CULTURAL_ARTISTIC_LIVING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7724_CURRENT_AFFAIRS_POLITICS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7771_DIETING_WEIGHT_LOSS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE8272_DIY_LIVING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7844_EDUCATION_ONLINE,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7801_CONSUMER_ELECTRONICS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7829_ELECTRONICS_COMPUTERS_GROUPING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7809_ENVIRONMENTAL_ISSUES,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7752_EXERCISE_AEROBIC,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7750_EXERCISE_RUNNING_JOGGING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE8274_SPORTY_LIVING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7751_EXERCISE_WALKING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7827_EXERCISE_HEALTH_GROUPING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7720_FASHION,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7742_FOODS_VEGETARIAN,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7731_FOOD_WINES,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7743_FOODS_NATURAL,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7820_GAMING_CASINO,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7819_GAMING_LOTTERY,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7759_GAMES_BOARD_GAMES_PUZZLES,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7799_GAMES_COMPUTER_GAMES,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7766_GAMES_VIDEO_GAMES,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7817_GARDENING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7780_GRANDCHILDREN,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7770_HEALTH_MEDICAL,"[
+  """",
+  ""1""
+]"
+INPUT_IBE8279_HIGH_TECH_LIVING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7721_HISTORY_MILITARY,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7815_HOME_FURNISHINGS_DECORATING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7851_HOME_IMPROVEMENT_DO_IT_YOURSELFERS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7816_HOME_IMPROVEMENT,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7830_HOME_IMPROVEMENT_GROUPING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE8271_HOME_LIVING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7776_HOUSE_PLANTS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7831_INVESTING_FINANCE_GROUPING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7846_INVESTMENTS_FOREIGN,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7793_INVESTMENTS_PERSONAL,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7794_INVESTMENTS_REAL_ESTATE,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7795_INVESTMENTS_STOCKS_BONDS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE8236_MONEY_SEEKERS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7828_MOVIE_MUSIC_GROUPING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7764_MOVIE_COLLECTOR,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7768_MOVIES_AT_HOME,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7763_MUSIC_AVID_LISTENER,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7760_MUSIC_HOME_STEREO,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7762_MUSIC_COLLECTOR,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7761_MUSIC_PLAYER,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7847_NASCAR,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7808_BIKING_MOUNTAIN_BIKING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7805_BOATING_SAILING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7803_CAMPING_HIKING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7802_FISHING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7804_HUNTING_SHOOTING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7807_SCUBA_DIVING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7806_WATER_SPORTS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7823_OUTDOORS_GROUPING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7777_PARENTING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7814_EQUESTRIAN,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7811_GOLF,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7813_MOTORCYCLING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7812_SNOW_SKIING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7810_TENNIS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7796_COMPUTERS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7773_CAT_OWNER,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7774_DOG_OWNER,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7775_OTHER_PET_OWNER,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7754_PHOTOGRAPHY,"[
+  """",
+  ""1""
+]"
+INPUT_IBE8322_PROFESSIONAL_LIVING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7738_READING_AUDIO_BOOKS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7848_READING_FINANCIAL_NEWSLETTER_SUBSCRIBERS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7733_READING_GENERAL,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7737_READING_MAGAZINES,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7735_READING_RELIGIOUS_INSPIRATIONAL,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7736_READING_SCIENCE_FICTION,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7734_READING_BEST_SELLERS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7825_READING_GROUPING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7746_RV,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7727_RELIGIOUS_INSPIRATIONAL,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7728_SCIENCE_SPACE,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7772_SELF_IMPROVEMENT,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7757_SEWING_KNITTING_NEEDLEWORK,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7722_SMOKING_TOBACCO,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7783_SPECTATOR_SPORTS_BASEBALL,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7784_SPECTATOR_SPORTS_BASKETBALL,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7782_SPECTATOR_SPORTS_FOOTBALL,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7785_SPECTATOR_SPORTS_HOCKEY,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7781_SPECTATOR_SPORTS_AUTO_MOTORCYCLE_RACING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7786_SPECTATOR_SPORTS_SOCCER,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7787_SPECTATOR_SPORTS_TENNIS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE8257_SPECTATOR_SPORTS_TV_SPORTS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7822_SPORTS_GROUPING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7729_STRANGE_AND_UNUSUAL,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7821_SWEEPSTAKES_CONTESTS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7725_THEATER_PERFORMING_ARTS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7748_TRAVEL_CRUISE_VACATIONS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7747_TRAVEL_FAMILY_VACATIONS,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7745_TRAVEL_INTERNATIONAL,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7744_TRAVEL_DOMESTIC,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7824_TRAVEL_GROUPING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7765_TV_CABLE,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7845_TV_HDTV_SATELLITE_DISH,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7769_TV_SATELLITE_DISH,"[
+  """",
+  ""1""
+]"
+INPUT_IBE8276_UPSCALE_LIVING,"[
+  """",
+  ""1""
+]"
+INPUT_IBE8278_HIGHBROW,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7800_WIRELESS_CELLULAR_PHONE_OWNER,"[
+  """",
+  ""1""
+]"
+INPUT_IBE7758_WOODWORKING,"[
+  """",
+  ""1""
+]"
+INPUT_KEPT_7606_PREM_HO_RENT,"[
+  ""O"",
+  """",
+  ""R""
+]"
+INPUT_KEPT_7606_PREM_HO_RENT_IND,"[
+  ""A"",
+  """",
+  ""4"",
+  ""3"",
+  ""G""
+]"
+INPUT_HOME_OWNER_SOURCE_FLAG_100_3020,"[
+  ""P"",
+  ""H"",
+  """",
+  ""M"",
+  ""V""
+]"
+INPUT_IBE7609_MARITAL_STATUS_IN_THE_HOUSEHOLD_PREMIER_COMPLETE,"[
+  ""SG"",
+  ""M4"",
+  ""SA"",
+  ""A3"",
+  ""M3"",
+  ""B3"",
+  ""S3"",
+  ""MA"",
+  ""MG"",
+  ""S4""
+]"
+INPUT_IBE7650_EDUCATION_1ST_INDIVIDUAL_PREMIER_COMPLETE,"[
+  ""43"",
+  ""2G"",
+  ""24"",
+  ""1G"",
+  ""23"",
+  ""1A"",
+  ""3G"",
+  ""2A"",
+  ""34"",
+  ""3A"",
+  ""14"",
+  ""13"",
+  ""33""
+]"
+INPUT_IBE7622_CHILDREN_PRESENCE_IN_HOUSEHOLD_PREMIER_COMPLETE,"[
+  ""Y3"",
+  ""NG"",
+  ""YG"",
+  ""N3"",
+  ""N4"",
+  ""NA"",
+  ""YA""
+]"
+INPUT_COMMUNITY_INVOLVEMENT_CHARITABLE_CAUSES_2076,"[
+  ""0"",
+  ""1""
+]"
+INPUT_COMMUNITY_INVOLVEMENT_ANIMAL_WELFARE_2076,"[
+  ""0"",
+  ""1""
+]"
+INPUT_COMMUNITY_INVOLVEMENT_ART_OR_CULTURAL_2076,"[
+  ""0"",
+  ""1""
+]"
+INPUT_COMMUNITY_INVOLVEMENT_CHILDRENS_2076,"[
+  ""0"",
+  ""1""
+]"
+INPUT_COMMUNITY_INVOLVEMENT_ENVIRONMENT_OR_WILDLIFE_2076,"[
+  ""0"",
+  ""1""
+]"
+INPUT_COMMUNITY_INVOLVEMENT_HEALTH_2076,"[
+  ""0"",
+  ""1""
+]"
+INPUT_COMMUNITY_INVOLVEMENT_INTERNATIONAL_AID_2076,"[
+  ""0"",
+  ""1""
+]"
+INPUT_COMMUNITY_INVOLVEMENT_POLITICAL_2076,"[
+  ""0"",
+  ""1""
+]"
+INPUT_COMMUNITY_INVOLVEMENT_POLITICAL_CONSERVATIVE_2076,"[
+  ""0"",
+  ""1""
+]"
+INPUT_COMMUNITY_INVOLVEMENT_POLITICAL_LIBERAL_2076,"[
+  ""0"",
+  ""1""
+]"
+INPUT_COMMUNITY_INVOLVEMENT_RELIGIOUS_2076,"[
+  ""0"",
+  ""1""
+]"
+INPUT_COMMUNITY_INVOLVEMENT_VETERANS_2076,"[
+  ""0"",
+  ""1""
+]"
+INPUT_COMMUNITY_INVOLVEMENT_OTHER_2076,"[
+  ""0"",
+  ""1""
+]"
+INPUT_VACATION_TRAVEL_CASINO_HAVE_TAKEN_2523,"[
+  ""0"",
+  ""1""
+]"
+INPUT_VACATION_TRAVEL_CASINO_WOULD_ENJOY_2523,"[
+  ""0"",
+  ""1""
+]"
+INPUT_TRAVEL_VACATION_TYPE_CRUISE_HAVE_TAKEN_2524,"[
+  ""0"",
+  ""1""
+]"
+INPUT_TRAVEL_VACATION_TYPE_CRUISE_WOULD_ENJOY_2524,"[
+  ""0"",
+  ""1""
+]"
+INPUT_PURCHASED_IN_JAN_RNG_2864,"[
+  ""B"",
+  ""H"",
+  ""I"",
+  ""A"",
+  """",
+  ""D"",
+  ""J"",
+  ""G"",
+  ""F"",
+  ""E"",
+  ""K"",
+  ""C""
+]"
+INPUT_PURCHASED_IN_FEB_RNG_2863,"[
+  ""H"",
+  ""B"",
+  ""I"",
+  ""A"",
+  """",
+  ""D"",
+  ""J"",
+  ""E"",
+  ""G"",
+  ""F"",
+  ""K"",
+  ""C""
+]"
+INPUT_PURCHASED_IN_MAR_RNG_2867,"[
+  ""H"",
+  ""B"",
+  ""I"",
+  ""A"",
+  """",
+  ""J"",
+  ""D"",
+  ""E"",
+  ""F"",
+  ""G"",
+  ""K"",
+  ""C""
+]"
+INPUT_PURCHASED_IN_APR_RNG_2860,"[
+  ""B"",
+  ""H"",
+  ""I"",
+  ""A"",
+  """",
+  ""D"",
+  ""J"",
+  ""E"",
+  ""F"",
+  ""G"",
+  ""K"",
+  ""C""
+]"
+INPUT_PURCHASED_IN_MAY_RNG_2868,"[
+  ""B"",
+  ""H"",
+  ""I"",
+  ""A"",
+  """",
+  ""D"",
+  ""J"",
+  ""E"",
+  ""G"",
+  ""F"",
+  ""K"",
+  ""C""
+]"
+INPUT_PURCHASED_IN_JUN_RNG_2866,"[
+  ""B"",
+  ""H"",
+  ""I"",
+  ""A"",
+  """",
+  ""D"",
+  ""J"",
+  ""G"",
+  ""E"",
+  ""F"",
+  ""K"",
+  ""C""
+]"
+INPUT_PURCHASED_IN_JUL_RNG_2865,"[
+  ""B"",
+  ""H"",
+  ""I"",
+  ""A"",
+  """",
+  ""D"",
+  ""J"",
+  ""E"",
+  ""F"",
+  ""G"",
+  ""K"",
+  ""C""
+]"
+INPUT_PURCHASED_IN_AUG_RNG_2861,"[
+  ""B"",
+  ""H"",
+  ""I"",
+  ""A"",
+  """",
+  ""D"",
+  ""J"",
+  ""E"",
+  ""F"",
+  ""G"",
+  ""K"",
+  ""C""
+]"
+INPUT_PURCHASED_IN_SEP_RNG_2871,"[
+  ""B"",
+  ""H"",
+  ""I"",
+  ""A"",
+  """",
+  ""D"",
+  ""J"",
+  ""F"",
+  ""G"",
+  ""E"",
+  ""K"",
+  ""C""
+]"
+INPUT_PURCHASED_IN_OCT_RNG_2870,"[
+  ""H"",
+  ""B"",
+  ""I"",
+  ""A"",
+  """",
+  ""D"",
+  ""J"",
+  ""F"",
+  ""E"",
+  ""G"",
+  ""K"",
+  ""C""
+]"
+INPUT_PURCHASED_IN_NOV_RNG_2869,"[
+  ""H"",
+  ""B"",
+  ""I"",
+  ""A"",
+  """",
+  ""D"",
+  ""J"",
+  ""F"",
+  ""G"",
+  ""E"",
+  ""K"",
+  ""C""
+]"
+INPUT_PURCHASED_IN_DEC_RNG_2862,"[
+  ""H"",
+  ""B"",
+  ""I"",
+  ""A"",
+  """",
+  ""D"",
+  ""J"",
+  ""F"",
+  ""G"",
+  ""E"",
+  ""K"",
+  ""C""
+]"
+INPUT_OFFLINE_AVERAGE_AMOUNT_PER_ORDER_RNG_2872,"[
+  ""B"",
+  ""H"",
+  ""I"",
+  ""A"",
+  """",
+  ""D"",
+  ""J"",
+  ""G"",
+  ""F"",
+  ""E"",
+  ""K"",
+  ""C""
+]"
+INPUT_OFFLINE_DOLLARS_RNG_2873,"[
+  ""B"",
+  ""H"",
+  ""I"",
+  ""A"",
+  """",
+  ""D"",
+  ""J"",
+  ""E"",
+  ""G"",
+  ""F"",
+  ""K"",
+  ""C""
+]"
+INPUT_ONLINE_AVERAGE_AMOUNT_PER_ORDER_RNG_2882,"[
+  ""B"",
+  ""H"",
+  ""I"",
+  ""A"",
+  """",
+  ""D"",
+  ""J"",
+  ""G"",
+  ""F"",
+  ""E"",
+  ""K"",
+  ""C""
+]"
+INPUT_ONLINE_DOLLARS_RNG_2883,"[
+  ""B"",
+  ""H"",
+  ""I"",
+  ""A"",
+  """",
+  ""D"",
+  ""J"",
+  ""F"",
+  ""G"",
+  ""E"",
+  ""K"",
+  ""C""
+]"
+INPUT_RETAIL_PURCHASES_MOST_FREQUENT_CATEGORY_9154,"[
+  ""C1"",
+  ""B1"",
+  ""A1"",
+  ""B7"",
+  ""A5"",
+  ""D1"",
+  ""A3"",
+  ""B6"",
+  """",
+  ""F1"",
+  ""A4"",
+  ""B3"",
+  ""B2"",
+  ""G1"",
+  ""E1"",
+  ""B4"",
+  ""H3""
+]"
+INPUT_CASINO_GAMBLING_PROPENSITY_SCORE_2777,"[
+  ""02"",
+  ""06"",
+  ""05"",
+  """",
+  ""04"",
+  ""01"",
+  ""03"",
+  ""07"",
+  ""08"",
+  ""09"",
+  ""10""
+]"
+INPUT_BUYING_CHANNEL_PREFERENCE_PROPENSITY_SCORE_INTERNET_2779,"[
+  ""02"",
+  ""05"",
+  ""06"",
+  """",
+  ""04"",
+  ""01"",
+  ""03"",
+  ""07"",
+  ""08"",
+  ""09"",
+  ""10""
+]"
+INPUT_BUYING_CHANNEL_PREFERENCE_PROPENSITY_SCORE_MAIL_2780,"[
+  ""02"",
+  ""05"",
+  ""06"",
+  """",
+  ""04"",
+  ""01"",
+  ""03"",
+  ""07"",
+  ""08"",
+  ""09"",
+  ""10""
+]"
+INPUT_BUYING_CHANNEL_PREFERENCE_PROPENSITY_SCORE_PHONE_2781,"[
+  ""02"",
+  ""06"",
+  ""05"",
+  """",
+  ""04"",
+  ""01"",
+  ""03"",
+  ""07"",
+  ""09"",
+  ""08"",
+  ""10""
+]"
+INPUT_BRAND_NAME_MEDICINE_PROPENSITY_SCORE_2778,"[
+  ""02"",
+  ""06"",
+  ""05"",
+  """",
+  ""04"",
+  ""01"",
+  ""03"",
+  ""07"",
+  ""08"",
+  ""09"",
+  ""10""
+]"
+INPUT_GREEN_LIVING_2776,"[
+  """",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_02_MALE_NEW_8601,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_02_FEMALE_NEW_8601,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_02_UNKNOWN_GENDER_NEW_8601,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_35_MALE_NEW_8601,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_35_FEMALE_NEW_8601,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_35_UNKNOWN_GENDER_NEW_8601,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_610_MALE_NEW_8601,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_610_FEMALE_NEW_8601,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_610_UNKNOWN_GENDER_NEW_8601,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_1115_MALE_NEW_8601,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_1115_FEMALE_NEW_8601,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_1115_UNKNOWN_GENDER_NEW_8601,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_1617_MALE_NEW_8601,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_1617_FEMALE_NEW_8601,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_1617_UNKNOWN_GENDER_NEW_8601,"[
+  ""0"",
+  ""1""
+]"
+INPUT_PRESENCE_OF_CHILDREN_NEW_8622,"[
+  ""N"",
+  """",
+  ""Y""
+]"
+INPUT_NUMBER_OF_CHILDREN_NEW_8602,"[
+  ""0"",
+  ""8"",
+  ""5"",
+  ""7"",
+  """",
+  ""6"",
+  ""4"",
+  ""3"",
+  ""1"",
+  ""2""
+]"
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_UNDER1_NEW_8603,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_1_NEW_8603,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_2_NEW_8603,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_3_NEW_8603,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_4_NEW_8603,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_5_NEW_8603,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_6_NEW_8603,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_7_NEW_8603,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_8_NEW_8603,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_9_NEW_8603,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_10_NEW_8603,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_11_NEW_8603,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_12_NEW_8603,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_13_NEW_8603,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_14_NEW_8603,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_15_NEW_8603,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_16_NEW_8603,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_17_NEW_8603,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_18_NEW_8603,"[
+  ""0""
+]"
+INPUT_INSURANCE_RENEWS_IN_JANUARY_9588,"[
+  ""0"",
+  ""1""
+]"
+INPUT_INSURANCE_RENEWS_IN_FEBRUARY_9588,"[
+  ""0"",
+  ""1""
+]"
+INPUT_INSURANCE_RENEWS_IN_MARCH_9588,"[
+  ""0"",
+  ""1""
+]"
+INPUT_INSURANCE_RENEWS_IN_APRIL_9588,"[
+  ""0"",
+  ""1""
+]"
+INPUT_INSURANCE_RENEWS_IN_MAY_9588,"[
+  ""0"",
+  ""1""
+]"
+INPUT_INSURANCE_RENEWS_IN_JUNE_9588,"[
+  ""0"",
+  ""1""
+]"
+INPUT_INSURANCE_RENEWS_IN_JULY_9588,"[
+  ""0"",
+  ""1""
+]"
+INPUT_INSURANCE_RENEWS_IN_AUGUST_9588,"[
+  ""0"",
+  ""1""
+]"
+INPUT_INSURANCE_RENEWS_IN_SEPTEMBER_9588,"[
+  ""0"",
+  ""1""
+]"
+INPUT_INSURANCE_RENEWS_IN_OCTOBER_9588,"[
+  ""0"",
+  ""1""
+]"
+INPUT_INSURANCE_RENEWS_IN_NOVEMBER_9588,"[
+  ""0"",
+  ""1""
+]"
+INPUT_INSURANCE_RENEWS_IN_DECEMBER_9588,"[
+  ""0"",
+  ""1""
+]"
+INPUT_CRUISE_VACATIONS_PROPENSITY_MODEL_2897,"[
+  ""02"",
+  ""05"",
+  ""06"",
+  """",
+  ""04"",
+  ""01"",
+  ""03"",
+  ""07"",
+  ""08"",
+  ""09"",
+  ""10""
+]"
+INPUT_MAIL_ORDER_PRESCRIPTION_PROPENSITY_SCORE_3446,"[
+  ""02"",
+  ""05"",
+  ""06"",
+  """",
+  ""04"",
+  ""01"",
+  ""03"",
+  ""07"",
+  ""08"",
+  ""09"",
+  ""10""
+]"
+INPUT_AILMENT_RX_ONLINE_SEARCH_PROPENSITY_3447,"[
+  ""02"",
+  ""05"",
+  ""06"",
+  """",
+  ""04"",
+  ""01"",
+  ""03"",
+  ""07"",
+  ""08"",
+  ""09"",
+  ""10""
+]"
+INPUT_ADVERTISED_MEDICINE_INQUIRERS_PROPENSITY_SCORE_3448,"[
+  ""02"",
+  ""06"",
+  ""05"",
+  """",
+  ""01"",
+  ""04"",
+  ""03"",
+  ""07"",
+  ""09"",
+  ""08"",
+  ""10""
+]"
+INPUT_MEDIA_CHANNEL_USAGE_INTERNET_3587,"[
+  ""02"",
+  ""06"",
+  ""05"",
+  """",
+  ""04"",
+  ""01"",
+  ""03"",
+  ""07"",
+  ""09"",
+  ""08"",
+  ""10""
+]"
+INPUT_MEDIA_CHANNEL_USAGE_CELL_PHONE_3588,"[
+  ""02"",
+  ""05"",
+  ""06"",
+  """",
+  ""04"",
+  ""01"",
+  ""03"",
+  ""07"",
+  ""09"",
+  ""08"",
+  ""10""
+]"
+INPUT_MEDIA_CHANNEL_USAGE_PRIMETIME_TV_3589,"[
+  ""02"",
+  ""05"",
+  ""06"",
+  """",
+  ""04"",
+  ""01"",
+  ""03"",
+  ""07"",
+  ""08"",
+  ""09"",
+  ""10""
+]"
+INPUT_MEDIA_CHANNEL_USAGE_OUTDOOR_3591,"[
+  ""02"",
+  ""06"",
+  ""05"",
+  """",
+  ""04"",
+  ""01"",
+  ""03"",
+  ""07"",
+  ""08"",
+  ""09"",
+  ""10""
+]"
+INPUT_MEDIA_CHANNEL_USAGE_RADIO_3593,"[
+  ""02"",
+  ""05"",
+  ""06"",
+  """",
+  ""04"",
+  ""01"",
+  ""03"",
+  ""07"",
+  ""08"",
+  ""09"",
+  ""10""
+]"
+INPUT_MEDIA_CHANNEL_USAGE_MAGAZINE_3594,"[
+  ""02"",
+  ""06"",
+  ""05"",
+  """",
+  ""01"",
+  ""04"",
+  ""03"",
+  ""07"",
+  ""09"",
+  ""08"",
+  ""10""
+]"
+INPUT_MEDIA_CHANNEL_USAGE_NEWSPAPER_3595,"[
+  ""02"",
+  ""06"",
+  ""05"",
+  """",
+  ""01"",
+  ""04"",
+  ""03"",
+  ""07"",
+  ""09"",
+  ""08"",
+  ""10""
+]"
+INPUT_RACE_CODE_LOW_DETAIL_3101,"[
+  ""B"",
+  ""H"",
+  ""A"",
+  """",
+  ""W""
+]"
+INPUT_HISPANIC_LANGUAGE_PREFERENCE_3103,"[
+  ""S"",
+  ""X"",
+  ""B"",
+  """",
+  ""E""
+]"
