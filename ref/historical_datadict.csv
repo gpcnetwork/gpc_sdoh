@@ -1,0 +1,529 @@
+COLUMN_NAME,ATTR_ID,DESCRIPTION
+INPUT_CENSUS_BLOCK_CODE_1003,1003,#N/A
+INPUT_IBE1273_POPULATION_DENSITY_REFRESH,1273,#N/A
+INPUT_IBE2019_YOUNG_MEN_S_APPAREL,2019,"A purchase of Young Men's Apparel has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_IBE2021_YOUNG_WOMEN_S_APPAREL,2021,"A purchase of Young Women's Apparel has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_IBE2022_APPAREL_WOMEN_S_C,2022,"A purchase of Women's Apparel has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following categorical Apparel purchases are rolled into this Buying Activity Category (C):   2021 Young Women's Apparel   6898 Women's Petite Sizes   6899 Women's Petite - Business/Business Casual   2000 Women's Petite - Casual   2003 Women's Petite - Outerwear   2004 Women's Petite - Underwear & Hosiery   2002 Women's Petite - Loungewear/Sleepwear   2001 Women's Petite - Eveningwear   2005 Women's Plus Sizes   2008 Women's Plus Sizes - Business/Business Casual   2009 Women's Plus Sizes - Casual   2014 Women's Plus Sizes - Outerwear   2016 Women's Plus Sizes - Underwear & Hosiery   2015 Women's Plus Sizes - Swimwear   2012 Women's Plus Sizes - Loungewear/Sleepwear   2010 Women's Plus Sizes - Eveningwear   2006 Women's Plus Sizes - Accessories   2007 Women's Plus Sizes - Activewear   2011 Women's Plus Sizes - Footwear   2017 Women's Plus Sizes - Uniforms/Workwear   2013 Women's Plus Sizes - Maternity   6880 Women's Apparel   6881 Women's Apparel - Accessories   6882 Women's Apparel - Activewear   6884 Women's Apparel - Business/Business Casual   6885 Women's Apparel - Casual   6887 Women's Apparel - Footwear   6892 Women's Apparel - Maternity   6893 Women's Apparel - Outerwear   6895 Women's Apparel - Underwear & Hosiery   6894 Women's Apparel - Swimwear   6891 Women's Apparel - Loungewear/Sleepwear   6889 Women's Apparel - Hats   6886 Women's Apparel - Eveningwear   6896 Women's Apparel - Uniforms/Workwear   6890 Women's Apparel - Lingerie   6888 Women's Apparel - Handbags   6897 Women's Apparel - Fur"
+INPUT_IBE2025_AUTOMOTIVE_AUTO_PARTS_AND_ACCESSORIES_SC,2025,"A purchase of Automotive, Auto Parts & Accessories has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. All categorical purchases are rolled into this Buying Activity Super Category (SC):   6154 Automotive   6156 Automotive Accessories/Parts   6155 Automotive Accessories   6157 Automotive Parts/Supplies   6244 Car Purchase   6615 Motorcycles   6824 Trucks"
+INPUT_IBE2032_JEWELRY_SC,2032,"A purchase of Jewelry has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. All categorical purchases are rolled into this Buying Activity Super Category (SC):   6522 Jewelry   6523 Jewelry - Costume   6524 Jewelry - Estate/Antique/Reproduction   6354 Fine Jewelry   6525 Jewelry - Gem Stones   6526 Jewelry - Hand Crafted/Cultural   6839 Watches   6529 Key Chains/Money Clips   6527 Jewelry - Religious   6847 Whimsical Jewelry   6798 Sterling Silver Jewelry"
+INPUT_IBE2058_CREDIT_CARD_USE_AMERICAN_EXPRESS,2058,#N/A
+INPUT_IBE2059_CREDIT_CARD_USE_DISCOVER,2059,#N/A
+INPUT_IBE2060_CREDIT_CARD_USE_GASOLINE_OR_RETAIL_CARD,2060,#N/A
+INPUT_IBE2061_CREDIT_CARD_USE_MASTERCARD,2061,#N/A
+INPUT_IBE2062_CREDIT_CARD_USE_VISA,2062,#N/A
+INPUT_IBE2067_INVESTING_ACTIVE,2067,#N/A
+INPUT_COMMUNITY_INVOLVEMENT_ENVIRONMENT_OR_WILDLIFE_2076,2076,#N/A
+INPUT_COMMUNITY_INVOLVEMENT_CHILDRENS_2076,2076,#N/A
+INPUT_COMMUNITY_INVOLVEMENT_OTHER_2076,2076,#N/A
+INPUT_COMMUNITY_INVOLVEMENT_HEALTH_2076,2076,#N/A
+INPUT_COMMUNITY_INVOLVEMENT_VETERANS_2076,2076,#N/A
+INPUT_COMMUNITY_INVOLVEMENT_POLITICAL_LIBERAL_2076,2076,#N/A
+INPUT_COMMUNITY_INVOLVEMENT_ART_OR_CULTURAL_2076,2076,#N/A
+INPUT_COMMUNITY_INVOLVEMENT_ANIMAL_WELFARE_2076,2076,#N/A
+INPUT_COMMUNITY_INVOLVEMENT_POLITICAL_CONSERVATIVE_2076,2076,#N/A
+INPUT_COMMUNITY_INVOLVEMENT_CHARITABLE_CAUSES_2076,2076,#N/A
+INPUT_COMMUNITY_INVOLVEMENT_POLITICAL_2076,2076,#N/A
+INPUT_COMMUNITY_INVOLVEMENT_INTERNATIONAL_AID_2076,2076,#N/A
+INPUT_COMMUNITY_INVOLVEMENT_RELIGIOUS_2076,2076,#N/A
+INPUT_IBE2200_HEALTH_ALLERGY_RELATED,2200,#N/A
+INPUT_IBE2201_HEALTH_ARTHRITIS_MOBILITY,2201,#N/A
+INPUT_IBE2202_HEALTH_CHOLESTEROL_FOCUS,2202,#N/A
+INPUT_IBE2203_HEALTH_DIABETIC,2203,#N/A
+INPUT_IBE2204_HEALTH_DISABLED,2204,#N/A
+INPUT_IBE2205_HEALTH_HOMEOPATHIC,2205,#N/A
+INPUT_IBE2206_HEALTH_ORGANIC_FOCUS,2206,#N/A
+INPUT_IBE2207_HEALTH_ORTHOPEDIC,2207,#N/A
+INPUT_IBE2208_HEALTH_SENIOR_NEEDS,2208,#N/A
+INPUT_IBE2300_PC_INTERNET_CONNECTION_TYPE,2300,#N/A
+INPUT_IBE2350_BUSINESS_OWNER,2350,#N/A
+INPUT_IBE2351_SINGLE_PARENT,2351,#N/A
+INPUT_IBE2354_LIFE_INSURANCE_POLICY_OWNER,2354,Indicates that someone in the household owns a life insurance policy.
+INPUT_IBE2356_VETERAN,2356,#N/A
+INPUT_IBE2360_OCCUPATION_DETAIL_INPUT_INDIVIDUAL,2360,#N/A
+INPUT_IBE2403_CONGRESSIONAL_DISTRICT,2403,#N/A
+INPUT_IBE2507_BUSINESS_TRAVEL_DOMESTIC,2507,#N/A
+INPUT_IBE2511_TRAVEL_AIRLINE,2511,#N/A
+INPUT_VACATION_TRAVEL_CASINO_HAVE_TAKEN_2523,2523,#N/A
+INPUT_VACATION_TRAVEL_CASINO_WOULD_ENJOY_2523,2523,#N/A
+INPUT_TRAVEL_VACATION_TYPE_CRUISE_HAVE_TAKEN_2524,2524,#N/A
+INPUT_TRAVEL_VACATION_TYPE_CRUISE_WOULD_ENJOY_2524,2524,#N/A
+INPUT_IBE2526_INFERRED_HOUSEHOLD_RANK,2526,#N/A
+INPUT_IBE2529_VACATION_TRAVEL_RV,2529,#N/A
+INPUT_IBE2532_VACATION_TRAVEL_UNITED_STATES,2532,#N/A
+INPUT_IBE2537_VACATION_TRAVEL_INTERNATIONAL,2537,#N/A
+INPUT_GREEN_LIVING_2776,2776,#N/A
+INPUT_CASINO_GAMBLING_PROPENSITY_SCORE_2777,2777,#N/A
+INPUT_BRAND_NAME_MEDICINE_PROPENSITY_SCORE_2778,2778,#N/A
+INPUT_BUYING_CHANNEL_PREFERENCE_PROPENSITY_SCORE_INTERNET_2779,2779,#N/A
+INPUT_BUYING_CHANNEL_PREFERENCE_PROPENSITY_SCORE_MAIL_2780,2780,#N/A
+INPUT_BUYING_CHANNEL_PREFERENCE_PROPENSITY_SCORE_PHONE_2781,2781,#N/A
+INPUT_PURCHASED_IN_APR_RNG_2860,2860,"Indicates the total dollars purchased in the month of April within the last 4 years in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_PURCHASED_IN_AUG_RNG_2861,2861,"Indicates the total dollars purchased in the month of August within the last 4 years in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_PURCHASED_IN_DEC_RNG_2862,2862,"Indicates the total dollars purchased in the month of December within the last 4 years in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_PURCHASED_IN_FEB_RNG_2863,2863,"Indicates the total dollars purchased in the month of February within the last 4 years in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_PURCHASED_IN_JAN_RNG_2864,2864,"Indicates the total dollars purchased in the month of January within the last 4 years in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_PURCHASED_IN_JUL_RNG_2865,2865,"Indicates the total dollars purchased in the month of July within the last 4 years in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_PURCHASED_IN_JUN_RNG_2866,2866,"Indicates the total dollars purchased in the month of June within the last 4 years in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_PURCHASED_IN_MAR_RNG_2867,2867,"Indicates the total dollars purchased in the month of March within the last 4 years in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_PURCHASED_IN_MAY_RNG_2868,2868,"Indicates the total dollars purchased in the month of May within the last 4 years in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_PURCHASED_IN_NOV_RNG_2869,2869,"Indicates the total dollars purchased in the month of November within the last 4 years in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_PURCHASED_IN_OCT_RNG_2870,2870,"Indicates the total dollars purchased in the month of October within the last 4 years in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_PURCHASED_IN_SEP_RNG_2871,2871,"Indicates the total dollars purchased in the month of September within the last 4 years in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_OFFLINE_AVERAGE_AMOUNT_PER_ORDER_RNG_2872,2872,This indicates the average dollar amount per offline order in the last 24 months. The following elements are not actual transactions. This data has been rolled up into categories removing all transaction level data including SKUs.
+INPUT_OFFLINE_DOLLARS_RNG_2873,2873,Indicates the number of Offline Orders in the last 24 months. The following elements are not actual transactions. This data has been rolled up into categories removing all transaction level data including SKUs.
+INPUT_OFFLINE_ORDERS_RNG_2874,2874,Indicates the number of Offline Orders in the last 24 months. The following elements are not actual transactions. This data has been rolled up into categories removing all transaction level data including SKUs.
+INPUT_OFFLINE_ORDERS_1000PLUS_RANGE_2875,2875,"Offline purchases have been made within the $1,000+ Range in the past 24 months. This is an indication of how many purchases in that price range have been made."
+INPUT_OFFLINE_ORDERS_100_24999_RANGE_2876,2876,Offline purchases have been made within the $100 - $249.99 Range in the past 24 months. This is an indication of how many purchases in that price range have been made.
+INPUT_OFFLINE_ORDERS_250_49999_RANGE_2877,2877,Offline purchases have been made within the $250 - $499.99 Range in the past 24 months. This is an indication of how many purchases in that price range have been made.
+INPUT_OFFLINE_ORDERS_50_9999_RANGE_2878,2878,Offline purchases have been made within the $50 - $99.99 Range in the past 24 months. This is an indication of how many purchases in that price range have been made.
+INPUT_OFFLINE_ORDERS_500_99999_RANGE_2879,2879,Offline purchases have been made within the $500 - $999.99 Range in the past 24 months. This is an indication of how many purchases in that price range have been made.
+INPUT_OFFLINE_ORDERS_UNDER_50_RANGE_2880,2880,Offline purchases have been made within the Under $50 Range in the past 24 months. This is an indication of how many purchases in that price range have been made.
+INPUT_ONLINE_ORDERS_RNG_2881,2881,Indicates the number of Online orders made by the household in the last 24 months. The following elements are not actual transactions. This data has been rolled up into categories removing all transaction level data including SKUs.
+INPUT_ONLINE_AVERAGE_AMOUNT_PER_ORDER_RNG_2882,2882,Indicates the Average dollar amount spent per online order for a household over the past 48 months.
+INPUT_ONLINE_DOLLARS_RNG_2883,2883,Indicates the number of Online dollars spent in the last 24 months. The following elements are not actual transactions. This data has been rolled up into categories removing all transaction level data including SKUs.
+INPUT_ONLINE_ORDERS_1000PLUS_RANGE_2884,2884,"Online purchases have been made within the $1,000+ Range in the past 24 months. This is an indication of how many purchases in that price range have been made."
+INPUT_ONLINE_ORDERS_100_24999_RANGE_2885,2885,Online purchases have been made within the $100 - $249.99 Range in the past 24 months. This is an indication of how many purchases in that price range have been made.
+INPUT_ONLINE_ORDERS_250_49999_RANGE_2886,2886,Online purchases have been made within the $250 - $499.99 Range in the past 24 months. This is an indication of how many purchases in that price range have been made.
+INPUT_ONLINE_ORDERS_50_9999_RANGE_2887,2887,Online purchases have been made within the $50 - $99.99 Range in the past 24 months. This is an indication of how many purchases in that price range have been made.
+INPUT_ONLINE_ORDERS_500_99999_RANGE_2888,2888,Online purchases have been made within the $500 - $999.99 Range in the past 24 months. This is an indication of how many purchases in that price range have been made.
+INPUT_ONLINE_ORDERS_UNDER_50_RANGE_2889,2889,Online purchases have been made within the Under $50 Range in the past 24 months. This is an indication of how many purchases in that price range have been made.
+INPUT_NUMBER_OF_ORDERS_UPSCALE_CATALOGS_RNG_2890,2890,"Indicates the Number of Orders purchased from Upscale Catalogs within the last 4 years in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. Upscale = Designer Brands, Exclusive, Luxury, etc. Examples are Lafayette 148 and AlexandAlexa"
+INPUT_NUMBER_OF_ORDERS_LOW_SCALE_CATALOGS_RNG_2891,2891,"Indicates the Number of Orders purchased from Low Scale Catalogs within the last 4 years in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. Low Scale = Value Priced, Lowest Marketing Effort, etc. Examples are Carol Wright and Blair."
+INPUT_NUMBER_OF_ORDERS_MID_SCALE_CATALOGS_RNG_2892,2892,"Indicates the Number of Orders purchased from Mid Scale Catalogs within the last 4 years in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. Mid Scale = Decent Quality, Trendy, etc. Examples are JCPenney and Fashion Bug."
+INPUT_CRUISE_VACATIONS_PROPENSITY_MODEL_2897,2897,#N/A
+INPUT_ADDRESS_TYPE_INDICATOR_3001,3001,#N/A
+INPUT_ADDRESS_LINE_3002,3002,#N/A
+INPUT_CENSUS_BLOCK_GROUP_3004,3004,#N/A
+INPUT_CBSA_CODE_3005,3005,#N/A
+INPUT_CENSUS_TRACT_CODE_3006,3006,#N/A
+INPUT_FIPS_COUNTY_CODE_3007,3007,#N/A
+INPUT_CARRIER_ROUTE_CODE_3009,3009,#N/A
+INPUT_DMA_CODE_3010,3010,#N/A
+INPUT_FILE_DATE_3015,3015,#N/A
+INPUT_FIPS_STATE_CODE_3016,3016,#N/A
+INPUT_GENDER_CODE_3017,3017,#N/A
+INPUT_GEO_MATCH_LEVEL_CODE_3018,3018,#N/A
+INPUT_HOME_OWNER_SOURCE_FLAG_3019,3019,#N/A
+INPUT_HOME_OWNER_SOURCE_FLAG_100_3020,3020,#N/A
+INPUT_LATITUDE_3021,3021,#N/A
+INPUT_LONGITUDE_3022,3022,#N/A
+INPUT_FIPS_MCD_CODE_3023,3023,#N/A
+INPUT_CENSUS_MEDIAN_HOME_VALUE_3024,3024,#N/A
+INPUT_CENSUS_MEDIAN_HOUSEHOLD_INCOME_3025,3025,#N/A
+INPUT_NUMBER_OF_SOURCES_NAME_ADDRESS_3027,3027,#N/A
+INPUT_NEILSON_CODE_3028,3028,#N/A
+INPUT_PRESENCE_OF_PHONE_FLAG_3031,3031,#N/A
+INPUT_PHONE_3032,3032,#N/A
+INPUT_DSF_DELIVERABILITY_INDICATOR_3037,3037,#N/A
+INPUT_STATE_3038,3038,#N/A
+INPUT_CITY_3040,3040,#N/A
+INPUT_TIME_ZONE_3041,3041,#N/A
+INPUT_ZIP_CODE_3043,3043,#N/A
+INPUT_ZIP4_CODE_3044,3044,#N/A
+INPUT_ZIP4_RECORD_TYPE_3045,3045,#N/A
+INPUT_USE_CODE_3048,3048,#N/A
+INPUT_VACANT_3049,3049,#N/A
+INPUT_RACE_CODE_LOW_DETAIL_3101,3101,#N/A
+INPUT_COUNTRY_OF_ORIGIN_HIGH_DETAIL_3102,3102,#N/A
+INPUT_HISPANIC_LANGUAGE_PREFERENCE_3103,3103,#N/A
+INPUT_LAST_NAME_3131,3131,#N/A
+INPUT_MIDDLE_INITIAL_3131,3131,#N/A
+INPUT_FIRST_NAME_3131,3131,#N/A
+INPUT_STREET_DIRECTIONAL_3133,3133,#N/A
+INPUT_STREET_NAME_SUFFIX_POST_DIRECTIONAL_3133,3133,#N/A
+INPUT_STREET_NUMBER_LEFTJUSTIFIED_3133,3133,#N/A
+INPUT_MAIL_ORDER_PRESCRIPTION_PROPENSITY_SCORE_3446,3446,#N/A
+INPUT_AILMENT_RX_ONLINE_SEARCH_PROPENSITY_3447,3447,#N/A
+INPUT_ADVERTISED_MEDICINE_INQUIRERS_PROPENSITY_SCORE_3448,3448,#N/A
+INPUT_MEDIA_CHANNEL_USAGE_INTERNET_3587,3587,#N/A
+INPUT_MEDIA_CHANNEL_USAGE_CELL_PHONE_3588,3588,#N/A
+INPUT_MEDIA_CHANNEL_USAGE_PRIMETIME_TV_3589,3589,#N/A
+INPUT_MEDIA_CHANNEL_USAGE_OUTDOOR_3591,3591,#N/A
+INPUT_MEDIA_CHANNEL_USAGE_RADIO_3593,3593,#N/A
+INPUT_MEDIA_CHANNEL_USAGE_MAGAZINE_3594,3594,#N/A
+INPUT_MEDIA_CHANNEL_USAGE_NEWSPAPER_3595,3595,#N/A
+INPUT_ADDRESS_LINE2_4111,4111,"Socioeconomic Status (SES) is a blend of income, education, occupation and housing characteristics. SES helps identify consumer purchasing power and preferences. Households are grouped into common segments as an A-E index by block group. ""A"" is the highest level of socioeconomic status while ""E"" is the lowest level. SES A: Households with over $85,000 annual household income, 4 year college degree or graduate degree, owned housing, and employed in professional occupations. SES B: Households generally between $50,000 and $120,000 annual household income, some college or higher education, owned housing, professional or skilled occupation. SES C: Households usually between $30,000 and $75,000 annual household income, high school graduate to some college, and employed as skilled labor or service worker. SES D: Households typically between $15,000 and $35,000 annual household income, high school or lower education, rented housing, employed as service or labor worker. SES E: Households most often below $20,000 annual household income; less than high school education; rented housing, labor or service worker or unemployed. Note: Tract and ZIP Code values are based on the block groups located within these larger geographies."
+INPUT_COMPANY_ID_4116,4116,"Helps identify the areas with population born outside of the US. This is a percentile ranking from 1 to 100, where ""1"" indicates no foreign born population (most acculturated) and ""100"" are the geographies with the highest percent concentration of foreign born population (least acculturated). Areas with no population or not applicable are indicated with ""0""."
+INPUT_INDIVIDUAL_ID_4117,4117,"Helps identify households and individuals who speak a foreign language. Blend of language-use demographics are factored into percentile ranking of geographic areas from 0 to 100. Geographies with ""0"" are those areas with no foreign language population, ""1"" indicates the lowest level of foreign language usage, and ""100"" are the geographies with the highest percent concentration of foreign language usage."
+INPUT_IBE6136_APPAREL_MEN_S_BIG_AND_TALL,6136,"A purchase of Men's Big and Tall Apparel has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following categorical Apparel purchases are rolled into this Buying Activity Category (C):   6182 Big & Tall   6183 Big & Tall - Accessories   6184 Big & Tall - Activewear   6185 Big & Tall - Business/Business Casual   6186 Big & Tall - Casual   6187 Big & Tall - Footwear   6189 Big & Tall - Outerwear   6191 Big & Tall - Underwear & Hosiery   6190 Big & Tall - Swimwear   6188 Big & Tall - Loungewear/Sleepwear   6192 Big & Tall - Uniforms/Workwear"
+INPUT_IBE6137_APPAREL_CHILDREN_S_C,6137,"A purchase of Children's Apparel has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following categorical Apparel purchases are rolled into this Buying Activity Category (C):   6248 Children's Apparel   6239 Boys Apparel - Unknown Age   6421 Girls Apparel - Unknown Age   6249 Children's Apparel - Infants & Toddlers   6237 Boys Apparel - School Age   6236 Boys Apparel - Preteen   6238 Boys Apparel - Teen   6418 Girls Apparel - School Age   6419 Girls Apparel - Preteen   6420 Girls Apparel - Teen   6250 Children's Apparel - Accessories"
+INPUT_IBE6139_APPAREL_MEN_S_C,6139,"A purchase of Men's Apparel has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following categorical Apparel purchases are rolled into this Buying Activity Category (C):   6588 Men's Apparel   6589 Men's Apparel - Accessories   6590 Men's Apparel - Activewear   6591 Men's Apparel - Business/Business Casual   6592 Men's Apparel - Casual   6593 Men's Apparel - Footwear   6597 Men's Apparel - Outerwear   6599 Men's Apparel - Underwear & Hosiery   6598 Men's Apparel - Swimwear   6596 Men's Apparel - Loungewear/Sleepwear   6594 Men's Apparel - Hats   6600 Men's Apparel - Uniforms/Workwear   6595 Men's Apparel - Leather   6777 Small Men   2019 Young Men's Apparel"
+INPUT_IBE6141_APPAREL_WOMEN_S_PETITE_C,6141,"A purchase of Women's Petite Apparel has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following categorical Apparel purchases are rolled into this Buying Activity Category (C):   6898 Women's Petite Sizes   6899 Women's Petite - Business/Business Casual   2000 Women's Petite - Casual   2003 Women's Petite - Outerwear   2004 Women's Petite - Underwear & Hosiery   2002 Women's Petite - Loungewear/Sleepwear   2001 Women's Petite - Eveningwear"
+INPUT_IBE6142_APPAREL_WOMEN_S_PLUS_SIZES_C,6142,"A purchase of Women's Plus Sizes Apparel has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following categorical Apparel purchases are rolled into this Buying Activity Category (C):   2005 Women's Plus Sizes   2008 Women's Plus Sizes - Business/Business Casual   2009 Women's Plus Sizes - Casual   2014 Women's Plus Sizes - Outerwear   2016 Women's Plus Sizes - Underwear & Hosiery   2015 Women's Plus Sizes - Swimwear   2012 Women's Plus Sizes - Loungewear/Sleepwear   2010 Women's Plus Sizes - Eveningwear   2006 Women's Plus Sizes - Accessories   2007 Women's Plus Sizes - Activewear   2011 Women's Plus Sizes - Footwear   2017 Women's Plus Sizes - Uniforms/Workwear   2013 Women's Plus Sizes - Maternity"
+INPUT_IBE6150_ARTS_AND_ANTIQUES_ANTIQUES_C,6150,"A purchase of Antiques has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following categorical Antique purchases are rolled into this Buying Activity Category (C):   6135 Antiques"
+INPUT_IBE6151_ARTS_AND_ANTIQUES_ART_C,6151,"A purchase of Art has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following categorical Art purchases are rolled into this Buying Activity Category (C):   6149 Art"
+INPUT_IBE6199_BOOKS_AND_MAGAZINES_MAGAZINES_C,6199,"A purchase of Magazines has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following categorical Magazine purchases are rolled into this Buying Activity Category (C):   6556 Magazines   6557 Magazines/Automotive   6558 Magazines/Baby/Parenting   6559 Magazines/Business/Industry   6560 Magazines/Children's/Teens   6561 Magazines/Computer   6562 Magazines/Crafts/Hobbies   6563 Magazines/Ethnic/Cultural   6564 Magazines/Fashion   6566 Magazines/Food/Cooking   6565 Magazines/Fitness   6569 Magazines/Home/Gardening   6570 Magazines/Men's Interest   6571 Magazines/Music/Entertainment   6572 Magazines/News/Political   6573 Magazines/Outdoors   6574 Magazines/Science/Technology   6575 Magazines/Sports/Recreation   6576 Magazines/Travel/Leisure   6577 Magazines/Women's Interest   6567 Magazines/General Interests   6568 Magazines/Health"
+INPUT_IBE6200_BOOKS_AND_MUSIC_BOOKS_C,6200,"A purchase of Books has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following categorical Book purchases are rolled into this Buying Activity Category (C):   6197 Books   6215 Books - Biographies & Memoirs   6216 Books - Business & Investment   6217 Books - Children's   6218 Books - Computers & Internet   6219 Books - Cooking, Food & Wine   6220 Books - Entertainment/Humor/Coffee Table   6222 Books - Health, Mind & Body   6223 Books - Home & Garden   6221 Books - Fiction   6226 Books - Mystery/Thrillers/Crime   6228 Books - Outdoors & Nature   6229 Books - Parenting & Families   6230 Books - Professional & Technical   6231 Books - Reference   6232 Books - Religion & Spirituality   6233 Books - Sports   6234 Books - Teens   6235 Books - Travel   6227 Books - Non-Fiction   6224 Books - How-To   6214 Books - Automotive"
+INPUT_IBE6201_BOOKS_AND_MUSIC_BOOKS_AUDIO_C,6201,"A purchase of Audio Books has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following categorical Audio Books purchases are rolled into this Buying Activity Category (C):   6203 Books - Audio   6204 Books - Audio - Business & Investment   6205 Books - Audio - Children's   6206 Books - Audio - Entertainment & Humor   6207 Books - Audio - Health, Mind & Body/Self-Help   6209 Books - Audio - Literature & Fiction   6210 Books - Audio - Mystery & Thrillers   6212 Books - Audio - Religion & Spirituality   6213 Books - Audio - Travel   6211 Books - Audio - Non-Fiction   6208 Books - Audio - How-To"
+INPUT_IBE6249_CHILDREN_S_APPAREL_INFANTS_AND_TODDLERS,6249,"A purchase of Infants and Toddlers Apparel has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_IBE6252_CHILDREN_S_LEARNING_AND_ACTIVITY_TOYS,6252,"A purchase of Children's Learning and Activity Toys has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_IBE6254_CHILDREN_S_PRODUCTS_GENERAL_BABY_CARE_C,6254,"A purchase of General Baby Care products has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following categorical Children's Products purchases are rolled into this Buying Activity Category (C):   6166 Baby Care   6167 Baby Care - Baby Home Dcor/Linens"
+INPUT_IBE6255_CHILDREN_S_PRODUCTS_GENERAL_BACK_TO_SCHOOL_C,6255,"A purchase of Back-to-School products has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following categorical Children's Products purchases are rolled into this Buying Activity Category (C):   6255 Children's Products - Back-to-School"
+INPUT_IBE6281_COMPUTING_HOME_OFFICE_GENERAL,6281,"A purchase of a General Home Office Computer products has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_IBE6313_DONATION_CONTRIBUTION_C,6313,"A Donation or Contribution has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household.    The following categorical purchases are rolled into this Buying Activity Category (C):   6312 Donation/Contribution"
+INPUT_IBE6314_DVDS_VIDEOS_C,6314,"A purchase of DVDs/Videos has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following categorical purchases are rolled into this Buying Activity Category (C):   6829 Videos/DVDs   6831 Videos/DVDs - Educational   6349 Exercise/Health Videos/DVDs   6834 Videos/DVDs - Kids & Family   6835 Videos/DVDs - Music/Musicals   6762 Self Help Videos/DVDs   6830 Videos/DVDs - Documentary   6836 Videos/DVDs - Sports   6833 Videos/DVDs - How-to   6837 Videos/DVDs - Travel   6838 Videos/DVDs - TV Movies/Mini-Series/Series   6832 Videos/DVDs - Holiday"
+INPUT_IBE6330_ELECTRONICS_AND_COMPUTING_TV_VIDEO_MOVIE_WATCHER_C,6330,"A purchase of TV/Video/Movie Watching products in Electronics and Computing has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following categorical purchases are rolled into this Buying Activity Category (C):   6334 Electronics - DVD Player   6339 Electronics - Home Theater System   6346 Electronics - Satellite Dish/Receiver   6347 Electronics - Television Products   6340 Electronics - Internet TV   6343 Electronics - Personal/Portable Video"
+INPUT_IBE6331_ELECTRONICS_COMPUTING_AND_HOME_OFFICE_SC,6331,"A purchase of Electronics, Computing, & Home Office products has occurred within the last 24 months in the Household. All categorical purchases are rolled into this Buying Activity Super Category (SC):   6281 Computing/Home Office - General   6317 Electronics   6318 Electronics & Computing - Computing   6319 Electronics & Computing - Copiers - C   6321 Electronics & Computing - Faxes - C   6324 Electronics & Computing - Laptop - C   6320 Electronics & Computing - Desktop - C   6325 Electronics & Computing - PDAs & Organizers - C   6326 Electronics & Computing - Peripherals - C   6327 Electronics & Computing - Printers - C   6328 Electronics & Computing - Scanners - C   6329 Electronics & Computing - Software - C   6322 Electronics & Computing - Home Office Furniture - C   6323 Electronics & Computing - Home Office Supplies - C    6330 Electronics & Computing - TV/Video/Movie Watcher - C   6332 Electronics - Accessories   6335 Electronics - Gadgets   6338 Electronics - Home Audio System Components   6342 Electronics - Personal/Portable Audio Player   6344 Electronics - Phone Products   6345 Electronics - Radio/Alarm Clock   6333 Electronics - Automotive/Boat Audio/Video   6341 Electronics - Massaging Machines   6337 Electronics - High-End PC Speakers   6336 Electronics - High-End Headphones     The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_IBE6380_GARDENING_C,6380,"A purchase of Gardening products has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following categorical purchases are rolled into this Buying Activity Category (C):   6379 Gardening   6390 Gardening - Tools   6378 Garden Dcor   6392 Gardening - Vegetables/Herbs/Fruits   6383 Gardening - Flowers   6385 Gardening - Houseplants   6388 Gardening - Organic   6384 Gardening - Garden Care/Maintenance   6387 Gardening - Nursery Trees/Shrubs   6386 Gardening - Nursery Flowers   6381 Gardening - Bulbs   6382 Gardening - Flower Seeds   6391 Gardening - Vegetable/Herb/Fruit Seeds   6389 Gardening - Seeds"
+INPUT_IBE6425_HEALTH_AND_BEAUTY,6425,"A purchase of Health and Beauty products has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_IBE6456_CHILDREN_S_PRODUCTS_GENERAL_SC,6456,"A purchase of Children's Products has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. All categorical purchases are rolled into this Buying Activity Super Category (SC):   6253 Children's Products - General   6254 Children's Products - General - Baby Care - C   6257 Children's Products - General - Toys - C   6258 Children's Products - General - Video Games - C   6256 Children's Products - General - Home Dcor/Linens - C   6255 Children's Products - General - Back-to-School - C"
+INPUT_IBE6484_HOME_AND_GARDEN,6484,"A purchase of Home & Garden products has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_IBE6518_HUNTING,6518,"A purchase of Hunting products in Sports & Leisure has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_LAST_OFFLINE_ORDER_DATE_6532,6532,Indicates the date of the last offline order made by the household.
+INPUT_LAST_ONLINE_ORDER_DATE_6533,6533,Indicates the date of the last online order made by the household.
+INPUT_IBE6537_LIFESTYLES_INTERESTS_AND_PASSIONS_COLLECTIBLES_C,6537,"A purchase of Collectibles in Lifestyles, Interests & Passions has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following categorical purchases are rolled into this Buying Activity Category (C):   6268 Collectibles - Coins/Stamps   6267 Collectibles - Coins   6278 Collectibles - Stamps   6275 Collectibles - Pottery/Porcelain/Crystal/Plates   6280 Collectibles - Toys/Dolls/Model Vehicles/Banks   6279 Collectibles - Toys   6269 Collectibles - Dolls   6276 Collectibles - Scale Model Vehicles   6273 Collectibles - Movies   6274 Collectibles - Music   6277 Collectibles - Sports   6265 Collectibles - Baseball   6266 Collectibles - Basketball   6270 Collectibles - Football   6271 Collectibles - Ice Hockey   6272 Collectibles - Misc. Memorabilia"
+INPUT_IBE6538_LIFESTYLES_INTERESTS_AND_PASSIONS_CRAFTS_HOBBIES_C,6538,"A purchase of Crafts/Hobbies products has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following categorical Craft/Hobbies purchases are rolled into this Buying Activity Category (C):   6294 Crafts/Hobbies   6295 Crafts/Hobbies - Floral Design   6297 Crafts/Hobbies - Needlepoint   6298 Crafts/Hobbies - Painting   6299 Crafts/Hobbies - Pottery   6300 Crafts/Hobbies - Quilting   6303 Crafts/Hobbies - Woodworking   6302 Crafts/Hobbies - Sewing   6296 Crafts/Hobbies - Knitting/Crochet   6301 Crafts/Hobbies - Scrap Booking"
+INPUT_IBE6555_LUGGAGE,6555,"A purchase of a Luggage has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_IBE6556_MAGAZINES,6556,"A purchase of Magazines has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_IBE6579_MEMBERSHIP_CLUBS,6579,"A purchase in Membership Clubs has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_IBE6604_METHOD_OF_PAYMENT_COUNT_CASH,6604,The element will return a three digit number showing the actual number of purchases made with Cash in the last 24 months. ('Cash' may include checks.)
+INPUT_IBE6605_METHOD_OF_PAYMENT_COUNT_CREDIT_CARD,6605,The element will return a three digit number showing the actual number of purchases made with a Credit Card in the last 24 months.
+INPUT_IBE6610_METHOD_OF_PAYMENT_COUNT_RETAIL_CARD,6610,The element will return a three digit number showing the actual number of purchases made with a Retail Card in the last 24 months.
+INPUT_IBE6612_MILITARY_MEMORABILIA_WEAPONRY,6612,"A purchase of Novelty Military Memorabilia/Weaponry products has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following types of product purchases are included: collectible military helmets, collector machetes, collectible knives, collectible ""walking sticks with hidden weapon."""
+INPUT_IBE6620_MUSICAL_INSTRUMENTS,6620,"A purchase of Music Instruments has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_IBE6703_OFF_ROAD_RECREATIONAL_VEHICLES,6703,"A purchase of Off-Road Recreational vehicles, parts and/or accessories has occurred within the last 24 months in the Household. Example purchases are ATV's, dirt bikes, helmets, gloves, etc. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_IBE6740_PETS_SC,6740,"A purchase of Pets products has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. All categorical purchases are rolled into this Buying Activity Super Category (SC):   6739 Pets"
+INPUT_IBE6742_PHOTOGRAPHY_AND_VIDEO_EQUIPMENT_C,6742,"A purchase of Photography or Video Equipment products has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. The following categorical Apparel purchases are rolled into this Buying Activity Category (C):   6741 Photography & Video Equipment"
+INPUT_IBE6793_SPORTS_AND_LEISURE_SC,6793,"A purchase of Sports & Leisure products has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. This includes products for Baseball/Softball, Camping/Hiking, Cycling, Fishing, Fitness Equipment, Body Shaping, Golf, Hunting, Running/Walking, Skateboarding, Skiing, Boating, Game Room, Beach/Swimming Leisure, Surfing, Guns & Ammunition, Personal Safety, Off-Road Recreational Vehicles, Horses, Yoga, Shooting Games, Bird Watching, Scuba Diving, Aviation, Snowboarding, Boat, and RVs & Mobile Homes. All categorical purchases are rolled into this Buying Activity Super Category (SC):   6794 - Sports & Leisure - C"
+INPUT_IBE6805_TELECOMMUNICATIONS_SC,6805,"A purchase of Telecommunications products has occurred within the last 24 months in the Household. Examples include cell phones, wireless services, and pagers. All categorical purchases are rolled into this Buying Activity Super Category (SC):   6804 - Telecommunications     The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household."
+INPUT_IBE6819_TRAVEL_C,6819,"A Travel purchase has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. Products that fall into this category include: Travel Journal, travel neck pillows/comforts, travel alarm, blanket carrier strap, money belt, travel thermos, pocket translator, and travel sleep mask    The following categorical purchases are rolled into this Buying Activity Category (C):   6818 Travel   6821 Travel Accessories   6305 Cruises/Package Vacations   6306 Cruises/Package Vacations - Domestic   6307 Cruises/Package Vacations - Foreign   6822 Travel in the USA   6363 Foreign Travel   6555 Luggage"
+INPUT_IBE6827_VALUE_PRICED_GENERAL_MERCHANDISE_SC,6827,"A purchase of Value-Price General Merchandise has occurred within the last 24 months in the Household. The Buying Activity data has been summarized into a categorical level according to purchase activity. This removes certain point-of-sale information, such as SKUs (stock keeping unit) but allows visibility into types of purchases and buying behaviors within the Household. All categorical purchases are rolled into this Buying Activity Super Category (SC):   6826 Value-Priced General Merchandise"
+INPUT_WEEKS_SINCE_LAST_ONLINE_ORDER_6843,6843,Indicates the number of weeks since the Last online order in the household.
+INPUT_WEEKS_SINCE_LAST_OFFLINE_ORDER_6844,6844,Indicates the number of weeks since the last offline order in the household.
+INPUT_WEEKS_SINCE_LAST_ORDER_6845,6845,Indicates the number of weeks since the last order in the household.
+INPUT_IBE7467_RECENT_HOME_BUYER,7467,#N/A
+INPUT_IBE7468_RECENT_MORTGAGE_BORROWER,7468,"Indicates that the household has borrowed money for a mortgage within the last 12 months. It can be first, second or subsequent mortgage and does not necessarily indicate a new home."
+INPUT_IBE7469_NEW_PARENT,7469,#N/A
+INPUT_IBE7470_CHILD_NEAR_HIGH_SCHOOL_GRADUATION_IN_HH,7470,#N/A
+INPUT_IBE7471_COLLEGE_GRADUATE,7471,#N/A
+INPUT_IBE7475_VEHICLE_INTEND_TO_PURCHASE,7475,#N/A
+INPUT_IBE7476_RECENT_DIVORCE,7476,#N/A
+INPUT_IBE7477_NEWLYWED,7477,#N/A
+INPUT_PROBABLE_TEEN_DRIVER_7480,7480,#N/A
+INPUT_IBE7602_CHILDREN_NUMBER_IN_HOUSEHOLD_PREMIER_COMPLETE,7602,#N/A
+INPUT_KEPT_7606_PREM_HO_RENT,7606,#N/A
+INPUT_KEPT_7606_PREM_HO_RENT_IND,7606,#N/A
+INPUT_IBE7607_LENGTH_OF_RESIDENCE_PREMIER_COMPLETE,7607,#N/A
+INPUT_IBE7609_MARITAL_STATUS_IN_THE_HOUSEHOLD_PREMIER_COMPLETE,7609,#N/A
+INPUT_IBE7616_AGE_IN_TWO_YEAR_INCREMENTS_1ST_INDIVIDUAL_PREMIER_COMPLETE,7616,#N/A
+INPUT_IBE7622_CHILDREN_PRESENCE_IN_HOUSEHOLD_PREMIER_COMPLETE,7622,#N/A
+INPUT_IBE7641_INCOME_CODE_ESTIMATED_HOUSEHOLD_PREMIER_COMPLETE,7641,#N/A
+INPUT_IBE7650_EDUCATION_1ST_INDIVIDUAL_PREMIER_COMPLETE,7650,#N/A
+INPUT_IBE7671_ESTIMATED_HHLD_INCOME_NARROW_RANGES_100PER,7671,#N/A
+INPUT_IBE7719_WIRELESS_PRODUCT_BUYER,7719,#N/A
+INPUT_IBE7720_FASHION,7720,#N/A
+INPUT_IBE7721_HISTORY_MILITARY,7721,#N/A
+INPUT_IBE7722_SMOKING_TOBACCO,7722,#N/A
+INPUT_IBE7723_CELEBRITIES,7723,#N/A
+INPUT_IBE7724_CURRENT_AFFAIRS_POLITICS,7724,#N/A
+INPUT_IBE7725_THEATER_PERFORMING_ARTS,7725,#N/A
+INPUT_IBE7726_COMMUNITY_CHARITIES,7726,#N/A
+INPUT_IBE7727_RELIGIOUS_INSPIRATIONAL,7727,#N/A
+INPUT_IBE7728_SCIENCE_SPACE,7728,#N/A
+INPUT_IBE7729_STRANGE_AND_UNUSUAL,7729,#N/A
+INPUT_IBE7730_CAREER_IMPROVEMENT,7730,#N/A
+INPUT_IBE7731_FOOD_WINES,7731,#N/A
+INPUT_IBE7732_ARTS,7732,#N/A
+INPUT_IBE7733_READING_GENERAL,7733,#N/A
+INPUT_IBE7734_READING_BEST_SELLERS,7734,#N/A
+INPUT_IBE7735_READING_RELIGIOUS_INSPIRATIONAL,7735,#N/A
+INPUT_IBE7736_READING_SCIENCE_FICTION,7736,#N/A
+INPUT_IBE7737_READING_MAGAZINES,7737,#N/A
+INPUT_IBE7738_READING_AUDIO_BOOKS,7738,#N/A
+INPUT_IBE7739_COOKING_GENERAL,7739,#N/A
+INPUT_IBE7740_COOKING_GOURMET,7740,#N/A
+INPUT_IBE7741_COOKING_LOW_FAT,7741,#N/A
+INPUT_IBE7742_FOODS_VEGETARIAN,7742,#N/A
+INPUT_IBE7743_FOODS_NATURAL,7743,#N/A
+INPUT_IBE7744_TRAVEL_DOMESTIC,7744,#N/A
+INPUT_IBE7745_TRAVEL_INTERNATIONAL,7745,#N/A
+INPUT_IBE7746_RV,7746,#N/A
+INPUT_IBE7747_TRAVEL_FAMILY_VACATIONS,7747,#N/A
+INPUT_IBE7748_TRAVEL_CRUISE_VACATIONS,7748,#N/A
+INPUT_IBE7750_EXERCISE_RUNNING_JOGGING,7750,#N/A
+INPUT_IBE7751_EXERCISE_WALKING,7751,#N/A
+INPUT_IBE7752_EXERCISE_AEROBIC,7752,#N/A
+INPUT_IBE7753_CRAFTS,7753,#N/A
+INPUT_IBE7754_PHOTOGRAPHY,7754,#N/A
+INPUT_IBE7755_AVIATION,7755,#N/A
+INPUT_IBE7756_AUTO_WORK,7756,#N/A
+INPUT_IBE7757_SEWING_KNITTING_NEEDLEWORK,7757,#N/A
+INPUT_IBE7758_WOODWORKING,7758,#N/A
+INPUT_IBE7759_GAMES_BOARD_GAMES_PUZZLES,7759,#N/A
+INPUT_IBE7760_MUSIC_HOME_STEREO,7760,#N/A
+INPUT_IBE7761_MUSIC_PLAYER,7761,#N/A
+INPUT_IBE7762_MUSIC_COLLECTOR,7762,#N/A
+INPUT_IBE7763_MUSIC_AVID_LISTENER,7763,#N/A
+INPUT_IBE7764_MOVIE_COLLECTOR,7764,#N/A
+INPUT_IBE7765_TV_CABLE,7765,#N/A
+INPUT_IBE7766_GAMES_VIDEO_GAMES,7766,#N/A
+INPUT_IBE7768_MOVIES_AT_HOME,7768,#N/A
+INPUT_IBE7769_TV_SATELLITE_DISH,7769,#N/A
+INPUT_IBE7770_HEALTH_MEDICAL,7770,#N/A
+INPUT_IBE7771_DIETING_WEIGHT_LOSS,7771,#N/A
+INPUT_IBE7772_SELF_IMPROVEMENT,7772,#N/A
+INPUT_IBE7773_CAT_OWNER,7773,#N/A
+INPUT_IBE7774_DOG_OWNER,7774,#N/A
+INPUT_IBE7775_OTHER_PET_OWNER,7775,#N/A
+INPUT_IBE7776_HOUSE_PLANTS,7776,#N/A
+INPUT_IBE7777_PARENTING,7777,#N/A
+INPUT_IBE7779_CHILDREN_S_INTERESTS,7779,#N/A
+INPUT_IBE7780_GRANDCHILDREN,7780,#N/A
+INPUT_IBE7781_SPECTATOR_SPORTS_AUTO_MOTORCYCLE_RACING,7781,#N/A
+INPUT_IBE7782_SPECTATOR_SPORTS_FOOTBALL,7782,#N/A
+INPUT_IBE7783_SPECTATOR_SPORTS_BASEBALL,7783,#N/A
+INPUT_IBE7784_SPECTATOR_SPORTS_BASKETBALL,7784,#N/A
+INPUT_IBE7785_SPECTATOR_SPORTS_HOCKEY,7785,#N/A
+INPUT_IBE7786_SPECTATOR_SPORTS_SOCCER,7786,#N/A
+INPUT_IBE7787_SPECTATOR_SPORTS_TENNIS,7787,#N/A
+INPUT_IBE7788_COLLECTIBLES_GENERAL,7788,#N/A
+INPUT_IBE7789_COLLECTIBLES_STAMPS,7789,#N/A
+INPUT_IBE7790_COLLECTIBLES_COINS,7790,#N/A
+INPUT_IBE7791_COLLECTIBLES_ARTS,7791,#N/A
+INPUT_IBE7792_COLLECTIBLES_ANTIQUES,7792,#N/A
+INPUT_IBE7793_INVESTMENTS_PERSONAL,7793,"Someone in the household has indicated they are interested in personal investments. A personal investment is money that is invested by a person, rather than by a company or organization."
+INPUT_IBE7794_INVESTMENTS_REAL_ESTATE,7794,"Someone in the household has indicated they are interested in real estate investments, or their county information indicated the property was an investment property. Examples of Real Estate Investments are owners of a rental property, or can be property 'flippers' where there is an investment in a property with the intent to sell quickly at a profit, with or without renovations/improvements to the property."
+INPUT_IBE7795_INVESTMENTS_STOCKS_BONDS,7795,Someone in the household has indicated they are interested in stocks and bonds investments.
+INPUT_IBE7796_COMPUTERS,7796,#N/A
+INPUT_IBE7799_GAMES_COMPUTER_GAMES,7799,#N/A
+INPUT_IBE7800_WIRELESS_CELLULAR_PHONE_OWNER,7800,#N/A
+INPUT_IBE7801_CONSUMER_ELECTRONICS,7801,#N/A
+INPUT_IBE7802_FISHING,7802,#N/A
+INPUT_IBE7803_CAMPING_HIKING,7803,#N/A
+INPUT_IBE7804_HUNTING_SHOOTING,7804,#N/A
+INPUT_IBE7805_BOATING_SAILING,7805,#N/A
+INPUT_IBE7806_WATER_SPORTS,7806,#N/A
+INPUT_IBE7807_SCUBA_DIVING,7807,#N/A
+INPUT_IBE7808_BIKING_MOUNTAIN_BIKING,7808,#N/A
+INPUT_IBE7809_ENVIRONMENTAL_ISSUES,7809,#N/A
+INPUT_IBE7810_TENNIS,7810,#N/A
+INPUT_IBE7811_GOLF,7811,#N/A
+INPUT_IBE7812_SNOW_SKIING,7812,#N/A
+INPUT_IBE7813_MOTORCYCLING,7813,#N/A
+INPUT_IBE7814_EQUESTRIAN,7814,#N/A
+INPUT_IBE7815_HOME_FURNISHINGS_DECORATING,7815,#N/A
+INPUT_IBE7816_HOME_IMPROVEMENT,7816,#N/A
+INPUT_IBE7817_GARDENING,7817,#N/A
+INPUT_IBE7819_GAMING_LOTTERY,7819,#N/A
+INPUT_IBE7820_GAMING_CASINO,7820,#N/A
+INPUT_IBE7821_SWEEPSTAKES_CONTESTS,7821,#N/A
+INPUT_IBE7822_SPORTS_GROUPING,7822,#N/A
+INPUT_IBE7823_OUTDOORS_GROUPING,7823,#N/A
+INPUT_IBE7824_TRAVEL_GROUPING,7824,#N/A
+INPUT_IBE7825_READING_GROUPING,7825,#N/A
+INPUT_IBE7826_COOKING_FOOD_GROUPING,7826,#N/A
+INPUT_IBE7827_EXERCISE_HEALTH_GROUPING,7827,#N/A
+INPUT_IBE7828_MOVIE_MUSIC_GROUPING,7828,#N/A
+INPUT_IBE7829_ELECTRONICS_COMPUTERS_GROUPING,7829,#N/A
+INPUT_IBE7830_HOME_IMPROVEMENT_GROUPING,7830,#N/A
+INPUT_IBE7831_INVESTING_FINANCE_GROUPING,7831,"Grouping means that weve taken all the ""Investing / Finance"" interest related elements and put them into one element. If any one of the following elements are flagged for a record, then the Investing/Finance Grouping element will be flagged as well:  7793 Investments - Personal  7794 Investments - Real Estate  7795 Investments - Stocks/Bonds  7846 Investments - Foreign  8278 Highbrow"
+INPUT_IBE7832_COLLECTIBLES_AND_ANTIQUES_GROUPING,7832,#N/A
+INPUT_IBE7840_BOAT_OWNER,7840,#N/A
+INPUT_IBE7841_CAREER,7841,#N/A
+INPUT_IBE7842_CHRISTIAN_FAMILIES,7842,#N/A
+INPUT_IBE7843_COLLECTIBLES_SPORTS_MEMORABILIA,7843,#N/A
+INPUT_IBE7844_EDUCATION_ONLINE,7844,#N/A
+INPUT_IBE7845_TV_HDTV_SATELLITE_DISH,7845,#N/A
+INPUT_IBE7846_INVESTMENTS_FOREIGN,7846,#N/A
+INPUT_IBE7847_NASCAR,7847,#N/A
+INPUT_IBE7848_READING_FINANCIAL_NEWSLETTER_SUBSCRIBERS,7848,#N/A
+INPUT_IBE7849_BEAUTY_COSMETICS,7849,#N/A
+INPUT_IBE7851_HOME_IMPROVEMENT_DO_IT_YOURSELFERS,7851,#N/A
+INPUT_SOHO_INDICATOR_8082,8082,#N/A
+INPUT_PREFIX_TITLE_8093,8093,#N/A
+INPUT_DELIVERY_POINT_DROP_INDICATOR_8094,8094,#N/A
+INPUT_IBE8165_VEHICLE_TRUCK_MOTORCYCLE_RV_OWNER,8165,#N/A
+INPUT_IBE8177_MAIL_ORDER_DONOR,8177,The Household has made a donation via mail in the last 24 months.
+INPUT_ESTIMATED_INCOME_HIGHER_RANGES_8201,8201,"Indicates the estimated household income in higher ranges and narrower ranges.
+This income is about 3-5% consumer self-reported via indicating their income on product registrations and website memberships, and about 95-98% modeled from the sources, based on a variety of demographic factors, including age, occupation, home ownership, and median income for the local area.  Acxiom blends all of the source income data (the self-reported and the modeled data from the sources) into the Acxiom household level income elements using several rules including recency, commonality, and hierarchy.  
+This income element has different ranges/values than the other income elements.
+The match rate and distribution for this element will not match the other income elements, because the sources that feed 8201 are slightly different.  The agreement between them will be about 85-90%."
+INPUT_IBE8236_MONEY_SEEKERS,8236,#N/A
+INPUT_IBE8257_SPECTATOR_SPORTS_TV_SPORTS,8257,#N/A
+INPUT_IBE8263_COLLECTOR_AVID,8263,#N/A
+INPUT_IBE8271_HOME_LIVING,8271,#N/A
+INPUT_IBE8272_DIY_LIVING,8272,#N/A
+INPUT_IBE8274_SPORTY_LIVING,8274,#N/A
+INPUT_IBE8276_UPSCALE_LIVING,8276,#N/A
+INPUT_IBE8277_CULTURAL_ARTISTIC_LIVING,8277,#N/A
+INPUT_IBE8278_HIGHBROW,8278,#N/A
+INPUT_IBE8279_HIGH_TECH_LIVING,8279,#N/A
+INPUT_IBE8321_COMMON_LIVING,8321,#N/A
+INPUT_IBE8322_PROFESSIONAL_LIVING,8322,#N/A
+INPUT_IBE8326_BROADER_LIVING,8326,#N/A
+INPUT_IBE8337_INVESTORS_HIGHLY_LIKELY,8337,#N/A
+INPUT_IBE8339_INVESTORS_LIKELY,8339,#N/A
+INPUT_ESTIMATED_RESIDENTIAL_PROPERTIES_OWNED_8433,8433,Indicates the estimated number of housing investment properties owned by the Household.
+INPUT_KEPT_8434_LOAN_DATE1,8434,Indicates the date of the 1st home loan in the household.
+INPUT_KEPT_8437_TOTAL_LOAN_RNG,8437,Indicates the total home loan amount for the household in ranges. There may be multiple loans on the home.
+INPUT_KEPT_8439_LOT_SIZE_RNG,8439,Indicates the size of the home lot in ranged square footage.
+INPUT_KEPT_8440_YR_BLT_RNG,8440,Indicates the year the home was built in ranges.
+INPUT_KEPT_8441_HOME_SQ_FT_RNG,8441,Indicates the size of the home in ranged square footage.
+INPUT_KEPT_8463_MKT_VAL_DEC,8463,"Indicates the relative home market value as compared to all of the homes located within the same county (top 10%, top 20%, etc.)."
+INPUT_IBE8487_POLITICAL_PARTY_1ST_INDIVIDUAL,8487,Indicates the political party of the 1st individual for voting purposes.
+INPUT_IBE8531_POLITICAL_PARTY_INPUT_INDIVIDUAL,8531,Indicates the political party associated with the person for voting purposes.
+INPUT_KEPT_8555_OWN_TYP_DET,8555,"Indicates the specific type of homeowner: Company Owner - The property is owned by a company and not owner-occupied. These records are not read into our mart build, so there is not any coverage for this value. Residential Owner - Homestead Flag - If a Homestead/Home Owner exemption flag is present, then the owner occupancy is inferred from this data. The exemption (or discount in property taxes) can only be taken if that property is the primary residence and occupied by the owner. It is also known as the Home Owner Exemption. This is a tax break for people who reside in their home vs. renting it out to someone else. Investor / Individual Owner - The property is owned by an investor and not owner occupied. These records are not read into our mart build, so there is not any coverage for this value. Residential Owner - Mail / Site Address - Owner-occupied and the mailing and site address are the same. Inferred Owner Occupied - Records that could not be coded as an H or O. We used the AbiliTec address links and if the mail link and address link were the same, then we inferred as owner-occupied."
+INPUT_KEPT_8557_ASSD_VAL_RNG,8557,"Indicates the assessed value of the home, in ranges. The assessed value is the amount, stated in a ranged array, at which the home was last assessed by the local government. Current assessed value, by range, of property (land & improvements) for taxation as determined by the county assessor. An assessed value is the dollar value assigned to a property for purposes of measuring applicable taxes. Assessed valuation is used to determine the value of a residence for tax purposes and takes home market value into consideration.     County assessments are done periodically, i.e., every 5 years, unless in the cases of an improvement to the property, such as building a home on the property, a home remodel, etc. which would cause a new assessment at that time.    This assessed value comes straight from the county offices, not manipulated by the source or Acxiom."
+INPUT_KEPT_8561_PUR_AMT_RNG,8561,Indicates the purchase amount of the home in ranges.
+INPUT_KEPT_8562_LOAN_DATE2,8562,Indicates the date of the 2nd home loan in the household.
+INPUT_KEPT_8563_LOAN_DATE3,8563,Indicates the date of the 3rd home loan in the household.
+INPUT_KEPT_8567_LOAN_AMT1,8567,Indicates the ranged amount of the 1st home loan in the household.
+INPUT_KEPT_8568_LOAN_AMT2,8568,Indicates the ranged amount of the 2nd home loan in the household.
+INPUT_KEPT_8569_LOAN_AMT3,8569,Indicates the ranged amount of the 3rd home loan in the household.
+INPUT_KEPT_8570_LOAN_TYP1,8570,Indicates the type of loan for the 1st home loan in the household.
+INPUT_KEPT_8571_LOAN_TYP2,8571,Indicates the type of loan for the 2nd home loan in the household.
+INPUT_KEPT_8572_INT_RATE1,8572,Indicates the type of interest rate for the 1st home loan in the household.
+INPUT_KEPT_8573_INT_RATE2,8573,Indicates the type of interest rate for the 2nd home loan in the household.
+INPUT_KEPT_8574_INT_RATE3,8574,Indicates the type of interest rate for the 3rd home loan in the household.
+INPUT_KEPT_8575_LOAN_TRAN1,8575,Indicates the type of home loan transaction type for the 1st loan in the household.
+INPUT_KEPT_8576_LOAN_TRAN2,8576,Indicates the type of home loan transaction type for the 2nd loan in the household.
+INPUT_KEPT_8579_PUR_DATE,8579,Indicates the year and month of the home purchase date. A sales transaction and a quit claim deed transfer are examples of events that would cause an update to the purchase date. A refinance should not cause an update to the Purchase Date.
+INPUT_KEPT_8581_PROP_TYP_DET,8581,Indicates the specific kind of home.
+INPUT_KEPT_8584_LTV_RNG,8584,Loan-to-value (LTV) ratio expresses the amount of total loans (current and historical) as a percentage of home market value. Note that InfoBase does not 'pay down' loans. It is derived from public record sources (county recorder and assessor offices).
+INPUT_KEPT_8585_AVAIL_EQ_RNG,8585,Indicates the home equity available for the mortgage in ranges.
+INPUT_KEPT_8586_LEND_EQ_RNG,8586,Lendable equity is computed on 80% of market value less total loans. It is derived from public record sources.
+INPUT_IBE8587_INVESTOR_REAL_ESTATE,8587,"Someone in the household has indicated they are interested in real estate investments, or their county information indicated the property was an investment property. Examples of Real Estate Investments are owners of a rental property, or can be property 'flippers' where there is an investment in a property with the intent to sell quickly at a profit, with or without renovations/improvements to the property."
+INPUT_KEPT_8588_HOME_SQ_FT_ACTUAL,8588,Indicates the estimated size of home in square footage.
+INPUT_KEPT_8590_HO_INS_EXP_DATE,8590,#N/A
+INPUT_KEPT_8591_POOL,8591,Indicates there is a pool present at this home.
+INPUT_KEPT_8592_HOME_YR_BLT,8592,Indicates the year that home was constructed.
+INPUT_IBE8600_ADULT_AGE_RANGES_PRESENT_IN_HOUSEHOLD,8600,#N/A
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_1115_UNKNOWN_GENDER_NEW_8601,8601,#N/A
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_1115_FEMALE_NEW_8601,8601,#N/A
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_1115_MALE_NEW_8601,8601,#N/A
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_1617_UNKNOWN_GENDER_NEW_8601,8601,#N/A
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_1617_MALE_NEW_8601,8601,#N/A
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_1617_FEMALE_NEW_8601,8601,#N/A
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_02_MALE_NEW_8601,8601,#N/A
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_610_FEMALE_NEW_8601,8601,#N/A
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_610_MALE_NEW_8601,8601,#N/A
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_35_FEMALE_NEW_8601,8601,#N/A
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_35_MALE_NEW_8601,8601,#N/A
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_02_FEMALE_NEW_8601,8601,#N/A
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_610_UNKNOWN_GENDER_NEW_8601,8601,#N/A
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_02_UNKNOWN_GENDER_NEW_8601,8601,#N/A
+INPUT_CHILDRENS_AGE_RANGES_PRESENT_IN_HOUSEHOLD_AGE_35_UNKNOWN_GENDER_NEW_8601,8601,#N/A
+INPUT_NUMBER_OF_CHILDREN_NEW_8602,8602,"Indicates the known number of children in the household.
+NOTE: The children's names are not provided by the sources.  The logic gathers the children's ages from across all the sources into a table to net the data to only the children's ages that exist in a household.  Proprietary logic calculates the netting.  The resulting ages are then populated into the children's age elements, then counted to populate the number of children element and the presence of children element.  Sources that provide an actual Number of Children also contribute.
+NOTE: Household level Children's age less than age 16 and gender data in the state of California will have reduced coverage due to the California Consumer Privacy Act (CCPA) regulations."
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_UNDER1_NEW_8603,8603,#N/A
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_6_NEW_8603,8603,#N/A
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_9_NEW_8603,8603,#N/A
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_14_NEW_8603,8603,#N/A
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_18_NEW_8603,8603,#N/A
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_15_NEW_8603,8603,#N/A
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_10_NEW_8603,8603,#N/A
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_3_NEW_8603,8603,#N/A
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_7_NEW_8603,8603,#N/A
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_11_NEW_8603,8603,#N/A
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_1_NEW_8603,8603,#N/A
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_4_NEW_8603,8603,#N/A
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_12_NEW_8603,8603,#N/A
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_5_NEW_8603,8603,#N/A
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_17_NEW_8603,8603,#N/A
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_16_NEW_8603,8603,#N/A
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_2_NEW_8603,8603,#N/A
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_8_NEW_8603,8603,#N/A
+INPUT_CHILDRENS_AGE_1_YEAR_INCREMENTS_AGE_13_NEW_8603,8603,#N/A
+INPUT_IBE8604_OCCUPATION_1ST_INDIVIDUAL,8604,Indicates the occupation of the 1st individual in the household.
+INPUT_KEPT_8606_PREM_HO_RENT,8606,"Indicates whether a household is owner or renter occupied.  This element is fed by property data, self-reported data and address data which indicates the home is owned by the household or rented by the household, i.e., home purchase date, loan information, some indications in the address field that would indicate the property is a rental. "
+INPUT_KEPT_8607_PREM_LOR,8607,"Indicates the years a household has lived at their address.  The Length of Residence can apply to renters as well as homeowners.  This element is fed by Purchase Date of Home, Move Date, other information where a person has indicated their household's length of residence, or the source has inferred a length of residence from a first-seen date, the date a landline phone was connected, etc. "
+INPUT_KEPT_8608_PREM_DWELL,8608,"Indicates if more than one family lives at a particular address. Single-family dwelling units are defined as residential buildings housing one family or household, such as a house. The building does not share an inside wall with any other house or dwelling. It does not touch any other dwelling. Multi-family dwelling units are defined as residential buildings housing more than one household. i.e., Multiple separate housing units for residential inhabitants are contained within one building or several buildings within one complex, such as an apartment building. Condos are coded as multi-family dwelling units."
+INPUT_IBE8609_MARITAL_STATUS_IN_THE_HOUSEHOLD,8609,"Indicates whether anyone in the household is married.  This element includes 1) 9609 Marital Status in the Household and 2) business rule inferences that create Inferred Married and Inferred Single to increase marital status coverage. 
+1) For the 8609 Marital Status portion, it is fed by consumer self-reported marital data.
+2) Inferred Married and Inferred Single, values A and B, are inferred based on business rules.  Inferred Married - When the marital status of Married or Single cannot be determined from a source and there are 2 names in the household with gender of Male and Female, within a certain age range of each other, then marital status is set to A ""Inferred Married"".  Inferred Single - When the marital status of Married or Single cannot be determined from a source and there is only one name in the household, then the marital status is set to B ""Inferred Single""."
+INPUT_IBE8614_BASE_RECORD_VERIFICATION_DATE,8614,Indicates when the last name was most recently verified at that address. (Year and quarter)
+INPUT_IBE8615_MAIL_ORDER_BUYER,8615,Household has purchased products via mail. This element is from sources that explicitly indicate the household is a Mail Order Buyer. There is no indication of how the purchase was made.
+INPUT_IBE8616_AGE_IN_TWO_YEAR_INCREMENTS_1ST_INDIVIDUAL,8616,"Indicates the age of the person ranked 1st in the household, based on a series of InfoBase ranking rules.  
+NOTE: Age data is calculated from date of birth.  The age calculated may be based on complete date of birth (year, month and day) or incomplete date of birth (year and month or year-only).  If date of birth is not populated, age elements will not be populated.  The exception to this is modeled/inferred age data, which is only in the PLUS and 100% elements, and is indicated as modeled or inferred."
+INPUT_IBE8619_WORKING_WOMAN,8619,"Indicates that a working woman is present in the household. There is a female in household with an occupation status not equal to Homemaker or retired. The absence of a positive indicator in this field does NOT indicate there is not a working woman in the household, only that the information was not available."
+INPUT_IBE8620_MAIL_ORDER_RESPONDER,8620,Household has responded to a piece of collateral via mail in the last 24 months.
+INPUT_IBE8621_CREDIT_CARD_INDICATOR,8621,#N/A
+INPUT_PRESENCE_OF_CHILDREN_NEW_8622,8622,"Indicates the presence of children in the household.
+NOTE: The children's names are not provided by the sources.  The logic gathers the children's ages from across all the sources into a table to net the data to only the children's ages that exist in a household.  Proprietary logic calculates the netting.  The resulting ages are then populated into the children's age elements, then counted to populate the number of children element and the presence of children element.  Sources that provide an actual Presence of Children also contribute.
+NOTE: Household level Children's age less than age 16 and gender data in the state of California will have reduced coverage due to the California Consumer Privacy Act (CCPA) regulations."
+INPUT_IBE8626_AGE_IN_TWO_YEAR_INCREMENTS_INPUT_INDIVIDUAL,8626,Indicates the age of the person.  Age range is expressed in two-year increments.
+INPUT_IBE8628_NUMBER_OF_ADULTS,8628,"Indicates the known number of adults (18+) living in the household.  This element is created by tabling all of the adults in a household that are provided from all of the sources. The adult names, dates of birth, and genders are used to de-duplicate the table.  Then all of the entries in the table are counted, and that count is placed in the element. This data is directly related to the names that are in the 1st - 5th individual/household data and 2526 Inferred Household Rank."
+INPUT_IBE8629_HOUSEHOLD_SIZE,8629,"Indicates the known number of known people in the household, both adults and children.  Household Size is a sum of Number of Adults and Number of Children, with the exception of a small percentage of Household Size (0.04%) that will not sum to Number of Adults + Number of Children."
+INPUT_IBE8630_PC_OWNER,8630,#N/A
+INPUT_IBE8637_OCCUPATION_INPUT_INDIVIDUAL,8637,Indicates the occupation of the input individual's name appearing on the customer's file.
+INPUT_IBE8639_INFOBASE_POSITIVE_MATCH_INDICATOR,8639,#N/A
+INPUT_IBE8640_NUMBER_OF_SOURCES_PREMIER,8640,#N/A
+INPUT_IBE8641_INCOME_ESTIMATED_HOUSEHOLD,8641,"Indicates the estimated household income in broad ranges. 
+This income is about 3-5% consumer self-reported via indicating their income on product registrations and website memberships, and about 95-98% modeled from the sources, based on a variety of demographic factors, including age, occupation, home ownership, and median income for the local area.  Acxiom blends all of the source income data (the self-reported and the modeled data from the sources) into the Acxiom household level income elements using several rules including recency, commonality, and hierarchy.  
+This income element has different ranges/values than the other income elements.
+This income element also has two other versions, 1) 9641 Income Plus which uses inferred data to fill-in the missing data in this income up to the household level match rate. And 2) 7641 which uses the mode of the ZIP9 to fill in the missing data in 9641 Plus Income up to 100%."
+INPUT_KEPT_8642_PREM_MKT_VAL,8642,"Indicates the estimated market value of the home, in ranges. This home market value element is built with multiple sources of household level source data (91%) and with multiple sources of geographical data (9%)."
+INPUT_IBE_8643_4BYTE_PUR_YEAR,8643,Indicates both the year and month of purchase where available.
+INPUT_KEPT_8643_PREM_PUR_DATE,8643,Indicates both the year and month of purchase where available.
+INPUT_IBE8646_VEHICLE_NEW_CAR_BUYER,8646,Indicates a history of new car buying in the household. This data cannot personally identify an individuals vehicle.
+INPUT_IBE8647_VEHICLE_KNOWN_OWNED_NUMBER,8647,Indicates the total number of vehicles owned in the household.
+INPUT_IBE8648_VEHICLE_DOMINANT_LIFESTYLE_INDICATOR,8648,#N/A
+INPUT_IBE8652_GENERATIONS_IN_HOUSEHOLD,8652,Indicates the number of family generations in a household.
+INPUT_IBE8653_ONLINE_PURCHASING_INDICATOR,8653,#N/A
+INPUT_IBE8654_PC_DSL_HIGH_SPEED_USER,8654,#N/A
+INPUT_IBE8656_RETAIL_IN_STORE_ONLY,8656,Indicates the household has made retail/in-store purchases only - no online purchases. Based on buying activity data only (no self-reported data included).
+INPUT_IBE8657_RFM_CATALOG_BUYER_FREQUENCY_INPUT_IND,8657,"This element is created from the number of different catalog merchants from which the individual has made purchases. This element can be used with 8658 RFM Catalog Buyer Recency - Input Individual, which indicates the time-frame in which the catalog purchases have been made."
+INPUT_IBE8658_RFM_CATALOG_RECENCY_INPUT_IND,8658,"This element is created from the last time an individual has made a purchase from a catalog merchant. This element can be used with 8657 RFM Catalog Buyer Frequency - Input Individual, which indicates the number of times the individual has made a purchase from different catalog merchants."
+INPUT_KEPT_8663_PREM_HOME_EQ,8663,Indicates the estimated available equity for a mortgage.
+INPUT_IBE8666_PC_OPERATING_SYSTEM,8666,#N/A
+INPUT_IBE8670_PC_SOFTWARE_BUYER,8670,#N/A
+INPUT_IBE8671_INCOME_ESTIMATED_HOUSEHOLD_NARROW_RANGES,8671,"Indicates the estimated household income in narrow ranges. 
+This income is about 3-5% consumer self-reported via indicating their income on product registrations and website memberships, and about 95-98% modeled from the sources, based on a variety of demographic factors, including age, occupation, home ownership, and median income for the local area.  Acxiom blends all of the source income data (the self-reported and the modeled data from the sources into the Acxiom household level income elements using several rules including recency, commonality, and hierarchy.  
+This income element has different ranges/values than the other income elements.
+This income element also has two other versions, 1) 9671 Income Plus which uses inferred data to fill-in the missing data in this income up to the household level match rate. And 2) 7671 which uses the mode of the ZIP9 to fill in the missing data in 9671 Plus Income up to 100%."
+INPUT_IBE8680_YOUNG_ADULT_IN_HOUSEHOLD,8680,Indicates that there is a young adult in the household where another adult is identified as the 1st individual. (Young adult is ages 18 to 25.)
+INPUT_IBE8692_SENIOR_ADULT_IN_HOUSEHOLD,8692,"If in the household there is a person over age 55 and a person over age 25, and there is at least 18 years difference between them, then turn on ‘Senior in Household’."
+INPUT_IBE8693_CREDIT_CARD_USER,8693,Indicates households that have indicated credit card ownership.
+INPUT_KEPT_8701_PROP_TYP,8701,Indicates the type of property.
+INPUT_IBE8715_TECHNOLOGY_ADOPTION_PROPENSITY_SCORE,8715,#N/A
+INPUT_IBE8717_INFOBASE_TRENDS_FOR_TELECOM_INTERNET_USER,8717,#N/A
+INPUT_IBE8718_INFOBASE_TRENDS_FOR_TELECOM_CELLULAR_USER,8718,#N/A
+INPUT_IBE8727_INFOBASE_TRENDS_FOR_TELECOM_INTERNATIONAL_LONG_DISTANCE_USER,8727,#N/A
+INPUT_IBE8728_INFOBASE_TRENDS_FOR_TELECOM_OPTIONAL_CALLING_SERVICES,8728,#N/A
+INPUT_IBE8729_INFOBASE_TRENDS_FOR_TELECOM_TOP_20_LONG_DISTANCE_USER,8729,#N/A
+INPUT_IBE8808_CREDIT_CARD_NEW_ISSUE,8808,Indicates a recent bank card issue. This data rolls off the file after 12 months.
+INPUT_IBE8815_BANK_CARD_PRESENCE_IN_HOUSEHOLD,8815,Indicates the presence of a bank card in the household.
+INPUT_IBE8816_NUMBER_OF_LINES_OF_CREDIT_TRADE_COUNTER,8816,Indicates credit purchases made in multiple retail stores for the household.
+INPUT_IBE8836_CREDIT_RANGE_OF_NEW_CREDIT,8836,Indicates the range of new credit granted for an individual within the household.
+INPUT_KEPT_8840_LENDER_STANDARDIZATION_CODE1,8840,"Indicates a numeric code that identifies the lender of the 1st home loan. The lender codes are numerical representations of the Lender Name. There are over 40,000 different codes."
+INPUT_KEPT_8841_LENDER_STANDARDIZATION_CODE2,8841,"Indicates a numeric code that identifies the lender of the 2nd home loan. The lender codes are numerical representations of the Lender Name. There are over 40,000 different codes."
+INPUT_KEPT_8842_LENDER_STANDARDIZATION_CODE3,8842,"Indicates a numeric code that identifies the lender of the 3rd home loan. The lender codes are numerical representations of the Lender Name. There are over 40,000 different codes."
+INPUT_KEPT_8843_LENDER_TYPE1,8843,#N/A
+INPUT_KEPT_8844_LENDER_TYPE2,8844,#N/A
+INPUT_KEPT_8845_LENDER_TYPE3,8845,#N/A
+INPUT_HOME_MARKET_VALUE_QUALITY_INDICATOR_8851,8851,This element indicates the types of source data that is within 8642 Home Market Value.
+INPUT_IBE9040_VEHICLE_MAKE_CODE_1ST_VEHICLE_NUMERICAL_FORMAT,9040,"Indicates the code of the make of the 1st vehicle in the household. Vehicles are householded using Last Name and Address Link. Vehicle purchase date is not available in the source data provided, therefore the most recent vehicle data received is the 1st vehicle and the next recent is the 2nd vehicle. If the client needs to know when the vehicle was last known to be owned by the household, use 9047 Vehicle Verification Date 1."
+INPUT_IBE9041_VEHICLE_MODEL_CODE_1ST_VEHICLE_NUMERICAL_FORMAT,9041,"Indicates the model code of the 1st vehicle in the household. Vehicles are householded using Last Name and Address Link. Vehicle purchase date is not available in the source data provided, therefore the most recent vehicle data received is the 1st vehicle and the next recent is the 2nd vehicle. If the client needs to know when the vehicle was last known to be owned by the household, use 9047 Vehicle Verification Date 1."
+INPUT_IBE9042_VEHICLE_YEAR_1ST_VEHICLE,9042,"Indicates the make year of the 1st vehicle in the household. Ranges from 1986 through the current year and potentially the next year. Vehicles are householded using Last Name and Address Link. Vehicle purchase date is not available in the source data provided, therefore the most recent vehicle data received is the 1st vehicle and the next recent is the 2nd vehicle. If the client needs to know when the vehicle was last known to be owned by the household, use 9047 Vehicle Verification Date 1."
+INPUT_VEHICLE_VERIFICATION_DATE_1ST_VEHICLE_9047,9047,"This is the date that the InfoBase Enhancement sources last knew Vehicle 1 existed in the household. If the client needs to know when the vehicle was last known to be owned by the household, use 9047 Vehicle Verification Date 1."
+INPUT_IBE9050_VEHICLE_MAKE_CODE_2ND_VEHICLE_NUMERICAL_FORMAT,9050,"Indicates the code of the make of the 2nd vehicle in the household. Vehicles are householded using Last Name and Address Link. Vehicle purchase date is not available in the source data provided, therefore the most recent vehicle data received is the 1st vehicle and the next recent is the 2nd vehicle. If the client needs to know when the vehicle was last known to be owned by the household, use 9057 Vehicle Verification Date 2."
+INPUT_IBE9051_VEHICLE_MODEL_CODE_2ND_VEHICLE_NUMERICAL_FORMAT,9051,"Indicates the model code of the 2nd vehicle in the household. Vehicles are householded using Last Name and Address Link. Vehicle purchase date is not available in the source data provided, therefore the most recent vehicle data received is the 1st vehicle and the next recent is the 2nd vehicle. If the client needs to know when the vehicle was last known to be owned by the household, use 9057 Vehicle Verification Date 2."
+INPUT_IBE9052_VEHICLE_YEAR_2ND_VEHICLE,9052,"Indicates the make year of the 2nd vehicle in the household. Ranges from 1986 through the current year and potentially the next year. Vehicles are householded using Last Name and Address Link. Vehicle purchase date is not available in the source data provided, therefore the most recent vehicle data received is the 1st vehicle and the next recent is the 2nd vehicle. If the client needs to know when the vehicle was last known to be owned by the household, use 9057 Vehicle Verification Date 2."
+INPUT_VEHICLE_VERIFICATION_DATE_2ND_VEHICLE_9057,9057,This is the date that the InfoBase Enhancement sources last knew Vehicle 2 existed in the household.
+INPUT_IBE9152_RETAIL_ACTIVITY_DATE_OF_LAST,9152,Indicates the most recent date of retail activity.
+INPUT_IBE9153_RETAIL_PURCHASES_CATEGORIES,9153,#N/A
+INPUT_RETAIL_PURCHASES_MOST_FREQUENT_CATEGORY_9154,9154,Indicates the most frequent retail purchase category within the past two years.
+INPUT_VEHICLE_TYPE_VEHCLE_1_9180,9180,"This element indicates the type of vehicle that exists in Vehicle 1 (elements 9040-9044). It can be used to determine the household's vehicle 'lifestyle'. If the client needs to know when the vehicle was last known to be owned by the household, use 9047 Vehicle Verification Date 1."
+INPUT_VEHICLE_TYPE_VEHCLE_2_9181,9181,"This element indicates the type of vehicle that exists in Vehicle 2 (elements 9050-9054). It can be used to determine the household's vehicle 'lifestyle'. If the client needs to know when the vehicle was last known to be owned by the household, use 9057 Vehicle Verification Date 2."
+INPUT_ECONOMIC_STABILITY_INDICATOR_ESI_9350,9350,#N/A
+INPUT_IBE9351_UNDERBANKED_INDICATOR,9351,#N/A
+INPUT_IBE9358_HEAVYTRANSACTOR_INDICATOR,9358,#N/A
+INPUT_IBE9509_EDUCATION_1ST_INDIVIDUAL,9509,Indicates the highest known education of the 1st ranked person in the household.  The ranking is based on a series of InfoBase ranking rules.
+INPUT_IBE9514_EDUCATION_INPUT_INDIVIDUAL,9514,Indicates the highest known education of the person.
+INPUT_INSURANCE_RENEWS_IN_FEBRUARY_9588,9588,#N/A
+INPUT_INSURANCE_RENEWS_IN_APRIL_9588,9588,#N/A
+INPUT_INSURANCE_RENEWS_IN_JANUARY_9588,9588,#N/A
+INPUT_INSURANCE_RENEWS_IN_MARCH_9588,9588,#N/A
+INPUT_INSURANCE_RENEWS_IN_MAY_9588,9588,#N/A
+INPUT_INSURANCE_RENEWS_IN_JULY_9588,9588,#N/A
+INPUT_INSURANCE_RENEWS_IN_SEPTEMBER_9588,9588,#N/A
+INPUT_INSURANCE_RENEWS_IN_OCTOBER_9588,9588,#N/A
+INPUT_INSURANCE_RENEWS_IN_JUNE_9588,9588,#N/A
+INPUT_INSURANCE_RENEWS_IN_DECEMBER_9588,9588,#N/A
+INPUT_INSURANCE_RENEWS_IN_AUGUST_9588,9588,#N/A
+INPUT_INSURANCE_RENEWS_IN_NOVEMBER_9588,9588,#N/A
+INPUT_MAINTENANCE_KEY_10050,10050,#N/A
+INPUT_RECORD_KEY_10051,10051,#N/A
+INPUT_IB_SOUNDEX,,#N/A
+INPUT_FIRST_NAME_INITIAL_FLAG,,#N/A
